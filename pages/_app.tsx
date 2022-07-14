@@ -1,8 +1,36 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
+import '../styles/global.scss'
+import { EmptyLayout } from '@/components/layout'
+import { Provider } from 'react-redux'
+import { store } from '@/app/store'
 
-function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+import { NextPage } from 'next'
+import { AppProps } from 'next/app'
+import { ReactElement, ReactNode } from 'react'
+
+export interface LayoutProps {
+  children: ReactNode,
+  className?: string
+}
+
+type NextPageWithLayout = NextPage & {
+  Layout?: (props: LayoutProps) => ReactElement
+}
+
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout
+}
+
+
+function MyApp({ Component, pageProps }: AppPropsWithLayout) {
+  const Layout = Component.Layout ?? EmptyLayout
+
+  return (
+    <Provider store={store}>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </Provider>
+  )
 }
 
 export default MyApp
