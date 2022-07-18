@@ -12,7 +12,7 @@ export interface LayoutProps {
   className?: string
 }
 
-type NextPageWithLayout = NextPage & {
+export type NextPageWithLayout = NextPage & {
   Layout?: (props: LayoutProps) => ReactElement
 }
 

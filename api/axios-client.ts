@@ -1,8 +1,12 @@
 /* eslint-disable */
+import { AccessTokenDecoded } from '@/models/features'
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
+import jwt_decode from 'jwt-decode'
+import { store } from '@/app/store';
+import { refreshToken } from '@/features/auth/user-slice';
 
 const axiosClient = axios.create({
-  baseURL: process.env.REACT_APP_BACK_END_DOMAIN,
+  baseURL: process.env.NEXT_PUBLIC_BACK_END_DOMAIN,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -12,6 +16,15 @@ const axiosClient = axios.create({
 axiosClient.interceptors.request.use(
   function (config: AxiosRequestConfig) {
     // Do something before request is sent
+    if (config?.headers?.token) {
+      const token = config.headers.token as string
+      const decoded = jwt_decode<AccessTokenDecoded>(token)
+      const remainingTime = decoded.exp * 1000 - Date.now()
+      if (remainingTime <= 0) {
+        store.dispatch(refreshToken("stale token"))
+        throw new Error("Stale Token while calling api")
+      }
+    }
     return config
   },
   function (error) {
