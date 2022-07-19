@@ -4,10 +4,10 @@ import React from 'react'
 const MetaHeader = () => {
   return (
     <Head>
-      <link rel="icon" href="/images/zing-icon.png" />
+      <link rel="icon" href="/images/favicon.png" />
       <meta
         name="description"
-        content="A Next.js implementation of zing-mp3.com"
+        content="FPT Information System CA Website"
       />
       <meta
         property="og:image"
@@ -21,5 +21,5 @@ const MetaHeader = () => {
   )
 }
 
-export const siteTitle = 'Next zing-mp3';
+export const siteTitle = 'FPT CA Website';
 export default MetaHeader

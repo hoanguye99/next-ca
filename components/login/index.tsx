@@ -3,6 +3,8 @@ import { selectUserDetail } from '@/features/auth/user-slice'
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import LoginForm from './login-form'
+import logo from 'public/images/FPT_logo_2010.svg.png'
+import Image from 'next/future/image'
 
 const Login = () => {
   const userDetail = useAppSelector(selectUserDetail)
@@ -48,6 +50,7 @@ const Login = () => {
           <div className="flex-1">
             <div className="h-1/6"></div>
             <div className="text-center">
+              <Image src={logo} alt="" className="w-32 mx-auto mb-6" />
               <h2 className="text-4xl font-bold text-center text-gray-700">
                 Bảo hiểm xe cộ FPT
               </h2>
