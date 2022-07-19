@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import loginApi from 'api/login-api'
-import { RootState } from 'app/store'
+import loginApi from '@/api/login-api'
+import { RootState } from '@/app/store'
 import axios from 'axios'
-import { LoginError } from 'models/api'
-import { LoginState, LoginType, UserDetail } from 'models/features'
+import { LoginError } from '@/models/api'
+import { LoginState, LoginType, UserDetail } from '@/models/features'
 
 const initialState: LoginState = {
   loggedIn:

@@ -3,7 +3,7 @@ import { selectUserDetail } from '@/features/auth/user-slice'
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import LoginForm from './login-form'
-import logo from 'public/images/FPT_logo_2010.svg.png'
+import logo from '@/public/images/FPT_logo_2010.svg.png'
 import Image from 'next/future/image'
 
 const Login = () => {

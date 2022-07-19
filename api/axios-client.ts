@@ -2,8 +2,9 @@
 import { AccessTokenDecoded } from '@/models/features'
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 import jwt_decode from 'jwt-decode'
-import { store } from '@/app/store';
+// import { store } from '@/app/store';
 import { refreshToken } from '@/features/auth/user-slice';
+import { StoreType } from '@/app/store';
 
 const axiosClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BACK_END_DOMAIN,
@@ -11,6 +12,12 @@ const axiosClient = axios.create({
     'Content-Type': 'application/json',
   },
 })
+
+let store: StoreType
+
+export const injectStore = (_store : StoreType) => {
+  store = _store
+}
 
 // Add a request interceptor
 axiosClient.interceptors.request.use(
@@ -20,6 +27,7 @@ axiosClient.interceptors.request.use(
       const token = config.headers.token as string
       const decoded = jwt_decode<AccessTokenDecoded>(token)
       const remainingTime = decoded.exp * 1000 - Date.now()
+      console.log("Request Interceptor:", decoded)
       if (remainingTime <= 0) {
         store.dispatch(refreshToken("stale token"))
         throw new Error("Stale Token while calling api")

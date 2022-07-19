@@ -2,7 +2,8 @@ import '../styles/global.scss'
 import { EmptyLayout } from '@/components/layout'
 import { Provider } from 'react-redux'
 import { store } from '@/app/store'
-
+import { injectStore } from '@/api/axios-client';
+injectStore(store);
 import { NextPage } from 'next'
 import { AppProps } from 'next/app'
 import { ReactElement, ReactNode } from 'react'
