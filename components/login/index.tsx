@@ -34,13 +34,14 @@ const Login = () => {
           <div className="flex items-center h-full px-20 bg-gray-900 bg-opacity-40">
             <div>
               <h2 className="text-4xl font-bold text-white">
-                Bảo hiểm xe cộ FPT
+                FPT CA
               </h2>
 
               <p className="max-w-xl mt-3 text-gray-300">
-                Là nền tảng bảo hiểm dành riêng cho nhân viên FPT, cho phép kết
-                nối với các công ty bảo hiểm hàng đầu tại Việt Nam để mang lại
-                sản phẩm bảo hiểm tốt nhất cho cá nhân, gia đình và doanh nghiệp
+                FPT CA là một ứng dụng theo dõi và quản lý lỗi, vấn đề và dự án,
+                được phát triển để làm quy trình này trở nên dễ dàng hơn cho mọi tổ chức.
+                FPT CA đã được thiết kế với trọng tâm vào kết quả công việc, có thể sử
+                dụng ngay và linh hoạt khi sử dụng.
               </p>
             </div>
           </div>
@@ -52,7 +53,7 @@ const Login = () => {
             <div className="text-center">
               <Image src={logo} alt="" className="w-32 mx-auto mb-6" />
               <h2 className="text-4xl font-bold text-center text-gray-700">
-                Bảo hiểm xe cộ FPT
+                FPT CA
               </h2>
 
               <p className="mt-3 text-gray-500">Đăng nhập vào tài khoản</p>

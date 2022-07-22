@@ -1,9 +1,10 @@
 import { useAppDispatch, useAppSelector } from '@/app/hooks'
+import { MainLayout } from '@/components/layout';
 import { increment, selectCount } from '@/features/counter/counterSlice';
-import type { NextPage } from 'next'
 import { useEffect } from 'react'
+import { NextPageWithLayout } from './_app';
 
-const About: NextPage = () => {
+const About: NextPageWithLayout = () => {
   const dispatch = useAppDispatch();
   const count = useAppSelector(selectCount);
   console.log('Component!')
@@ -16,5 +17,7 @@ const About: NextPage = () => {
   <p>{count}</p>
   </div>
 }
+
+About.Layout = MainLayout
 
 export default About

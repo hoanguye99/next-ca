@@ -17,7 +17,7 @@ export const Button = (props: ButtonProps) => {
       onClick={props.onClick}
       className={`${props.className} ${
         props.posting ? 'cursor-not-allowed' : 'cursor-pointer'
-      } whitespace-nowrap overflow-hidden px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-blue-500 rounded-md hover:bg-blue-400 focus:outline-none focus:bg-blue-400 focus:ring focus:ring-blue-300 focus:ring-opacity-50 `}
+      } whitespace-nowrap overflow-hidden px-4 py-2 tracking-wide text-white transition-colors duration-300 transform bg-blue-primary rounded-md hover:bg-blue-hover focus:outline-none active:focus:duration-0 active:bg-blue-focus`}
     >
       {props.posting ? (
         <div className="w-6 h-6 animate-spin m-auto">

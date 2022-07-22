@@ -1,39 +1,22 @@
-import { MainLayout } from '@/components/layout'
+import MainLayout from '@/components/layout/main'
 import Head from 'next/head'
 import React from 'react'
-import { useMutation } from '@tanstack/react-query'
-import axios, { AxiosError } from 'axios'
-import { Button } from '@/components/styled'
-import { LoginResponse } from '@/models/api'
+import { NextPageWithLayout } from '../_app'
+// import Dashboard from '@/components/dashboard'
+import dynamic from 'next/dynamic'
 
-interface LoginSubmit {
-  username: string
-  password: string
-}
+const DynamicDashboard = dynamic(() => import('@/components/dashboard'), {
+  ssr: false,
+})
 
-const HomePage = () => {
-  const mutation = useMutation<LoginResponse,AxiosError,LoginSubmit,LoginResponse>((data) => axios.post('http://180.93.175.236:3000/staff/login', data))
+const HomePage: NextPageWithLayout = () => {
 
   return (
     <>
       <Head>
         <title>Home Page</title>
       </Head>
-
-      {mutation.isError && (
-        <div>An error occurred: {mutation.error.message}</div>
-      )}
-
-      {mutation.isSuccess && <p>{mutation.data.toString()}</p>}
-
-      <Button
-        onClick={() => mutation.mutate({ username: 'dungnh', password: '2' })}
-        posting={mutation.isLoading}
-      >
-        Submit
-      </Button>
-
-      <div>HomefPffage</div>
+      <DynamicDashboard />
     </>
   )
 }

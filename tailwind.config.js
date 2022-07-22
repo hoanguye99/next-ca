@@ -19,6 +19,17 @@ module.exports = {
         opacity: 'opacity 0.3s ease-in-out',
         popup: 'popup 0.3s ease-in-out',
       },
+      colors: {
+        blue: {
+          primary: '#2c7be5',
+          hover: '#1a68d1',
+          focus: '#1862c6',
+        },
+        gray: {
+          primary: '#95aac9',
+          secondary: '#d2ddec',
+        },
+      },
     },
     container: {
       center: true,
