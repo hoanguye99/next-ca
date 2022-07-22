@@ -1,24 +1,16 @@
 import { LayoutProps } from '@/pages/_app'
 import MetaHeader from './meta-header'
-import { useUserLogout } from '@/hooks/useUserLogout'
-
-import { useAppDispatch } from '@/app/hooks'
 import { Footer } from '@/components/footer'
 import Header from './common/header'
 import Sidebar from './common/side-bar'
 import { useRouter } from 'next/router'
+import { useRefreshToken } from '@/hooks'
+import useAuthenAllUser from '@/hooks/useAuthenAllUser'
 
 export default function MainLayout({ children }: LayoutProps) {
   const router = useRouter()
-  const dispatch = useAppDispatch()
-  const { handleLogoutButton } = useUserLogout()
-
-  // useEffect(() => {
-  //   dispatch(getCartAsync())
-  //   dispatch(getAllOrdersAsync())
-  //   dispatch(getListBankAsync())
-  //   dispatch(getPaymentMethodsAsync())
-  // }, [])
+  useRefreshToken()
+  useAuthenAllUser()
 
   const data = [
     {
@@ -67,7 +59,6 @@ export default function MainLayout({ children }: LayoutProps) {
     <div className="bg-[#f9fbfd] flex flex-row h-screen">
       <MetaHeader />
       <Sidebar
-        handleLogoutButton={handleLogoutButton}
         currentPath={router.asPath}
         data={data}
       />
@@ -76,7 +67,7 @@ export default function MainLayout({ children }: LayoutProps) {
         className="flex-1 lg:h-full lg:mt-0 h-body mt-[70px] overflow-y-auto"
       >
         <div className="lg:min-h-screen min-h-body">
-          <Header handleLogoutButton={handleLogoutButton} data={data} />
+          <Header data={data} />
           {children}
         </div>
         <Footer />

@@ -6,33 +6,23 @@ import {
 import { AccessTokenDecoded } from '@/models/features'
 import { useAppDispatch, useAppSelector } from '@/app/hooks'
 import { refreshToken, selectUserDetail } from '@/features/auth/user-slice'
-import { useAdminLogoutNoNavigate } from '@/hooks/useAdminLogout'
-import { useUserLogoutNoNavigate } from '@/hooks/useUserLogout'
 import jwt_decode from 'jwt-decode'
 import { useCallback, useEffect } from 'react'
-import { useStaffLogoutNoNavigate } from './useStaffLogout'
+import { useLogoutNavigate } from './useLogout'
 
 export const useRefreshToken = () => {
   const userDetail = useAppSelector(selectUserDetail)
   const dispatch = useAppDispatch()
-  const { userLogout } = useUserLogoutNoNavigate()
-  const { adminLogout } = useAdminLogoutNoNavigate()
-  const { staffLogout } = useStaffLogoutNoNavigate()
+  const logoutNavigate = useLogoutNavigate()
 
   const onSessionTimeout = useCallback(async () => {
     try {
       const newAccessToken = await loginApi.refreshToken(userDetail)
       dispatch(refreshToken(newAccessToken.accessToken))
     } catch {
-      if (userDetail.role === 'USER') {
-        userLogout()
-      } else if (userDetail.role === 'STAFF') {
-        staffLogout()
-      } else if (userDetail.role === 'ADMIN') {
-        adminLogout()
-      }
+      logoutNavigate()
     }
-  }, [userDetail, dispatch, adminLogout, userLogout, staffLogout])
+  }, [userDetail, dispatch, logoutNavigate])
 
   useEffect(() => {
     if (userDetail.accessToken !== '') {

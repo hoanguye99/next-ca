@@ -3,6 +3,7 @@ import Portal from '@/components/common/portal'
 import { useRef, useState } from 'react'
 import Link from 'next/link'
 import styles from '@/styles/components/layout/header.module.scss'
+import { useLogoutNavigate } from '@/hooks'
 
 interface HeaderProps {
   data: {
@@ -10,7 +11,6 @@ interface HeaderProps {
     icon: JSX.Element
     text: string
   }[]
-  handleLogoutButton: () => void
 }
 
 const Header = (props: HeaderProps) => {
@@ -58,6 +58,7 @@ interface MobileMenuProps extends HeaderProps {
 }
 
 const MobileMenu = (props: MobileMenuProps) => {
+  const logoutNavigate = useLogoutNavigate()
   return (
     <div className="p-8 bg-white rounded-lg flex flex-col items-center gap-6">
       {props.data.map((item, index) => (
@@ -65,7 +66,7 @@ const MobileMenu = (props: MobileMenuProps) => {
       ))}
       <button
         className="py-3 text-gray-500 hover:text-black text-sm"
-        onClick={props.handleLogoutButton}
+        onClick={logoutNavigate}
       >
         Đăng xuất
       </button>

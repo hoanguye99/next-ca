@@ -1,9 +1,9 @@
 import PopUpButton from '@/components/common/pop-up-button'
+import { useLogoutNavigate } from '@/hooks'
 import { ShowPopUp } from '@/models/components/common'
 import React, { useState } from 'react'
 
 interface UserButtonProps {
-  handleLogoutButton: () => void
 }
 
 const UserButton = (props: UserButtonProps) => {
@@ -47,7 +47,6 @@ const UserButton = (props: UserButtonProps) => {
 
 interface PopUp2Props {
   setShowPopUp: React.Dispatch<React.SetStateAction<ShowPopUp>>
-  handleLogoutButton: () => void
 }
 
 const PopUp2 = (props: PopUp2Props) => {
@@ -71,12 +70,12 @@ const PopUp2 = (props: PopUp2Props) => {
   //   props.setShowPopUp({ status: 0, style: {} })
   //   props.setShowDetailModal(true)
   // }
-
+  const logoutNavigate = useLogoutNavigate()
   
   return <div className="bg-white rounded shadow flex flex-col text-[14px] font-extrabold w-40">
     <button className="p-4 text-gray-500 hover:text-black text-left">Profile</button>
     <button className="p-4 text-gray-500 hover:text-black text-left">Settings</button>
-    <button onClick={props.handleLogoutButton} className="p-4 text-gray-500 hover:text-black text-left border-t">Logout</button>
+    <button onClick={logoutNavigate} className="p-4 text-gray-500 hover:text-black text-left border-t">Logout</button>
   </div>
 }
 

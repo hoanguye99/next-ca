@@ -1,6 +1,6 @@
 import MainLayout from '@/components/layout/main'
 import Head from 'next/head'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { NextPageWithLayout } from '../_app'
 // import Dashboard from '@/components/dashboard'
 import dynamic from 'next/dynamic'
@@ -10,7 +10,6 @@ const DynamicDashboard = dynamic(() => import('@/components/dashboard'), {
 })
 
 const HomePage: NextPageWithLayout = () => {
-
   return (
     <>
       <Head>

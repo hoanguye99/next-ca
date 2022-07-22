@@ -10,7 +10,6 @@ type Props = {
     icon: JSX.Element
     text: string
   }[]
-  handleLogoutButton: () => void
 }
 
 const Sidebar = (props: Props) => {
@@ -54,7 +53,7 @@ const Sidebar = (props: Props) => {
             </svg>
           </button>
           <div>
-            <UserButton handleLogoutButton={props.handleLogoutButton}></UserButton>
+            <UserButton></UserButton>
           </div>
           <button className="">
             <svg
