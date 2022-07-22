@@ -7,7 +7,7 @@ import { useRouter } from 'next/router'
 import { useRefreshToken } from '@/hooks'
 import useAuthenAllUser from '@/hooks/useAuthenAllUser'
 
-export default function MainLayout({ children }: LayoutProps) {
+export function MainLayout({ children }: LayoutProps) {
   const router = useRouter()
   useRefreshToken()
   useAuthenAllUser()

@@ -1,4 +1,4 @@
-import MainLayout from '@/components/layout/main'
+import { MainLayout } from '@/components/layout/main'
 import Head from 'next/head'
 import React, { useEffect } from 'react'
 import { NextPageWithLayout } from '../_app'
