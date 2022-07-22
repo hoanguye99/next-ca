@@ -3,26 +3,28 @@ import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
-  BarElement,
+  PointElement,
+  LineElement,
   Title,
   Tooltip,
   Legend,
 } from 'chart.js';
-import { Bar, Chart } from 'react-chartjs-2';
+import { Line } from 'react-chartjs-2';
 
 ChartJS.register(
   CategoryScale,
   LinearScale,
-  BarElement,
+  PointElement,
+  LineElement,
   Title,
   Tooltip,
   Legend
 );
 
-interface BarChartProps{}
+interface LineChartProps{}
 
 export const options = {
-  barThickness: 10,
+  // barThickness: 10,
   responsive: true,
   maintainAspectRatio: false,
   scales:{
@@ -53,13 +55,13 @@ export const options = {
       }
     }
   },
-  elements: {
-    bar: {
-      // barThickness: 1,
-      // maxBarThickness: 5,
-      borderRadius: 5
-    }
-  },
+  // elements: {
+  //   bar: {
+  //     // barThickness: 1,
+  //     // maxBarThickness: 5,
+  //     borderRadius: 5
+  //   }
+  // },
   plugins: {
     legend: {
       display: false
@@ -96,10 +98,10 @@ export const data = {
   ],
 };
 
-const BarChart = (props: BarChartProps) => {
+const LineChart = (props: LineChartProps) => {
   return (
-    <Bar className="h-[300px]" options={options} data={data} />
+    <Line className="h-[300px]" options={options} data={data} />
   )
 }
 
-export default BarChart
+export default LineChart
