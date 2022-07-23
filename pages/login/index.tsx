@@ -7,7 +7,7 @@ const LoginPage: NextPageWithLayout = () => {
   return (
     <>
       <Head>
-        <title>Home Page</title>
+        <title>Log in</title>
       </Head>
       <Login />
     </>
