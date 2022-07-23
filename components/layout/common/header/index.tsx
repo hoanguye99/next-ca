@@ -4,6 +4,7 @@ import { useRef, useState } from 'react'
 import Link from 'next/link'
 import styles from '@/styles/components/layout/header.module.scss'
 import { useLogoutNavigate } from '@/hooks'
+import UserButton from '../user-button'
 
 interface HeaderProps {
   data: {
@@ -32,13 +33,9 @@ const Header = (props: HeaderProps) => {
       )}
       <div
         ref={menuRef}
-        className="fixed inset-x-0 top-0 w-full h-[70px] bg-white lg:hidden"
+        className="fixed z-30 inset-x-0 top-0 w-full h-[70px] bg-white lg:hidden"
       >
         <div className="container flex items-center justify-between">
-          <div className="w-[230px] h-[70px] flex items-center">
-            <button className="w-[80px] h-[40px] bg-center bg-no-repeat bg-contain bg-[url('../public/images/FPT_logo_2010.svg.png')]">
-            </button>
-          </div>
           <div
             onClick={() => setShowMenu((prev) => !prev)}
             className={showMenu ? styles['open'] : styles['toggle']}
@@ -46,6 +43,13 @@ const Header = (props: HeaderProps) => {
             <span></span>
             <span></span>
             <span></span>
+          </div>
+          <div className="w-fit h-[70px] flex items-center">
+            <button className="w-[80px] h-[40px] bg-center bg-no-repeat bg-contain bg-[url('../public/images/FPT_logo_2010.svg.png')]">
+            </button>
+          </div>
+          <div>
+            <UserButton></UserButton>
           </div>
         </div>
       </div>
@@ -58,18 +62,11 @@ interface MobileMenuProps extends HeaderProps {
 }
 
 const MobileMenu = (props: MobileMenuProps) => {
-  const logoutNavigate = useLogoutNavigate()
   return (
     <div className="p-8 bg-white rounded-lg flex flex-col items-center gap-6">
       {props.data.map((item, index) => (
         <MenuItem key={index} setShowMenu={props.setShowMenu} {...item}></MenuItem>
       ))}
-      <button
-        className="py-3 text-gray-500 hover:text-black text-sm"
-        onClick={logoutNavigate}
-      >
-        Đăng xuất
-      </button>
     </div>
   )
 }
