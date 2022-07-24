@@ -1,4 +1,4 @@
-const Spinner = () => {
+export const Spinner = () => {
   return (
     <svg
       className="w-20 h-20 text-gray-200 animate-spin fill-blue-primary mx-auto"
@@ -17,5 +17,3 @@ const Spinner = () => {
     </svg>
   )
 }
-
-export default Spinner
