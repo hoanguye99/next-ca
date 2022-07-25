@@ -49,7 +49,7 @@ const Header = (props: HeaderProps) => {
             </button>
           </div>
           <div>
-            <UserButton></UserButton>
+            <UserButton className="w-7 h-7"></UserButton>
           </div>
         </div>
       </div>

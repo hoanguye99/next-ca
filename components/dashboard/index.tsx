@@ -60,11 +60,20 @@ const Dashboard = (props: Props) => {
           </div>
         </div>
         <div className="lg:col-span-3 col-span-8 bg-white rounded-lg border border-gray-100">
-          <div className="border-b p-4">
+          <div className="border-b p-4 flex justify-between items-center">
             <PrimaryText className="">Projects</PrimaryText>
+            <button className="text-[12px] w-fit text-blue-primary transition-all duration-75 hover:text-blue-hover active:text-blue-focus">
+              View all
+            </button>
           </div>
           <div className="p-5 h-[340px]">
-            <DashBoardData type="project-summary" fetcher={() => staffApi.getAllProjects(userDetail)} render={data => <ProjectSummary data={data}/>}  />
+            <div className="w-full h-full flex flex-col divide-y overflow-hidden">
+              <DashBoardData
+                type="project-summary"
+                fetcher={() => staffApi.getAllProjects(userDetail)}
+                render={(data) => <ProjectSummary data={data} />}
+              />
+            </div>
           </div>
         </div>
         <div className="lg:col-span-5 col-span-8 bg-white rounded-lg border border-gray-100">
@@ -75,11 +84,10 @@ const Dashboard = (props: Props) => {
             <LineChart />
           </div>
         </div>
-        <div className="lg:col-span-5 col-span-8 bg-white rounded-lg border border-gray-100">
-          1
-        </div>
-        <div className="lg:col-span-3 col-span-8 bg-white rounded-lg border border-gray-100">
-          1
+        <div className="col-span-8 bg-white rounded-lg border border-gray-100">
+          <div className="border-b p-4">
+            <PrimaryText className="">Goals</PrimaryText>
+          </div>
         </div>
       </div>
     </div>

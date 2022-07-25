@@ -8,6 +8,9 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   experimental: { images: { allowFutureImage: true } },
+  images: {
+    domains: ['images.pexels.com'],
+  },
 }
 
 module.exports = nextConfig

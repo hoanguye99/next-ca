@@ -53,7 +53,7 @@ const Sidebar = (props: Props) => {
             </svg>
           </button>
           <div>
-            <UserButton></UserButton>
+            <UserButton className="w-5 h-5"></UserButton>
           </div>
           <button className="">
             <svg
