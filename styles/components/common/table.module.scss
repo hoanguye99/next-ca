@@ -1,0 +1,18 @@
+.main-table {
+  @apply w-full border-collapse border-gray-100 table-auto text-sm;
+  tr {
+
+    td {
+      @apply  border-t text-left border-gray-100 p-3 pr-8 bg-white;
+      &:last-child {
+        @apply pr-0;
+      }
+    }
+    th {
+      @apply  border-t text-left border-gray-100 p-3 pr-8 bg-gray-table text-xs text-gray-700;
+      &:last-child {
+        @apply pr-0;
+      }
+    }
+  }
+}

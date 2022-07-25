@@ -7,25 +7,22 @@ import {
   Title,
   Tooltip,
   Legend,
-} from 'chart.js';
-import { Bar, Chart } from 'react-chartjs-2';
+} from 'chart.js'
+import { Bar } from 'react-chartjs-2'
+import { GetAllTicketStatusByStaffResponse } from '@/models/api'
+import { memo } from 'react'
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
-interface BarChartProps{}
+interface BarChartProps {
+  data: GetAllTicketStatusByStaffResponse
+}
 
 export const options = {
   barThickness: 10,
   responsive: true,
   maintainAspectRatio: false,
-  scales:{
+  scales: {
     x: {
       grid: {
         drawBorder: false,
@@ -33,73 +30,88 @@ export const options = {
       },
       ticks: {
         color: '#95aac9',
-        padding: 6
-      }
+        padding: 6,
+      },
     },
     y: {
       grid: {
         drawBorder: false,
-        borderDash: [4, 4]
+        borderDash: [4, 4],
         // display: false,
       },
-      ticks: {
-        color: '#95aac9',
-        padding: 6,
-        callback: function(value: any) {
-          if ( !(value % 10) ) {
-            return '$' + value + 'k'
-          }
-        }
-      }
-    }
+      // ticks: {
+      //   color: '#95aac9',
+      //   padding: 6,
+      //   callback: function(value: any) {
+      //     if ( !(value % 10) ) {
+      //       return '$' + value + 'k'
+      //     }
+      //   }
+      // }
+    },
   },
   elements: {
     bar: {
       // barThickness: 1,
       // maxBarThickness: 5,
-      borderRadius: 5
-    }
+      borderRadius: 5,
+    },
   },
   plugins: {
     legend: {
-      display: false
+      display: false,
     },
     tooltips: {
       callbacks: {
-        label: function(item :any, data : any) {
-          var label = data.datasets[item.datasetIndex].label || '';
-          var yLabel = item.yLabel;
-          var content = '';
-  
+        label: function (item: any, data: any) {
+          var label = data.datasets[item.datasetIndex].label || ''
+          var yLabel = item.yLabel
+          var content = ''
+
           if (data.datasets.length > 1) {
-            content += '<span class="popover-body-label mr-auto">' + label + '</span>';
+            content +=
+              '<span class="popover-body-label mr-auto">' + label + '</span>'
           }
-  
-          content += '<span class="popover-body-value">$' + yLabel + 'k</span>';
-          return content;
-        }
-      }
+
+          content += '<span class="popover-body-value">$' + yLabel + 'k</span>'
+          return content
+        },
+      },
     },
-  }
-};
-
-const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
-export const data = {
-  labels,
-  datasets: [
-    {
-      label: 'Sales',
-      data: [25,20,30,22,17,10,18,26,28,26,20,32],
-      backgroundColor: '#2c7be5',
-    }
-  ],
-};
-
-const BarChart = (props: BarChartProps) => {
-  return (
-    <Bar className="h-[300px]" options={options} data={data} />
-  )
+  },
 }
 
-export default BarChart
+const BarChart = (props: BarChartProps) => {
+  const labels = [
+    'Open',
+    'Reopen',
+    'In Progress',
+    'Info Add',
+    'Waiting Customer',
+    'Cancelled',
+  ]
+  const originalLabels = [
+    'OPEN_REQUEST',
+    'REOPEN_REQUEST',
+    'IN_PROGRESS_REQUEST',
+    'INFO_ADD_REQUEST',
+    'WAITING_CUSTOMER',
+    'CANCEL_REQUEST',
+  ]
+  const values = originalLabels.map(
+    (item) => props.data.status.find((x) => x.statusName === item)?.quantity
+  )
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: 'Requests',
+        data: values,
+        backgroundColor: '#2c7be5',
+      },
+    ],
+  }
+  return <Bar className="h-[300px]" options={options} data={data} />
+}
+
+export default memo(BarChart)

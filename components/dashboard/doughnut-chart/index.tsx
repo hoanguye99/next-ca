@@ -1,6 +1,8 @@
 import React from 'react'
 import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement } from 'chart.js'
 import { Bar, Chart, Doughnut } from 'react-chartjs-2'
+import { GetAllTicketStatusByStaffResponse } from '@/models/api'
+import { memo } from 'react'
 
 ChartJS.register(Title, Tooltip, Legend, ArcElement)
 
@@ -14,13 +16,13 @@ export const options = {
   plugins: {
     legend: {
       display: true,
-      position: "bottom" as "bottom",
+      position: 'bottom' as 'bottom',
       labels: {
         usePointStyle: true,
         pointStyle: 'circle',
         boxWidth: 8,
         padding: 20,
-      }
+      },
     },
     // tooltips: {
     //   callbacks: {
@@ -41,21 +43,27 @@ export const options = {
   },
 }
 
-export const data = {
-  labels: ['Desktop', 'Tablet', 'Mobile'],
-  datasets: [
-    {
-      label: '# of Votes',
-      data: [60, 25, 15],
-      backgroundColor: ['#2C7BE5', '#A6C5F7', '#D2DDEC'],
-    },
-  ],
+interface DoughnutChartProps {
+  data: GetAllTicketStatusByStaffResponse
 }
 
-type PieChartProps = {}
-
-const PieChart = (props: PieChartProps) => {
-  return <Doughnut className='h-[300px]' options={options} data={data} />
+const DoughnutChart = (props: DoughnutChartProps) => {
+  const labels = ['Support', 'Upgrade', 'Change']
+  const originalLabels = ['SUPPORT_REQUEST', 'UPGRADE', 'CHANGE_REQUEST']
+  const values = originalLabels.map(
+    (item) => props.data.requests.find((x) => x.requestName === item)?.quantity
+  )
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: 'Requests',
+        data: values,
+        backgroundColor: ['#2C7BE5', '#A6C5F7', '#D2DDEC'],
+      },
+    ],
+  }
+  return <Doughnut className="h-[300px]" options={options} data={data} />
 }
 
-export default PieChart
+export default memo(DoughnutChart)

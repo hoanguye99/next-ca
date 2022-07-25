@@ -10,6 +10,8 @@ import {
   Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
+import { GetTimeSpentResponse } from '@/models/api';
+import { memo } from 'react'
 
 ChartJS.register(
   CategoryScale,
@@ -21,7 +23,9 @@ ChartJS.register(
   Legend
 );
 
-interface LineChartProps{}
+interface LineChartProps{
+  data: GetTimeSpentResponse
+}
 
 export const options = {
   // barThickness: 10,
@@ -44,15 +48,15 @@ export const options = {
         borderDash: [4, 4]
         // display: false,
       },
-      ticks: {
-        color: '#95aac9',
-        padding: 6,
-        callback: function(value: any) {
-          if ( !(value % 10) ) {
-            return '$' + value + 'k'
-          }
-        }
-      }
+      // ticks: {
+      //   color: '#95aac9',
+      //   padding: 6,
+      //   callback: function(value: any) {
+      //     if ( !(value % 10) ) {
+      //       return '$' + value + 'k'
+      //     }
+      //   }
+      // }
     }
   },
   // elements: {
@@ -85,23 +89,21 @@ export const options = {
   }
 };
 
-const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
-export const data = {
-  labels,
-  datasets: [
-    {
-      label: 'Sales',
-      data: [25,20,30,22,17,10,18,26,28,26,20,32],
-      backgroundColor: '#2c7be5',
-    }
-  ],
-};
-
 const LineChart = (props: LineChartProps) => {
+  const labels = ['Week - 7', 'Week - 6', 'Week - 5', 'Week - 4', 'Week - 3', 'Week - 2', 'Week - 1', 'Now']
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: 'Hours',
+        data: props.data.details,
+        backgroundColor: '#2c7be5',
+      },
+    ],
+  }
   return (
     <Line className="h-[300px]" options={options} data={data} />
   )
 }
 
-export default LineChart
+export default memo(LineChart)

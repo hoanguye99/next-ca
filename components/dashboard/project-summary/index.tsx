@@ -2,9 +2,9 @@ import React from 'react'
 import { GetAllProjectsResponse, Project } from '@/models/api'
 import Image from 'next/future/image'
 import empty from '@/public/images/empty.jpg'
-import ActionButton from '../action-button'
 import { PrimaryText, SecondaryText } from '@/components/styled'
 import styles from '@/styles/components/dashboard/scrolling-text.module.scss'
+import ActionButton from './action-button'
 
 interface ProjectSummaryProps {
   data: GetAllProjectsResponse

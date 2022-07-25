@@ -28,6 +28,7 @@ module.exports = {
         gray: {
           primary: '#95aac9',
           secondary: '#d2ddec',
+          table: '#f9fbfd',
         },
       },
     },
