@@ -1,10 +1,12 @@
 export interface LoginResponse {
   accessToken: string
   refreshToken: string
-  phone: string
-  full_name: string
   role: "USER" | "ADMIN" | "STAFF"
-  email: string
+  emailAddress: string
+  name: string
+  displayName: string
+  JSESSIONID: string
+  key: string
 }
 
 export interface LoginError {
