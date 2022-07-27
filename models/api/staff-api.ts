@@ -59,3 +59,53 @@ export interface RequestDetail {
 export interface GetTimeSpentResponse {
   details: number[]
 }
+
+export interface GetConfigTicketResponse {
+  projects: CreateTicketProject[]
+  status: CreateTicketStatus[]
+  priority: CreateTicketPriority[]
+  request: CreateTicketRequest[]
+  group: CreateTicketGroup[]
+  sizing: CreateTicketSizing[]
+}
+
+interface CreateTicketProject {
+  name: string
+  date_create: string
+  user_create: number
+  account_owner: string
+  department: string
+  project_code: string
+  project_id: number
+  project_category: string
+  image: string
+}
+
+interface CreateTicketStatus {
+  id: number
+  status_name: string
+}
+
+interface CreateTicketPriority {
+  id: number
+  name_priority: string
+}
+
+interface CreateTicketRequest {
+  id: number
+  request_type_name: string
+}
+
+interface CreateTicketGroup {
+  id: number
+  group_name: string
+}
+
+interface CreateTicketSizing {
+  id: number
+  name: string
+}
+
+export interface GetComponentResponse {
+  component_name: { name: string }[]
+}

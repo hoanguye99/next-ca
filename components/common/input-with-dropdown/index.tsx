@@ -8,10 +8,15 @@ interface InputWithDropdownProps {
   showDropdown: ShowDropdown
   setShowDropdown: React.Dispatch<React.SetStateAction<ShowDropdown>>
 }
-const InputWithDropdown = ({button, dropdown, showDropdown, setShowDropdown}: InputWithDropdownProps) => {
+const InputWithDropdown = ({
+  button,
+  dropdown,
+  showDropdown,
+  setShowDropdown,
+}: InputWithDropdownProps) => {
   const moreInfoRef = useRef<HTMLDivElement>(null)
   const handlePopUpClickOutside = useCallback(
-    () => setShowDropdown({ status: 0, style: {} }),
+    () => setShowDropdown({ status: 0 }),
     []
   )
 
@@ -20,70 +25,32 @@ const InputWithDropdown = ({button, dropdown, showDropdown, setShowDropdown}: In
   ) => {
     if (showDropdown.status === 0) {
       if (typeof window !== 'undefined') {
-        if (
-          event.clientX >= window.innerWidth / 2 &&
-          event.clientY >= window.innerHeight / 2
-        ) {
-          // 4 / 4 TOP LEFT
+        if (event.clientY < window.innerHeight / 2) {
+          // TOP
           setShowDropdown({
             status: 1,
-            style: {
-              bottom: `${window.innerHeight - event.clientY - 15}px`,
-              right: `${window.innerWidth - event.clientX + 10}px`,
-            },
+            position: 'top',
           })
-        } else if (
-          event.clientX < window.innerWidth / 2 &&
-          event.clientY >= window.innerHeight / 2
-        ) {
-          // 3 / 4
+        } else {
+          // BOTTOM
           setShowDropdown({
             status: 1,
-            style: {
-              bottom: `${window.innerHeight - event.clientY + 15}px`,
-              left: `${event.clientX + 10}px`,
-            },
-          })
-        } else if (
-          event.clientX >= window.innerWidth / 2 &&
-          event.clientY < window.innerHeight / 2
-        ) {
-          // 2 / 4
-          setShowDropdown({
-            status: 1,
-            style: {
-              top: `${event.clientY - 15}px`,
-              right: `${window.innerWidth - event.clientX + 10}px`,
-            },
-          })
-        } else if (
-          event.clientX < window.innerWidth / 2 &&
-          event.clientY < window.innerHeight / 2
-        ) {
-          // 1 / 4
-          setShowDropdown({
-            status: 1,
-            style: {
-              top: `${event.clientY - 15}px`,
-              left: `${event.clientX + 10}px`,
-            },
+            position: 'bottom',
           })
         }
       }
     } else {
-      setShowDropdown({ status: 0, style: {} })
+      setShowDropdown({ status: 0 })
     }
   }
   return (
-    <>
+    <div className="relative">
       {showDropdown.status === 1 && (
         <PopUp
           onClickOutside={handlePopUpClickOutside}
           optionalRef={moreInfoRef}
         >
-          <div style={showDropdown.style} className={`fixed z-30`}>
-            {dropdown}
-          </div>
+          <div className={`absolute max-h-56 h-max overflow-auto block z-20 inset-x-0 ${showDropdown.position === 'top' ? 'top-12' : 'bottom-12'}`}>{dropdown}</div>
         </PopUp>
       )}
       <div
@@ -93,8 +60,24 @@ const InputWithDropdown = ({button, dropdown, showDropdown, setShowDropdown}: In
         }
       >
         {button}
+        <button className="absolute inset-y-[2px] right-[2px] w-16 bg-gray-table flex justify-center items-center border-l opacity-100 active:opacity-70">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6 text-gray-500"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={1.5}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M19 9l-7 7-7-7"
+            />
+          </svg>
+        </button>
       </div>
-    </>
+    </div>
   )
 }
 
