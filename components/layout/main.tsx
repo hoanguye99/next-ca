@@ -31,7 +31,27 @@ export function MainLayout({ children }: LayoutProps) {
           />
         </svg>
       ),
-      text: 'Trang chủ',
+      text: 'Home',
+    },
+    {
+      link: '/create-ticket',
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-5 w-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          strokeWidth={2}
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+          />
+        </svg>
+      ),
+      text: 'Create Ticket',
     },
     {
       link: '/about',
@@ -58,10 +78,7 @@ export function MainLayout({ children }: LayoutProps) {
   return (
     <div className="bg-[#f9fbfd] flex flex-row h-screen">
       <MetaHeader />
-      <Sidebar
-        currentPath={router.asPath}
-        data={data}
-      />
+      <Sidebar currentPath={router.asPath} data={data} />
       <div
         id="body-overflow"
         className="flex-1 lg:h-full lg:mt-0 h-body mt-[70px] overflow-y-auto"

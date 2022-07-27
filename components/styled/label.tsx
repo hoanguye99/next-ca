@@ -1,4 +1,5 @@
 import React from 'react'
+import { NormalText } from './text'
 
 interface LabelProps {
   className?: string
@@ -10,9 +11,9 @@ export const Label = (props: LabelProps) => {
   return (
     <label
       htmlFor={props.htmlFor}
-      className={` block mb-2 text-sm text-gray-600 ${props.className}`}
+      className={`block mb-3 text-base ${props.className}`}
     >
-      {props.children}
+      <NormalText>{props.children}</NormalText>
     </label>
   )
 }

@@ -18,7 +18,7 @@ export function Input<T>(props: InputProps<T>){
     <input
       {...{type, name, id, placeholder}}
       {...props.register(props.label, { required:props.required })}
-      className={` block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40 ${props.className}`}
+      className={`block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md transition-all ease-in-out duration-150 focus:border-blue-primary outline-none ${props.className}`}
     />
   )
 }

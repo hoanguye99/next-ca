@@ -1,4 +1,5 @@
 export * from './input'
+export * from './input-dropdown'
 export * from './button'
 export * from './label'
 export * from './spinner'
