@@ -1,4 +1,9 @@
-import { Path, PathValue, UseFormRegister, UseFormSetValue } from 'react-hook-form'
+import {
+  Path,
+  PathValue,
+  UseFormRegister,
+  UseFormSetValue,
+} from 'react-hook-form'
 import React, { useEffect } from 'react'
 import { Button } from './button'
 import { GetUserResponse } from '@/models/api'
@@ -27,7 +32,7 @@ export function Input<T>(props: InputProps<T>) {
   )
 }
 
-interface InputSearchProps<T> {
+interface InputSearchButtonProps<T> {
   name?: string
   id?: string
   placeholder?: string
@@ -41,14 +46,18 @@ interface InputSearchProps<T> {
   setValue: UseFormSetValue<T>
 }
 
-export function InputSearch<T>(props: InputSearchProps<T>) {
+export function InputSearchButton<T>(props: InputSearchButtonProps<T>) {
   const { name, id, placeholder } = props
   useEffect(() => {
-    if(props.getUserData !== undefined) {
-      props.setValue(props.label, props.getUserData.displayName as PathValue<T, Path<T>>, {
-        shouldValidate: true,
-        shouldDirty: true,
-      })
+    if (props.getUserData !== undefined) {
+      props.setValue(
+        props.label,
+        props.getUserData.displayName as PathValue<T, Path<T>>,
+        {
+          shouldValidate: true,
+          shouldDirty: true,
+        }
+      )
     }
   }, [props.getUserData])
   return (
@@ -75,11 +84,63 @@ export function InputSearch<T>(props: InputSearchProps<T>) {
         <input
           type="text"
           {...{ name, id, placeholder }}
-          {...props.register(props.label, { required: props.required, validate: value => props.getUserData !== undefined && value === props.getUserData.displayName })}
+          {...props.register(props.label, {
+            required: props.required,
+            validate: (value) =>
+              props.getUserData !== undefined &&
+              value === props.getUserData.displayName,
+          })}
           className={`block w-full py-2 pl-10 pr-24 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md transition-all ease-in-out duration-150 focus:border-blue-primary outline-none ${props.className}`}
         />
 
-        <Button posting={props.loading} onClick={props.onSearch} type="button" className="absolute inset-y-1.5 right-2 text-xs">Search</Button>
+        <Button
+          posting={props.loading}
+          onClick={props.onSearch}
+          type="button"
+          className="absolute inset-y-1.5 right-2 text-xs"
+        >
+          Search
+        </Button>
+      </div>
+    </>
+  )
+}
+
+interface InputSearchProps<T> {
+  name?: string
+  id?: string
+  placeholder?: string
+  className?: string
+}
+
+export function InputSearch<T>(props: InputSearchProps<T>) {
+  const { name, id, placeholder } = props
+  return (
+    <>
+      <div className="relative">
+        <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+          <svg
+            aria-hidden="true"
+            className="w-5 h-5 text-gray-500 dark:text-gray-400"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            ></path>
+          </svg>
+        </div>
+
+        <input
+          type="text"
+          {...{ name, id, placeholder }}
+          className={`block w-full py-2 pl-10 pr-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md transition-all ease-in-out duration-150 focus:border-blue-primary outline-none ${props.className}`}
+        />
       </div>
     </>
   )

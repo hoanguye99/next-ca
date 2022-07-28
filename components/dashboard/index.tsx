@@ -23,11 +23,7 @@ const Dashboard = (props: Props) => {
           <SecondaryText className="text-[10px]">OVERVIEW</SecondaryText>
           <PrimaryText className="text-2xl">Dashboard</PrimaryText>
         </div>
-        <Link href="/create-ticket" passHref>
-          <Button className="!transition-all ease-in-out hover:-translate-y-1 hover:shadow-lg text-sm">
-            <a>Create Ticket</a>
-          </Button>
-        </Link>
+        <div></div>
       </div>
 
       <div className="py-6 grid grid-cols-8 gap-6">

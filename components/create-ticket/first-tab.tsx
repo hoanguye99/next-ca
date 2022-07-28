@@ -4,7 +4,7 @@ import { GetComponentResponse, GetConfigTicketResponse, GetUserResponse } from '
 import { FetchStatus } from '@tanstack/react-query'
 import React, { Dispatch, SetStateAction, useEffect } from 'react'
 import { DeepRequired, FieldErrorsImpl, UseFormGetValues, UseFormRegister, UseFormSetValue } from 'react-hook-form'
-import { Input, InputDropDown, InputSearch, Label } from '../styled'
+import { Input, InputDropDown, InputSearchButton, Label } from '../styled'
 import { TicketInputs } from './hooks'
 
 interface FirstTabProps {
@@ -39,7 +39,7 @@ const FirstTab = (props: FirstTabProps) => {
       </div>
       <div className="col-span-6 sm:col-span-3">
         <Label>Assignee Name</Label>
-        <InputSearch<TicketInputs>
+        <InputSearchButton<TicketInputs>
           name="assignee_name"
           id="assignee_name"
           placeholder="Search Staff"
