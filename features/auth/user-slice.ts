@@ -16,10 +16,12 @@ const initialState: LoginState = {
       : {
           accessToken: '',
           refreshToken: '',
-          email: '',
-          phone: '',
-          full_name: 'anonymous',
           role: 'ANONYMOUS',
+          emailAddress: '',
+          name: '',
+          displayName: '',
+          JSESSIONID: '',
+          key: '',
         },
   status: 'idle',
   failureDescription: '',
@@ -35,7 +37,8 @@ export const loginAsync = createAsyncThunk(
   async (data: LoginType, { rejectWithValue }) => {
     try {
       const response = await loginApi.login(data)
-      typeof window !== 'undefined' && localStorage.setItem('nextca-userInfo', JSON.stringify(response))
+      typeof window !== 'undefined' &&
+        localStorage.setItem('nextca-userInfo', JSON.stringify(response))
       return response
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -85,11 +88,13 @@ const userSlice = createSlice({
           status: 'failed',
           userDetail: {
             accessToken: '',
-            phone: '',
             refreshToken: '',
-            email: '',
-            full_name: 'anonymous',
             role: 'ANONYMOUS',
+            emailAddress: '',
+            name: '',
+            displayName: '',
+            JSESSIONID: '',
+            key: '',
           },
           failureDescription: (action.payload as LoginError).description,
         }
@@ -103,10 +108,12 @@ function handleLogoutAction(state: LoginState) {
   state.userDetail = {
     accessToken: '',
     refreshToken: '',
-    phone: '',
-    email: '',
-    full_name: 'anonymous',
     role: 'ANONYMOUS',
+    emailAddress: '',
+    name: '',
+    displayName: '',
+    JSESSIONID: '',
+    key: '',
   }
   state.status = 'idle'
   state.failureDescription = ''

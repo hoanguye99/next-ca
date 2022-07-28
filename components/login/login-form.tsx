@@ -36,7 +36,7 @@ const LoginForm = () => {
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)}>
       <div>
-        <Label htmlFor="email">Account Mail FPT</Label>
+        <Label>Account Mail FPT</Label>
         <Input<LoginFormData>
           type="text"
           name="email"
@@ -49,7 +49,7 @@ const LoginForm = () => {
       </div>
 
       <div className="mt-6">
-        <Label htmlFor="password">Mật khẩu</Label>
+        <Label>Mật khẩu</Label>
 
         <Input<LoginFormData>
           type="password"
