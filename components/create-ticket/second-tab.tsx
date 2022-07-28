@@ -1,8 +1,8 @@
 import { GetConfigTicketResponse } from '@/models/api'
 import React from 'react'
 import { UseFormRegister, UseFormSetValue } from 'react-hook-form'
-import { TicketInputs } from '.'
 import { Input, InputDropDown, Label, Toggle } from '../styled'
+import { TicketInputs } from './hooks'
 
 interface SecondTabProps {
   register: UseFormRegister<TicketInputs>
@@ -86,7 +86,18 @@ const SecondTab = (props: SecondTabProps) => {
         />
       </div>
       <div className="col-span-6 sm:col-span-3">
-        <Label className="block">Ngày hết hạn</Label>
+        <Label className="block">Activity Date</Label>
+        <Input<TicketInputs>
+          type="date"
+          name="activity_date"
+          id="activity_date"
+          register={props.register}
+          label="activity_date"
+          required={true}
+        />
+      </div>
+      <div className="col-span-6 sm:col-span-3">
+        <Label className="block">Due date</Label>
         <Input<TicketInputs>
           type="date"
           name="resolved_date"
@@ -96,13 +107,25 @@ const SecondTab = (props: SecondTabProps) => {
           required={true}
         />
       </div>
+      <div className="col-span-6 sm:col-span-3">
+        <Label className="block">Time Spent (Hours)</Label>
+        <Input<TicketInputs>
+          type="number"
+          min={0}
+          name="time_spent"
+          id="time_spent"
+          register={props.register}
+          label="time_spent"
+          required={true}
+        />
+      </div>
       <div className="col-span-6 sm:col-span-3 mt-10 ml-5">
         <Toggle<TicketInputs>
           name="scope"
           id="scope"
           register={props.register}
           label="scope"
-          required={true}
+          required={false}
         >
           Scope
         </Toggle>

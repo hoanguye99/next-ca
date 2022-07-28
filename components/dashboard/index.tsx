@@ -10,6 +10,7 @@ import OpenRequestTable from './open-request-table'
 import ProjectSummary from './project-summary'
 import DoughnutChart from './doughnut-chart'
 import Info, { infoData } from './info'
+import Link from 'next/link'
 
 type Props = {}
 
@@ -22,14 +23,19 @@ const Dashboard = (props: Props) => {
           <SecondaryText className="text-[10px]">OVERVIEW</SecondaryText>
           <PrimaryText className="text-2xl">Dashboard</PrimaryText>
         </div>
-        <Button className="!transition-all ease-in-out hover:-translate-y-1 hover:shadow-lg text-sm">
-          Create Report
-        </Button>
+        <Link href="/create-ticket" passHref>
+          <Button className="!transition-all ease-in-out hover:-translate-y-1 hover:shadow-lg text-sm">
+            <a>Create Ticket</a>
+          </Button>
+        </Link>
       </div>
 
       <div className="py-6 grid grid-cols-8 gap-6">
         {infoData.map((item) => (
-          <div className="xl:col-span-2 lg:col-span-4 col-span-8 bg-white rounded-lg border border-gray-100 p-5 min-h-[65px]">
+          <div
+            key={item.type}
+            className="xl:col-span-2 lg:col-span-4 col-span-8 bg-white rounded-lg border border-gray-100 p-5 min-h-[65px]"
+          >
             <DashBoardData
               type="all-ticket-status"
               fetcher={() => staffApi.getAllTicketStatusByStaff(userDetail)}

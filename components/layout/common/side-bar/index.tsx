@@ -1,7 +1,9 @@
-import { useAppSelector } from '@/app/hooks'
-import { selectUserDetail } from '@/features/auth/user-slice'
+import dynamic from 'next/dynamic'
 import UserButton from '../user-button'
 import LinkTab from './link-tab'
+const DynamicTempName = dynamic(() => import('./temp-name'), {
+  ssr: false,
+})
 
 type Props = {
   currentPath: string
@@ -13,7 +15,6 @@ type Props = {
 }
 
 const Sidebar = (props: Props) => {
-  const userDetail = useAppSelector(selectUserDetail);
   return (
     <div className="bg-white w-[230px] pt-[70px] pb-[100px] hidden lg:block border-r">
       <div className="h-full flex flex-col">
@@ -34,7 +35,7 @@ const Sidebar = (props: Props) => {
             ))}
           </ul>
         </nav>
-
+        <DynamicTempName></DynamicTempName>
         <div className="fixed bottom-0 w-[230px] h-[100px] flex justify-around items-center text-gray-500 border-t">
           <button className="">
             <svg

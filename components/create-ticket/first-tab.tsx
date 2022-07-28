@@ -1,31 +1,26 @@
 import { useGetComponent } from '@/hooks/query'
-import { GetConfigTicketResponse } from '@/models/api'
-import React, { useEffect } from 'react'
-import { UseFormRegister, UseFormSetValue } from 'react-hook-form'
-import { TicketInputs } from '.'
-import { Input, InputDropDown, Label } from '../styled'
+import { useGetUser } from '@/hooks/query/userGetUser'
+import { GetComponentResponse, GetConfigTicketResponse, GetUserResponse } from '@/models/api'
+import { FetchStatus } from '@tanstack/react-query'
+import React, { Dispatch, SetStateAction, useEffect } from 'react'
+import { DeepRequired, FieldErrorsImpl, UseFormGetValues, UseFormRegister, UseFormSetValue } from 'react-hook-form'
+import { Input, InputDropDown, InputSearch, Label } from '../styled'
+import { TicketInputs } from './hooks'
 
 interface FirstTabProps {
   register: UseFormRegister<TicketInputs>
   setValue: UseFormSetValue<TicketInputs>
+  errors: FieldErrorsImpl<DeepRequired<TicketInputs>>
   getConfigTicketData: GetConfigTicketResponse | undefined
   watchProject: string
+  getValues: UseFormGetValues<TicketInputs>
+  getComponentData: GetComponentResponse | undefined
+  fetchUserStatus: FetchStatus
+  getUserData: GetUserResponse | undefined
+  setUser: Dispatch<SetStateAction<string>>
 }
 
 const FirstTab = (props: FirstTabProps) => {
-  const project_id =
-    props.getConfigTicketData === undefined || !props.watchProject
-      ? -1
-      : props.getConfigTicketData.projects.find(
-          (project) => project.name === props.watchProject
-        )?.project_id
-  const {
-    status,
-    data: getComponentData,
-    error,
-  } = useGetComponent(props.watchProject, project_id || -1)
-  if (status === 'error') console.log(error)
-
   useEffect(() => {
     props.setValue('component_name', '')
   }, [props.watchProject])
@@ -44,14 +39,19 @@ const FirstTab = (props: FirstTabProps) => {
       </div>
       <div className="col-span-6 sm:col-span-3">
         <Label>Assignee Name</Label>
-        <Input<TicketInputs>
-          type="text"
+        <InputSearch<TicketInputs>
           name="assignee_name"
           id="assignee_name"
+          placeholder="Search Staff"
           register={props.register}
           label="assignee_name"
           required={true}
+          onSearch={() => props.setUser(props.getValues("assignee_name"))}
+          loading={props.fetchUserStatus === 'fetching'}
+          getUserData={props.getUserData}
+          setValue={props.setValue}
         />
+        {props.errors.assignee_name && <p className="text-xs text-red-500 mt-2">Enter valid account mail and hit Search</p>}
       </div>
       <div className="col-span-6 sm:col-span-3">
         <Label>Project</Label>
@@ -81,9 +81,9 @@ const FirstTab = (props: FirstTabProps) => {
           required={true}
           disabled={!props.watchProject}
           dropDownData={
-            getComponentData === undefined
+            props.getComponentData === undefined
               ? []
-              : getComponentData.component_name.map((obj) => obj.name)
+              : props.getComponentData.component_name.map((obj) => obj.name)
           }
           setValue={props.setValue}
           className={

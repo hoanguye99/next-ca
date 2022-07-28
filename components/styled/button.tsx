@@ -3,17 +3,18 @@ import { BiLoaderAlt } from 'react-icons/bi'
 
 interface ButtonProps {
   className?: string
+  type?: "button" | "submit" | "reset"
   onClick?: () => void
   posting?: boolean
   children: React.ReactNode
   disabled?: boolean
 }
 
-export const Button = (props: ButtonProps) => {
+export const Button = React.forwardRef((props: ButtonProps) => {
   return (
     <button
-      disabled={props.disabled}
-      type={`${ props.posting ? 'button' : 'submit'}`}
+      disabled={props.posting || props.disabled}
+      type={props.type || 'submit'}
       onClick={props.onClick}
       className={`${props.className} ${
         props.posting ? 'cursor-not-allowed' : 'cursor-pointer'
@@ -26,4 +27,4 @@ export const Button = (props: ButtonProps) => {
       ) : props.children}
     </button>
   )
-}
+})

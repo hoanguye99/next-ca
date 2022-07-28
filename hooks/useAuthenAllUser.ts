@@ -9,7 +9,6 @@ const useAuthenAllUser = () => {
 
   useEffect(() => {
     if(userDetail.accessToken === '' || userDetail.role === 'ANONYMOUS') {
-      console.log('calling log out from authen all page')
       logoutNavigate()
     }
   }, [userDetail, logoutNavigate])

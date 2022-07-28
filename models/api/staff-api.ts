@@ -109,3 +109,31 @@ interface CreateTicketSizing {
 export interface GetComponentResponse {
   component_name: { name: string }[]
 }
+
+export interface CreateTicketRequestBody {
+  customer_name: string
+  project_id: number
+  summary: string
+  group_id: number
+  priority_id: number
+  scope: number
+  description_by_staff: string
+  request_type_id: number
+  sizing_id: number
+  resolved_date: string
+  component_name: string
+  time_spent: string
+  activity_date: string
+  assignee_name: string
+}
+
+export interface CreateTicketResponse {
+  idMaster: number
+}
+
+export interface GetUserResponse {
+  name: string
+  key: string
+  emailAddress: string
+  displayName: string
+}

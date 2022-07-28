@@ -1,7 +1,7 @@
 import React from 'react'
 import { UseFormRegister } from 'react-hook-form'
-import { TicketInputs } from '.'
 import { Input, Label, TextArea } from '../styled'
+import { TicketInputs } from './hooks'
 
 interface Props {
   register: UseFormRegister<TicketInputs>

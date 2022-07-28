@@ -2,17 +2,19 @@ import staffApi from '@/api/staff-api'
 import { useAppSelector } from '@/app/hooks'
 import { selectUserDetail } from '@/features/auth/user-slice'
 import { useQuery } from '@tanstack/react-query'
+import { useState } from 'react'
 
-export function useGetComponent(watchProject: string, project_id: number) {
-
+export function useGetUser() {
   // console.log("watchProject", watchProject)
   const userDetail = useAppSelector(selectUserDetail)
-  return useQuery(
-    ['create-ticket', 'getComponent', project_id],
-    () => staffApi.getComponent(userDetail, project_id),
+  const [user, setUser] = useState('')
+
+  return {...useQuery(
+    ['create-ticket', 'getUser', user],
+    () => staffApi.getUser(userDetail, user),
     {
       // The query will not execute until enabled
-      enabled: !!watchProject,
+      enabled: !!user,
     }
-  )
+  ), setUser}
 }

@@ -22,6 +22,7 @@ export function Toggle<T>(props: ToggleProps<T>) {
         {...{ name, id }}
         type="checkbox"
         id="checked-toggle"
+        defaultChecked
         {...props.register(props.label, { required: props.required })}
         className="sr-only peer"
       />

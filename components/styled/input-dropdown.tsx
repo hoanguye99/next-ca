@@ -54,13 +54,13 @@ function Dropdown<T>(props: DropdownProps<T>) {
   function handleButtonClick(val: PathValue<T, Path<T>>) {
     props.setShowDropdown({ status: 0 })
     props.setValue(props.label, val, {
-      shouldValidate: false,
-      shouldDirty: false,
+      shouldValidate: true,
+      shouldDirty: true,
     })
   }
 
   return (
-    <div className="bg-white rounded shadow flex flex-col">
+    <div className="bg-white rounded shadow-lg border flex flex-col">
       {props.dropDownData.map((val) => (
         <button
           key={val as string}

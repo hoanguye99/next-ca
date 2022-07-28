@@ -27,7 +27,6 @@ axiosClient.interceptors.request.use(
       const token = config.headers.token as string
       const decoded = jwt_decode<AccessTokenDecoded>(token)
       const remainingTime = decoded.exp * 1000 - Date.now()
-      console.log("Request Interceptor:", decoded)
       if (remainingTime <= 0) {
         store.dispatch(refreshToken("stale token"))
         throw new Error("Stale Token while calling api")
