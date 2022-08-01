@@ -64,7 +64,9 @@ const CreateTicket = (props: CreateTicketProps) => {
         <div className="flex justify-between items-center py-6 border-b">
           <div className="">
             <SecondaryText className="text-[10px]">OVERVIEW</SecondaryText>
-            <PrimaryText className="sm:text-2xl text-xl">Create Ticket</PrimaryText>
+            <PrimaryText className="sm:text-2xl text-xl">
+              Create Ticket
+            </PrimaryText>
           </div>
           <div></div>
         </div>
@@ -124,11 +126,30 @@ const DetailModalContent = (props: DetailModalContentProps) => {
   return (
     <div className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white animate-popup rounded max-w-md w-full">
       <div className="flex flex-col p-6 gap-12">
-        <p className="mx-auto">{props.disp}</p>
+        <div>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-32 text-green-500 mx-auto"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={1}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
+            />
+          </svg>
+        </div>
+        <div className="text-center">
+          <p className="mx-auto">Create Ticket Successfully</p>
+          <p className="mx-auto">Ticket ID: {props.disp}</p>
+        </div>
         <div className="flex justify-between items-center">
           <Button
             onClick={() => props.closeDetailModal()}
-            className="w-fit bg-gray-600 hover:bg-gray-500 focus:bg-gray-400 focus:ring-gray-300"
+            className="w-fit !bg-gray-600 !hover:bg-gray-500 !active:bg-gray-400"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -145,7 +166,7 @@ const DetailModalContent = (props: DetailModalContentProps) => {
               />
             </svg>
           </Button>
-          <Link href="/home-page" passHref>
+          <Link href={`/tickets/view/open-request/${props.disp}`} passHref>
             <LinkButton>View Ticket</LinkButton>
           </Link>
         </div>
