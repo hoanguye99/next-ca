@@ -1,4 +1,4 @@
-import NotFoundPage from '@/components/not-found'
+import NotFoundPage from '@/components/common/not-found'
 import React from 'react'
 
 const Custom404 = () => {

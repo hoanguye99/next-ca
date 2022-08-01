@@ -2,13 +2,13 @@ import { PrimaryText, SecondaryText } from '@/components/styled'
 import { GetAllTicketStatusByStaffResponse } from '@/models/api'
 import React from 'react'
 
-interface InfoProps {
+interface StatusInfoProps {
   data: GetAllTicketStatusByStaffResponse
   type: string
   logo: React.ReactNode
 }
 
-const Info = (props: InfoProps) => {
+const StatusInfo = (props: StatusInfoProps) => {
   let disp
   const ret = props.data.status.find((item) => item.statusName === props.type)
   if (ret === undefined) {
@@ -33,7 +33,7 @@ const Info = (props: InfoProps) => {
   )
 }
 
-export const infoData = [
+export const statusInfoData = [
   {
     type: 'OPEN_REQUEST',
     logo: (
@@ -112,4 +112,4 @@ export const infoData = [
   },
 ]
 
-export default Info
+export default StatusInfo

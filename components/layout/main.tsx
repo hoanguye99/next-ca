@@ -1,6 +1,6 @@
 import { LayoutProps } from '@/pages/_app'
 import MetaHeader from './meta-header'
-import { Footer } from '@/components/footer'
+import { Footer } from '@/components/common/footer'
 import Header from './common/header'
 import Sidebar from './common/side-bar'
 import { useRouter } from 'next/router'

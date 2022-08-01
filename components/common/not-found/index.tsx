@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import React from 'react'
-import { LinkButton, PrimaryText, SecondaryText } from '../styled'
+import { LinkButton, PrimaryText, SecondaryText } from '../../styled'
 
 const NotFoundPage = () => {
   return (

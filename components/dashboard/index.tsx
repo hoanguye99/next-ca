@@ -9,7 +9,7 @@ import LineChart from './line-chart'
 import OpenRequestTable from './open-request-table'
 import ProjectSummary from './project-summary'
 import DoughnutChart from './doughnut-chart'
-import Info, { infoData } from './info'
+import StatusInfo, { statusInfoData } from './status-info'
 
 type Props = {}
 
@@ -20,13 +20,13 @@ const Dashboard = (props: Props) => {
       <div className="flex justify-between items-center py-6 border-b">
         <div className="">
           <SecondaryText className="text-[10px]">OVERVIEW</SecondaryText>
-          <PrimaryText className="text-2xl">Dashboard</PrimaryText>
+          <PrimaryText className="sm:text-2xl text-xl">Dashboard</PrimaryText>
         </div>
         <div></div>
       </div>
 
       <div className="py-6 grid grid-cols-8 gap-6">
-        {infoData.map((item) => (
+        {statusInfoData.map((item) => (
           <div
             key={item.type}
             className="xl:col-span-2 lg:col-span-4 col-span-8 bg-white rounded-lg border border-gray-100 p-5 min-h-[65px]"
@@ -34,7 +34,7 @@ const Dashboard = (props: Props) => {
             <DashBoardData
               type="all-ticket-status"
               fetcher={() => staffApi.getAllTicketStatusByStaff(userDetail)}
-              render={(data) => <Info data={data} {...item} />}
+              render={(data) => <StatusInfo data={data} {...item} />}
             />
           </div>
         ))}

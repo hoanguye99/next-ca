@@ -54,6 +54,8 @@ export interface RequestDetail {
   status_id: number
   request_type_id: number
   request_type_name: string
+  issue_id: string
+  issue_key: string
 }
 
 export interface GetTimeSpentResponse {

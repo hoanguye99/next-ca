@@ -64,7 +64,7 @@ const CreateTicket = (props: CreateTicketProps) => {
         <div className="flex justify-between items-center py-6 border-b">
           <div className="">
             <SecondaryText className="text-[10px]">OVERVIEW</SecondaryText>
-            <PrimaryText className="text-2xl">Create Ticket</PrimaryText>
+            <PrimaryText className="sm:text-2xl text-xl">Create Ticket</PrimaryText>
           </div>
           <div></div>
         </div>
