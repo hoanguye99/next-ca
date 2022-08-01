@@ -30,7 +30,7 @@ const Sidebar = (props: Props) => {
                 link={item.link}
                 icon={item.icon}
                 text={item.text}
-                selected={props.currentPath === item.link}
+                selected={props.currentPath.startsWith(item.link)}
               />
             ))}
           </ul>

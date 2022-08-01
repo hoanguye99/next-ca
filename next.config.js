@@ -11,6 +11,15 @@ const nextConfig = {
   images: {
     domains: ['images.pexels.com'],
   },
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/login',
+        permanent: false,
+      },
+    ]
+  },
 }
 
 module.exports = nextConfig

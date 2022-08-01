@@ -87,7 +87,7 @@ const FirstTab = (props: FirstTabProps) => {
           }
           setValue={props.setValue}
           className={
-            !props.watchProject ? 'cursor-not-allowed bg-gray-100' : ''
+            !props.watchProject ? 'cursor-not-allowed !bg-gray-100' : ''
           }
         />
       </div>

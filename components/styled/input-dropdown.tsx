@@ -29,6 +29,7 @@ export function InputDropDown<T>(props: InputDropDownProps<T>) {
       <InputWithDropdown
         showDropdown={showDropdown}
         setShowDropdown={setShowDropdown}
+        disabled={disabled}
         button={
           <input
             {...{ type, name, id, placeholder }}

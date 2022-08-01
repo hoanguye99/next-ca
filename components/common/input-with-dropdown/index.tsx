@@ -7,10 +7,12 @@ interface InputWithDropdownProps {
   dropdown: React.ReactNode
   showDropdown: ShowDropdown
   setShowDropdown: React.Dispatch<React.SetStateAction<ShowDropdown>>
+  disabled: boolean | undefined
 }
 const InputWithDropdown = ({
   button,
   dropdown,
+  disabled,
   showDropdown,
   setShowDropdown,
 }: InputWithDropdownProps) => {
@@ -23,6 +25,7 @@ const InputWithDropdown = ({
   const handleActionClick = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
+    if (disabled) return
     if (showDropdown.status === 0) {
       if (typeof window !== 'undefined') {
         if (event.clientY < window.innerHeight / 2) {

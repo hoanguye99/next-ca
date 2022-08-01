@@ -84,19 +84,17 @@ export const options = {
 const BarChart = (props: BarChartProps) => {
   const labels = [
     'Open',
-    'Reopen',
     'In Progress',
-    'Info Add',
-    'Waiting Customer',
     'Cancelled',
+    'Complete',
+    'Reopen'
   ]
   const originalLabels = [
     'OPEN_REQUEST',
-    'REOPEN_REQUEST',
     'IN_PROGRESS_REQUEST',
-    'INFO_ADD_REQUEST',
-    'WAITING_CUSTOMER',
     'CANCEL_REQUEST',
+    'COMPLETE',
+    'REOPEN_REQUEST',
   ]
   const values = originalLabels.map(
     (item) => props.data.status.find((x) => x.statusName === item)?.quantity

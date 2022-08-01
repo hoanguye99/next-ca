@@ -5,8 +5,8 @@ import {
   UseFormSetValue,
 } from 'react-hook-form'
 import React, { useEffect } from 'react'
-import { Button } from './button'
 import { GetUserResponse } from '@/models/api'
+import { BiLoaderAlt } from 'react-icons/bi'
 
 interface InputProps<T> {
   type?: string
@@ -93,14 +93,27 @@ export function InputSearchButton<T>(props: InputSearchButtonProps<T>) {
           className={`block w-full py-2 pl-10 pr-24 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md transition-all ease-in-out duration-150 focus:border-blue-primary outline-none ${props.className}`}
         />
 
-        <Button
+        {/* <Button
           posting={props.loading}
           onClick={props.onSearch}
           type="button"
           className="absolute inset-y-1.5 right-2 text-xs"
         >
           Search
-        </Button>
+        </Button> */}
+        <button
+          onClick={props.onSearch}
+          type="button"
+          className="absolute inset-y-0 right-0 text-[12px] px-3.5 border-l bg-gray-table m-[1px] rounded-r-lg text-blue-primary transition-all duration-75 hover:text-blue-hover active:text-blue-focus"
+        >
+          {props.loading ? (
+            <div className="w-6 h-6 animate-spin m-auto">
+              <BiLoaderAlt size={24} />
+            </div>
+          ) : (
+            'Search'
+          )}
+        </button>
       </div>
     </>
   )

@@ -54,7 +54,7 @@ export const infoData = [
     ),
   },
   {
-    type: 'REOPEN_REQUEST',
+    type: 'IN_PROGRESS_REQUEST',
     logo: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -73,7 +73,7 @@ export const infoData = [
     ),
   },
   {
-    type: 'IN_PROGRESS_REQUEST',
+    type: 'CANCEL_REQUEST',
     logo: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -92,7 +92,7 @@ export const infoData = [
     ),
   },
   {
-    type: 'INFO_ADD_REQUEST',
+    type: 'COMPLETE',
     logo: (
       <svg
         xmlns="http://www.w3.org/2000/svg"

@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { DetailModal, ErrorModal } from '../common/modals'
-import { Button, PrimaryText, SecondaryText } from '../styled'
+import { Button, LinkButton, PrimaryText, SecondaryText } from '../styled'
 import { Section, Separator } from './common'
 import FirstTab from './first-tab'
 import { useTicketCreate } from './hooks'
@@ -30,7 +30,7 @@ const CreateTicket = (props: CreateTicketProps) => {
     getUserData,
     setUser,
 
-    // Post Create variables
+    // Post API variables
     showDetailModal,
     closeDetailModal,
     createData,
@@ -146,9 +146,7 @@ const DetailModalContent = (props: DetailModalContentProps) => {
             </svg>
           </Button>
           <Link href="/home-page" passHref>
-            <Button className="">
-              <a>View Ticket</a>
-            </Button>
+            <LinkButton>View Ticket</LinkButton>
           </Link>
         </div>
       </div>

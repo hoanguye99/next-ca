@@ -10,7 +10,6 @@ import OpenRequestTable from './open-request-table'
 import ProjectSummary from './project-summary'
 import DoughnutChart from './doughnut-chart'
 import Info, { infoData } from './info'
-import Link from 'next/link'
 
 type Props = {}
 
