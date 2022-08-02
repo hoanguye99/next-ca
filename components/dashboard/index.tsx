@@ -29,7 +29,7 @@ const Dashboard = (props: Props) => {
         {statusInfoData.map((item) => (
           <div
             key={item.type}
-            className="xl:col-span-2 lg:col-span-4 col-span-8 bg-white rounded-lg border border-gray-100 p-5 min-h-[65px]"
+            className="xl:col-span-2 lg:col-span-4 col-span-8 bg-white rounded-lg border border-gray-100 min-h-[65px]"
           >
             <DashBoardData
               type="all-ticket-status"
