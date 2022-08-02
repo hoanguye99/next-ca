@@ -1,11 +1,16 @@
-import React from 'react'
+import { useRouter } from "next/router"
+import Header from "./header"
 
-interface TicketDetailProps {
-  ticketId: string
-}
+const TicketDetail = () => {
+  const router = useRouter()
+  const { ticketType, ticketSlugId } = router.query
 
-const TicketDetail = (props: TicketDetailProps) => {
-  return <div className="py-6">Hold up {props.ticketId}</div>
+  return (
+    <div className="container">
+      <Header />
+      <div className="py-6">Hold up {ticketSlugId}</div>
+    </div>
+  )
 }
 
 export default TicketDetail

@@ -19,7 +19,6 @@ const Dashboard = (props: Props) => {
     <div className="container">
       <div className="flex justify-between items-center py-6 border-b">
         <div className="">
-          <SecondaryText className="text-[10px]">OVERVIEW</SecondaryText>
           <PrimaryText className="sm:text-2xl text-xl">Dashboard</PrimaryText>
         </div>
         <div></div>

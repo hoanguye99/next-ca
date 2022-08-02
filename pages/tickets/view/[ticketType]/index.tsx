@@ -33,7 +33,6 @@ const TicketsViewType: NextPageWithLayout = () => {
       <div className="container">
         <div className="flex justify-between items-center py-6">
           <div className="">
-            <SecondaryText className="text-[10px]">OVERVIEW</SecondaryText>
             <PrimaryText className="sm:text-2xl text-xl">
               View Tickets
             </PrimaryText>
