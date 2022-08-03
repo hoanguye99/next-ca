@@ -4,7 +4,7 @@ import { selectUserDetail } from '@/features/auth/user-slice'
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 
-export function useGetUser() {
+export function useGetUserWithState() {
   // console.log("watchProject", watchProject)
   const userDetail = useAppSelector(selectUserDetail)
   const [user, setUser] = useState('')

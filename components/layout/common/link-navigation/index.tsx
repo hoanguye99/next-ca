@@ -1,4 +1,4 @@
-import { NormalText } from '@/components/styled'
+import { NormalText, PrimaryText } from '@/components/styled'
 import Link from 'next/link'
 import React from 'react'
 
@@ -14,7 +14,7 @@ const LinkNavigation = (props: LinkNavigationProps) => {
           {index !== 0 && <svg
             data-testid="geist-icon"
             fill="currentColor"
-            shape-rendering="geometricPrecision"
+            shapeRendering="geometricPrecision"
             stroke="currentColor"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -26,7 +26,7 @@ const LinkNavigation = (props: LinkNavigationProps) => {
           </svg>}
           <Link href={obj.link}>
             <a>
-              <NormalText className="text-sm">{obj.disp}</NormalText>
+              <PrimaryText className="text-sm text-gray-400 hover:text-black">{obj.disp}</PrimaryText>
             </a>
           </Link>
         </>

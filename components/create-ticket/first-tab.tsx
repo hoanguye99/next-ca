@@ -1,5 +1,3 @@
-import { useGetComponent } from '@/hooks/query'
-import { useGetUser } from '@/hooks/query/userGetUser'
 import { GetComponentResponse, GetConfigTicketResponse, GetUserResponse } from '@/models/api'
 import { FetchStatus } from '@tanstack/react-query'
 import React, { Dispatch, SetStateAction, useEffect } from 'react'

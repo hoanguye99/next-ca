@@ -1,4 +1,4 @@
-import { CreateTicketRequestBody, CreateTicketResponse, GetAllProjectsResponse, GetAllTicketStatusByStaffResponse, GetComponentResponse, GetConfigTicketResponse, GetTimeSpentResponse, GetUserResponse } from "@/models/api";
+import { CreateTicketRequestBody, CreateTicketResponse, GetAllProjectsResponse, GetAllTicketStatusByStaffResponse, GetComponentResponse, GetConfigTicketResponse, GetTicketDetailResponse, GetTimeSpentResponse, GetUserResponse } from "@/models/api";
 import { UserDetail } from "@/models/features";
 import axiosClient from "./axios-client";
 
@@ -71,6 +71,16 @@ const staffApi = {
       },
     }
     const url = `/staff/findByUser/${username}`;
+    return axiosClient.get(url, config);
+  },
+
+  getTicketDetail(userDetail: UserDetail, ticketId: string) : Promise<GetTicketDetailResponse> {
+    const config = {
+      headers: {
+        token: userDetail.accessToken,
+      },
+    }
+    const url = `/staff/getDetailsTicket/${ticketId}`;
     return axiosClient.get(url, config);
   },
 };

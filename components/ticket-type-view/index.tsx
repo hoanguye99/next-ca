@@ -2,11 +2,11 @@ import { useGetAllTicketStatus } from '@/hooks/query/useGetAllTicketStatus'
 import { RequestDetail } from '@/models/api'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+dayjs.extend(relativeTime)
 import Link from 'next/link'
 import EmptyView from '../common/empty-view'
 import InitialImage from '../common/get-initial'
 import { InputSearch, LinkButton, PrimaryText } from '../styled'
-dayjs.extend(relativeTime)
 
 interface TicketsTypeViewProps {
   ticketType: string

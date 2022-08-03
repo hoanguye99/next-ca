@@ -1,7 +1,7 @@
 import { useAppSelector } from '@/app/hooks'
 import { selectUserDetail } from '@/features/auth/user-slice'
 import { useCreateMutation, useGetComponent, useGetConfigTicket } from '@/hooks/query'
-import { useGetUser } from '@/hooks/query/userGetUser'
+import { useGetUserWithState } from '@/hooks/query/useGetUserWithState'
 import { CreateTicketRequestBody, CreateTicketResponse } from '@/models/api'
 import { SubmitHandler, useForm, UseFormReset } from 'react-hook-form'
 import staffApi from '@/api/staff-api'
@@ -63,7 +63,7 @@ export const useTicketCreate = () => {
     data: getUserData,
     error: error3,
     setUser,
-  } = useGetUser()
+  } = useGetUserWithState()
   if (status3 === 'error') console.log(error3)
 
   const userDetail = useAppSelector(selectUserDetail)

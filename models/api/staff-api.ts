@@ -139,3 +139,85 @@ export interface GetUserResponse {
   emailAddress: string
   displayName: string
 }
+
+export interface GetTicketDetailResponse {
+  statusTransition: { id: string; name: string }[]
+  request_name: string
+  id: number
+  customer_name: string
+  account_name: string
+  project_id: number
+  category_id: number
+  email: string
+  phone: string
+  date_create: string
+  resolved_date: string
+  summary: string
+  status_id: number
+  group_id: number
+  priority_id: number
+  scope: {
+    type: string
+    data: number[]
+  }
+  assignee_id: string
+  description_by_staff: string
+  request_type_id: number
+  sizing_id: number
+  assignee_name: string
+  issue_id: string
+  component_name: string
+  time_spent: string
+  activity_date: string
+  component_id: string
+  issue_key: string
+  name_priority: string
+  group_name: string
+  status_name: string
+  sizing_name: string
+  project_name: string
+  details: TicketDetails[]
+  detailsLog: TicketDetailsLog[]
+  detailComment: TicketDetailComment[]
+}
+
+interface TicketDetails {
+  id: number
+  ticket_id: number
+  date_create: string
+  new_status: number
+  note: string
+  date_activity: string
+  time_spent: string
+  activity_type: number
+  new_group: number
+  status_name: string
+  activity_name: string
+}
+
+interface TicketDetailsLog {
+  id: number
+  comment: string
+  time_spent: string
+  start_date: string
+  username: string
+  user_key: string
+  ot: {
+    type: string
+    data: number[]
+  }
+  phase_work_log: string
+  date_created: string
+  type_of_work: string
+  ticket_id: number
+  issue_id: string
+  phase_work_log_name: string
+}
+
+interface TicketDetailComment {
+  id: number
+  content: string
+  date_created: string
+  created_by_account: string
+  ticket_id: number
+}
