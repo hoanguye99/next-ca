@@ -1,6 +1,7 @@
 import { useGetTicketDetail } from '@/hooks/query'
 import { useRouter } from 'next/router'
 import { Button, PrimaryText } from '../styled'
+import Comments from './comments'
 import Dates from './dates'
 import Details from './details'
 import Header from './header'
@@ -33,11 +34,19 @@ const TicketDetail = () => {
               </div>
             </div>
             <div className="bg-white rounded-lg border border-gray-100">
-              <div className="border-b p-4">
+              <div className="p-4">
                 <PrimaryText className="">Work Log</PrimaryText>
               </div>
-              <div className="p-4">
+              <div className="overflow-auto">
                 <WorkLog getTicketDetailData={getTicketDetailData}></WorkLog>
+              </div>
+            </div>
+            <div className="bg-white rounded-lg border border-gray-100">
+              <div className="border-b p-4">
+                <PrimaryText className="">Comments</PrimaryText>
+              </div>
+              <div className="">
+                <Comments getTicketDetailData={getTicketDetailData}></Comments>
               </div>
             </div>
           </div>
@@ -65,7 +74,7 @@ const TicketDetail = () => {
               <div className="border-b p-4">
                 <PrimaryText className="">Time Tracking</PrimaryText>
               </div>
-              <div className="p-4">
+              <div className="p-5 h-[340px]">
                 <TimeTracking getTicketDetailData={getTicketDetailData}></TimeTracking>
               </div>
             </div>

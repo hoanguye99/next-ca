@@ -1,11 +1,15 @@
 import PopUpButton from '@/components/common/pop-up-button'
-import { useLogoutNavigate } from '@/hooks'
+import { TicketDetailsLog } from '@/models/api'
 import { ShowPopUp } from '@/models/components/common'
+import { Row } from '@tanstack/react-table'
 import React, { useState } from 'react'
 
-interface ActionButtonProps {}
+interface ActionButtonProps {
+  row: Row<TicketDetailsLog>
+}
 
 const ActionButton = (props: ActionButtonProps) => {
+  console.log(JSON.stringify(props.row.original));
   const [showPopUp, setShowPopUp] = useState<ShowPopUp>({
     status: 0,
     style: {},

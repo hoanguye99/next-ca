@@ -1,75 +1,110 @@
-import { GetTicketDetailResponse } from '@/models/api'
+import { GetTicketDetailResponse, TicketDetailsLog } from '@/models/api'
 import React from 'react'
+import dayjs from 'dayjs'
+import ActionButton from './action-button'
+import styles from '@/styles/components/common/table.module.scss'
+import EmptyView from '@/components/common/empty-view'
+
+import {
+  createColumnHelper,
+  flexRender,
+  getCoreRowModel,
+  useReactTable,
+} from '@tanstack/react-table'
 
 interface WorkLogProps {
   getTicketDetailData: GetTicketDetailResponse
 }
 
-const WorkLog = (props: WorkLogProps) => {
-  const data = React.useMemo(() => props.getTicketDetailData.detailsLog, [props.getTicketDetailData.detailsLog])
+const columnHelper = createColumnHelper<TicketDetailsLog>()
 
-  const columns = useWorkLogColumns()
-
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-
-  } = useTable(
-    {
-      columns,
-      data
+const columns = [
+  columnHelper.accessor('user_key', {
+    header: () => 'Username',
+  }),
+  columnHelper.accessor('time_spent', {
+    header: () => 'Hour',
+  }),
+  columnHelper.accessor('date_created', {
+    header: () => 'Created',
+    cell: (info) => {
+      const createdDate = dayjs(info.getValue())
+      return <i>{createdDate.format('MMMM DD')}</i>
     },
-    useSortBy
-  )
+  }),
+  columnHelper.accessor('start_date', {
+    header: () => 'Started',
+    cell: (info) => {
+      const startDate = dayjs(info.getValue(), 'DD-MM-YYYY')
+      return <i>{startDate.format('MMMM DD')}</i>
+    },
+  }),
+  columnHelper.accessor('type_of_work', {
+    header: () => 'Type',
+  }),
+  // columnHelper.accessor('comment', {
+  //   header: () => 'Comment',
+  // }),
+  columnHelper.accessor('phase_work_log_name', {
+    header: () => 'Phase',
+  }),
+  columnHelper.display({
+    id: 'actions',
+    cell: (props) => <ActionButton row={props.row} />,
+  }),
+]
+
+const WorkLog = (props: WorkLogProps) => {
+  const [data, setData] = React.useState(() => [
+    ...props.getTicketDetailData.detailsLog,
+  ])
+
+  const table = useReactTable({
+    data,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+  })
 
   return (
     <>
-      <table {...getTableProps()} className={styles['main-table']}>
+      <table className={styles['main-table']}>
         <thead>
-          {headerGroups.map((headerGroup) => (
-            <>
-              <tr
-                {...headerGroup.getHeaderGroupProps()}
-                className="bg-[#f9fbfd] uppercase font-extrabold"
-              >
-                {headerGroup.headers.map((column) => (
-                  <th {...column.getHeaderProps(column.getSortByToggleProps())}>
-                    <div className="flex items-center gap-2 select-none">
-                      <span>{column.render('Header')}</span>
-                      <span>
-                        {column.isSorted ? (
-                          column.isSortedDesc ? (
-                            <ArrowDown />
-                          ) : (
-                            <ArrowUp />
-                          )
-                        ) : (
-                          <ArrowUpDown />
-                        )}
-                      </span>
-                    </div>
-                  </th>
-                ))}
-              </tr>
-            </>
+          {table.getHeaderGroups().map((headerGroup) => (
+            <tr
+              key={headerGroup.id}
+              className="bg-[#f9fbfd] uppercase font-extrabold"
+            >
+              {headerGroup.headers.map((header) => (
+                <th key={header.id}>
+                  {header.isPlaceholder
+                    ? null
+                    : flexRender(
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
+                </th>
+              ))}
+            </tr>
           ))}
         </thead>
-        <tbody {...getTableBodyProps()} className="">
-          {rows.map((row, i) => {
-            prepareRow(row)
-            return (
-              <tr {...row.getRowProps()}>
-                {row.cells.map((cell) => {
-                  return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-                })}
-              </tr>
-            )
-          })}
+        <tbody>
+          {table.getRowModel().rows.map((row) => (
+            <tr key={row.id}>
+              {row.getVisibleCells().map((cell) => (
+                <td key={cell.id}>
+                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                </td>
+              ))}
+            </tr>
+          ))}
         </tbody>
       </table>
+
+      {data.length === 0 && (
+        <EmptyView className="bg-gray-table !h-[300px]">
+          <p className="text-2xl text-gray-400">No Work Log Found</p>
+        </EmptyView>
+      )}
     </>
   )
 }

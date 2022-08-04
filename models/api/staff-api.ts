@@ -181,7 +181,7 @@ export interface GetTicketDetailResponse {
   detailComment: TicketDetailComment[]
 }
 
-interface TicketDetails {
+export interface TicketDetails {
   id: number
   ticket_id: number
   date_create: string
@@ -195,7 +195,7 @@ interface TicketDetails {
   activity_name: string
 }
 
-interface TicketDetailsLog {
+export interface TicketDetailsLog {
   id: number
   comment: string
   time_spent: string
@@ -214,7 +214,7 @@ interface TicketDetailsLog {
   phase_work_log_name: string
 }
 
-interface TicketDetailComment {
+export interface TicketDetailComment {
   id: number
   content: string
   date_created: string

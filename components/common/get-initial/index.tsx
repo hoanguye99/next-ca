@@ -14,12 +14,19 @@ const InitialImage = (props: InitialImageProps) => {
 
 export default InitialImage
 
-const stringToRGB = (str : string) => {
+const stringToRGB = (str: string) => {
   var hash = 0;
   for (var i = 0; i < str.length; i++) {
       hash = str.toUpperCase().charCodeAt(i) + ((hash << 5) - hash);
+
   }
-  return hash;
+  var color = '';
+  for (var i = 0; i < 3; i++) {
+      var value = (hash >> (i * 8)) & 0xFF;
+      color += ('8' + value.toString(16)).substring(-2);
+  }
+  
+  return color;
 }
 
 const stringToLinkImg = (str: string) => {
