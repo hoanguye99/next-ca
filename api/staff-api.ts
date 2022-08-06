@@ -1,4 +1,4 @@
-import { CreateTicketRequestBody, CreateTicketResponse, CreateWorkLogRequestBody, CreateWorkLogResponseBody, GetAllProjectsResponse, GetAllTicketStatusByStaffResponse, GetComponentResponse, GetConfigTicketResponse, GetConfigWorkLogResponse, GetTicketDetailResponse, GetTimeSpentResponse, GetUserResponse } from "@/models/api";
+import { CreateTicketRequestBody, CreateTicketResponse, CreateWorkLogRequestBody, CreateWorkLogResponseBody, GetAllProjectsResponse, GetAllTicketStatusByStaffResponse, GetComponentResponse, GetConfigTicketResponse, GetConfigWorkLogResponse, GetTicketDetailResponse, GetTimeSpentResponse, GetUserResponse, TransferTicketRequestBody, TransferTicketResponse } from "@/models/api";
 import { UserDetail } from "@/models/features";
 import axiosClient from "./axios-client";
 
@@ -102,6 +102,16 @@ const staffApi = {
     }
     const url = `/staff/addWorkLog/${issue_key}/`;
     return axiosClient.put(url, createWorkLogBody, config);
+  },
+
+  transferTicket(userDetail: UserDetail, issue_id: string, transferTicketBody: TransferTicketRequestBody): Promise<TransferTicketResponse> {
+    const config = {
+      headers: {
+        token: userDetail.accessToken,
+      },
+    }
+    const url = `/staff/updateTransferTicket/${issue_id}`;
+    return axiosClient.put(url, transferTicketBody, config);
   },
 };
 

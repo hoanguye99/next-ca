@@ -9,8 +9,8 @@ interface DetailModalProps {
 export const DetailModal = (props: DetailModalProps) => {
   return (
     <Portal>
-      <div className="fixed inset-y-10 inset-x-3">
-        <div className="mx-auto my-auto bg-white animate-popup rounded max-w-lg w-full max-h-full overflow-y-auto">
+      <div className="fixed inset-y-10 inset-x-3 flex justify-center items-center">
+        <div className="bg-white animate-popup rounded max-w-lg w-full max-h-full overflow-y-auto">
           <PopUp
             onClickOutside={
               props.onClickOutside !== undefined

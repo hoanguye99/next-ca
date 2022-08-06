@@ -21,59 +21,63 @@ const TicketDetail = () => {
 
   return (
     <div className="container">
-      <Header />
       {getTicketDetailData !== undefined && (
-        <div className="py-6 grid grid-cols-12 gap-6">
-          <div className="sm:col-span-8	col-span-12 flex flex-col gap-6">
-            <div className="bg-white rounded-lg border border-gray-100">
-              <div className="border-b p-4">
-                <PrimaryText className="">Details</PrimaryText>
+        <>
+          <Header getTicketDetailData={getTicketDetailData} />
+          <div className="py-6 grid grid-cols-12 gap-6">
+            <div className="sm:col-span-8	col-span-12 flex flex-col gap-6">
+              <div className="bg-white rounded-lg border border-gray-100">
+                <div className="border-b p-4">
+                  <PrimaryText className="">Details</PrimaryText>
+                </div>
+                <div className="p-4">
+                  <Details getTicketDetailData={getTicketDetailData}></Details>
+                </div>
               </div>
-              <div className="p-4">
-                <Details getTicketDetailData={getTicketDetailData}></Details>
+              <WorkLog getTicketDetailData={getTicketDetailData}></WorkLog>
+              <div className="bg-white rounded-lg border border-gray-100">
+                <div className="border-b p-4">
+                  <PrimaryText className="">Comments</PrimaryText>
+                </div>
+                <div className="">
+                  <Comments
+                    getTicketDetailData={getTicketDetailData}
+                  ></Comments>
+                </div>
               </div>
             </div>
-            <WorkLog getTicketDetailData={getTicketDetailData}></WorkLog>
-            <div className="bg-white rounded-lg border border-gray-100">
-              <div className="border-b p-4">
-                <PrimaryText className="">Comments</PrimaryText>
+            <div className="sm:col-span-4 col-span-12 flex flex-col gap-6">
+              <div className="bg-white rounded-lg border border-gray-100">
+                <div className="border-b p-4">
+                  <PrimaryText className="">People</PrimaryText>
+                </div>
+                <div className="p-4">
+                  <People getTicketDetailData={getTicketDetailData}></People>
+                </div>
               </div>
-              <div className="">
-                <Comments getTicketDetailData={getTicketDetailData}></Comments>
+
+              <div className="bg-white rounded-lg border border-gray-100">
+                <div className="border-b p-4">
+                  <PrimaryText className="">Dates</PrimaryText>
+                </div>
+                <div className="p-4">
+                  <Dates getTicketDetailData={getTicketDetailData}></Dates>
+                </div>
+              </div>
+
+              <div className="bg-white rounded-lg border border-gray-100">
+                <div className="border-b p-4">
+                  <PrimaryText className="">Time Tracking</PrimaryText>
+                </div>
+                <div className="p-5 h-[340px]">
+                  <TimeTracking
+                    getTicketDetailData={getTicketDetailData}
+                  ></TimeTracking>
+                </div>
               </div>
             </div>
           </div>
-          <div className="sm:col-span-4 col-span-12 flex flex-col gap-6">
-
-            <div className="bg-white rounded-lg border border-gray-100">
-              <div className="border-b p-4">
-                <PrimaryText className="">People</PrimaryText>
-              </div>
-              <div className="p-4">
-                <People getTicketDetailData={getTicketDetailData}></People>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-lg border border-gray-100">
-              <div className="border-b p-4">
-                <PrimaryText className="">Dates</PrimaryText>
-              </div>
-              <div className="p-4">
-                <Dates getTicketDetailData={getTicketDetailData}></Dates>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-lg border border-gray-100">
-              <div className="border-b p-4">
-                <PrimaryText className="">Time Tracking</PrimaryText>
-              </div>
-              <div className="p-5 h-[340px]">
-                <TimeTracking getTicketDetailData={getTicketDetailData}></TimeTracking>
-              </div>
-            </div>
-            
-          </div>
-        </div>
+        </>
       )}
     </div>
   )

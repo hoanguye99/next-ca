@@ -186,7 +186,7 @@ const DetailModalContent = (props: DetailModalContentProps) => {
         <div className="h-16 grid grid-cols-2 mt-8">
           <button
             onClick={() => props.closeDetailModal()}
-            className=" text-center border border-r-0"
+            className="hover:bg-stone-50 transition-color ease-in-out duration-75 text-center border border-r-0"
           >
             Cancel
           </button>
@@ -195,7 +195,7 @@ const DetailModalContent = (props: DetailModalContentProps) => {
             type="submit"
             className={`${
               mutation.isLoading ? 'cursor-not-allowed' : 'cursor-pointer'
-            } text-center border`}
+            } hover:bg-stone-50 transition-color ease-in-out duration-75 text-center border`}
           >
             {mutation.isLoading ? (
               <div className="w-6 h-6 animate-spin m-auto">

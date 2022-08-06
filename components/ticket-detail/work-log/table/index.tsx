@@ -37,7 +37,6 @@ const columns = [
   columnHelper.accessor('start_date', {
     header: () => 'Started',
     cell: (info) => {
-      console.log(info.getValue());
       const startDate = dayjs(info.getValue(), 'DD-MM-YYYY')
       return <i>{startDate.format('MMMM DD')}</i>
     },

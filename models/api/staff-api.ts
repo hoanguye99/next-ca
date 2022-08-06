@@ -243,3 +243,20 @@ export interface CreateWorkLogRequestBody {
 export interface CreateWorkLogResponseBody {
   id: number
 }
+
+export interface TransferTicketRequestBody {
+  ticket_id: number
+  note: string
+  new_assignee: string
+  time_spent: string
+}
+
+export interface TransferTicketResponse {
+  ticket_id: number
+  new_group: number
+  assigneeName: string
+  time_spent: string
+  note: string
+  date_activity: string
+  created_by_account: string
+}
