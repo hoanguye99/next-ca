@@ -10,7 +10,7 @@ export function useGetUserWithState() {
   const [user, setUser] = useState('')
 
   return {...useQuery(
-    ['create-ticket', 'getUser', user],
+    ['getUserWithState', user],
     () => staffApi.getUser(userDetail, user),
     {
       // The query will not execute until enabled

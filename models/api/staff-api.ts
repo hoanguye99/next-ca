@@ -221,3 +221,25 @@ export interface TicketDetailComment {
   created_by_account: string
   ticket_id: number
 }
+
+export interface GetConfigWorkLogResponse {
+  typeOfWorks: string[]
+  phaseOfWorkLogs: {
+    id: number
+    name: string
+  }[]
+}
+
+export interface CreateWorkLogRequestBody {
+  comment: string
+  timeSpent: string
+  startDate: string
+  typeOfWork: string
+  ot: number
+  phaseWorklog: string
+  ticket_id: number
+}
+
+export interface CreateWorkLogResponseBody {
+  id: number
+}

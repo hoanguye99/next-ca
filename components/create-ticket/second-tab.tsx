@@ -126,6 +126,7 @@ const SecondTab = (props: SecondTabProps) => {
           register={props.register}
           label="scope"
           required={false}
+          defaultChecked={true}
         >
           Scope
         </Toggle>

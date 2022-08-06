@@ -1,110 +1,212 @@
-import { GetTicketDetailResponse, TicketDetailsLog } from '@/models/api'
-import React from 'react'
-import dayjs from 'dayjs'
-import ActionButton from './action-button'
-import styles from '@/styles/components/common/table.module.scss'
-import EmptyView from '@/components/common/empty-view'
-
+import { DetailModal, ErrorModal } from '@/components/common/modals'
 import {
-  createColumnHelper,
-  flexRender,
-  getCoreRowModel,
-  useReactTable,
-} from '@tanstack/react-table'
+  Button,
+  Input,
+  InputDropDown,
+  Label,
+  PrimaryText,
+  TextArea,
+  Toggle,
+} from '@/components/styled'
+import { GetTicketDetailResponse } from '@/models/api'
+import React, { useEffect, useState } from 'react'
+import { BiLoaderAlt } from 'react-icons/bi'
+import { useWorkLogCreate, WorkLogCreate } from './hooks'
+import WorkLogTable from './table'
 
 interface WorkLogProps {
   getTicketDetailData: GetTicketDetailResponse
 }
 
-const columnHelper = createColumnHelper<TicketDetailsLog>()
-
-const columns = [
-  columnHelper.accessor('user_key', {
-    header: () => 'Username',
-  }),
-  columnHelper.accessor('time_spent', {
-    header: () => 'Hour',
-  }),
-  columnHelper.accessor('date_created', {
-    header: () => 'Created',
-    cell: (info) => {
-      const createdDate = dayjs(info.getValue())
-      return <i>{createdDate.format('MMMM DD')}</i>
-    },
-  }),
-  columnHelper.accessor('start_date', {
-    header: () => 'Started',
-    cell: (info) => {
-      const startDate = dayjs(info.getValue(), 'DD-MM-YYYY')
-      return <i>{startDate.format('MMMM DD')}</i>
-    },
-  }),
-  columnHelper.accessor('type_of_work', {
-    header: () => 'Type',
-  }),
-  // columnHelper.accessor('comment', {
-  //   header: () => 'Comment',
-  // }),
-  columnHelper.accessor('phase_work_log_name', {
-    header: () => 'Phase',
-  }),
-  columnHelper.display({
-    id: 'actions',
-    cell: (props) => <ActionButton row={props.row} />,
-  }),
-]
-
 const WorkLog = (props: WorkLogProps) => {
-  const [data, setData] = React.useState(() => [
-    ...props.getTicketDetailData.detailsLog,
-  ])
-
-  const table = useReactTable({
-    data,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-  })
-
+  const [showAddLogModal, setShowAddLogModal] = useState(false)
   return (
     <>
-      <table className={styles['main-table']}>
-        <thead>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <tr
-              key={headerGroup.id}
-              className="bg-[#f9fbfd] uppercase font-extrabold"
-            >
-              {headerGroup.headers.map((header) => (
-                <th key={header.id}>
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody>
-          {table.getRowModel().rows.map((row) => (
-            <tr key={row.id}>
-              {row.getVisibleCells().map((cell) => (
-                <td key={cell.id}>
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-      {data.length === 0 && (
-        <EmptyView className="bg-gray-table !h-[300px]">
-          <p className="text-2xl text-gray-400">No Work Log Found</p>
-        </EmptyView>
+      {showAddLogModal && (
+        <DetailModal onClickOutside={() => setShowAddLogModal(false)}>
+          <DetailModalContent
+            closeDetailModal={() => {
+              setShowAddLogModal(false)
+            }}
+            getTicketDetailData={props.getTicketDetailData}
+          ></DetailModalContent>
+        </DetailModal>
       )}
+      <div className="bg-white rounded-lg border border-gray-100">
+        <div className="p-4 flex justify-between">
+          <PrimaryText className="">Work Log</PrimaryText>
+          <button
+            onClick={() => setShowAddLogModal(true)}
+            className="text-[12px] w-fit text-blue-primary transition-all duration-75 hover:text-blue-hover active:text-blue-focus"
+          >
+            Add New
+          </button>
+        </div>
+        <div className="overflow-auto">
+          <WorkLogTable
+            getTicketDetailData={props.getTicketDetailData}
+          ></WorkLogTable>
+        </div>
+      </div>
+    </>
+  )
+}
+
+interface DetailModalContentProps {
+  closeDetailModal: () => void
+  getTicketDetailData: GetTicketDetailResponse
+}
+
+const DetailModalContent = (props: DetailModalContentProps) => {
+  const {
+    // Form
+    register,
+    setValue,
+    getValues,
+    handleSubmit,
+    errors,
+    handleFormSubmit,
+    reset,
+
+    getConfigWorkLogData,
+
+    // Post Create variables
+    mutation,
+    showErrorModal,
+    closeErrorModal,
+    createError,
+  } = useWorkLogCreate(props.getTicketDetailData)
+
+  useEffect(() => {
+    if (mutation.isSuccess) {
+      props.closeDetailModal()
+    }
+  }, [mutation.isSuccess])
+  return (
+    <>
+      {showErrorModal && (
+        <ErrorModal
+          failureDescription={createError?.message}
+          closeErrorModal={closeErrorModal}
+        ></ErrorModal>
+      )}
+      <PrimaryText className="text-2xl text-center my-8">
+        New Work Log
+      </PrimaryText>
+      <form onSubmit={handleSubmit(handleFormSubmit)}>
+        <div className="flex flex-col gap-3 px-6">
+          <div>
+            <Label className="block">Date</Label>
+            <Input<WorkLogCreate>
+              type="date"
+              name="startDate"
+              id="startDate"
+              register={register}
+              label="startDate"
+              required={true}
+            />
+          </div>
+
+          <div>
+            <Label className="block">Hour per day</Label>
+            <Input<WorkLogCreate>
+              type="number"
+              min={0}
+              name="timeSpent"
+              id="timeSpent"
+              register={register}
+              label="timeSpent"
+              required={true}
+            />
+          </div>
+
+          <div>
+            <Label>Type of Work</Label>
+            <InputDropDown<WorkLogCreate>
+              type="text"
+              name="typeOfWork"
+              id="typeOfWork"
+              register={register}
+              label="typeOfWork"
+              required={true}
+              dropDownData={
+                getConfigWorkLogData === undefined
+                  ? []
+                  : getConfigWorkLogData.typeOfWorks
+              }
+              setValue={setValue}
+            />
+          </div>
+
+          <div>
+            <Label>Phase</Label>
+            <InputDropDown<WorkLogCreate>
+              type="text"
+              name="phaseWorklog"
+              id="phaseWorklog"
+              register={register}
+              label="phaseWorklog"
+              required={true}
+              dropDownData={
+                getConfigWorkLogData === undefined
+                  ? []
+                  : getConfigWorkLogData.phaseOfWorkLogs.map((obj) => obj.name)
+              }
+              setValue={setValue}
+            />
+          </div>
+
+          <div>
+            <Label className="block">Description</Label>
+            <TextArea<WorkLogCreate>
+              type="textarea"
+              name="comment"
+              id="comment"
+              register={register}
+              label="comment"
+              required={true}
+              rows={3}
+            />
+          </div>
+
+          <div>
+            <Toggle<WorkLogCreate>
+              name="ot"
+              id="ot"
+              register={register}
+              label="ot"
+              required={false}
+              defaultChecked={false}
+            >
+              Overtime
+            </Toggle>
+          </div>
+        </div>
+
+        <div className="h-16 grid grid-cols-2 mt-8">
+          <button
+            onClick={() => props.closeDetailModal()}
+            className=" text-center border border-r-0"
+          >
+            Cancel
+          </button>
+          <button
+            disabled={mutation.isLoading}
+            type="submit"
+            className={`${
+              mutation.isLoading ? 'cursor-not-allowed' : 'cursor-pointer'
+            } text-center border`}
+          >
+            {mutation.isLoading ? (
+              <div className="w-6 h-6 animate-spin m-auto">
+                <BiLoaderAlt size={24} />
+              </div>
+            ) : (
+              <>Submit</>
+            )}
+          </button>
+        </div>
+      </form>
     </>
   )
 }

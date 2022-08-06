@@ -9,7 +9,7 @@ interface ActionButtonProps {
 }
 
 const ActionButton = (props: ActionButtonProps) => {
-  console.log(JSON.stringify(props.row.original));
+  // console.log(JSON.stringify(props.row.original));
   const [showPopUp, setShowPopUp] = useState<ShowPopUp>({
     status: 0,
     style: {},

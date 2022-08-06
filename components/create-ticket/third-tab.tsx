@@ -30,6 +30,7 @@ const ThirdTab = (props: Props) => {
           register={props.register}
           label="description_by_staff"
           required={true}
+          rows={6}
         />
       </div>
     </div>

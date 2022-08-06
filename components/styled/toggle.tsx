@@ -9,6 +9,7 @@ interface ToggleProps<T> {
   label: Path<T>
   required: boolean
   children: string
+  defaultChecked: boolean
 }
 
 export function Toggle<T>(props: ToggleProps<T>) {
@@ -22,7 +23,7 @@ export function Toggle<T>(props: ToggleProps<T>) {
         {...{ name, id }}
         type="checkbox"
         id="checked-toggle"
-        defaultChecked
+        defaultChecked={props.defaultChecked}
         {...props.register(props.label, { required: props.required })}
         className="sr-only peer"
       />

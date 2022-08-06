@@ -42,7 +42,7 @@ const CreateTicket = (props: CreateTicketProps) => {
   return (
     <>
       {showDetailModal && (
-        <DetailModal closeDetailModal={closeDetailModal}>
+        <DetailModal>
           <DetailModalContent
             closeDetailModal={() => {
               closeDetailModal()

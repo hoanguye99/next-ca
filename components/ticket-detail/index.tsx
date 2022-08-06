@@ -33,14 +33,7 @@ const TicketDetail = () => {
                 <Details getTicketDetailData={getTicketDetailData}></Details>
               </div>
             </div>
-            <div className="bg-white rounded-lg border border-gray-100">
-              <div className="p-4">
-                <PrimaryText className="">Work Log</PrimaryText>
-              </div>
-              <div className="overflow-auto">
-                <WorkLog getTicketDetailData={getTicketDetailData}></WorkLog>
-              </div>
-            </div>
+            <WorkLog getTicketDetailData={getTicketDetailData}></WorkLog>
             <div className="bg-white rounded-lg border border-gray-100">
               <div className="border-b p-4">
                 <PrimaryText className="">Comments</PrimaryText>

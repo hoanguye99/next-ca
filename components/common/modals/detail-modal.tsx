@@ -1,19 +1,27 @@
-import PopUp from "../pop-up"
-import Portal from "../portal"
+import PopUp from '../pop-up'
+import Portal from '../portal'
 
 interface DetailModalProps {
-  closeDetailModal: () => void
   children: React.ReactNode
+  onClickOutside?: () => void
 }
 
 export const DetailModal = (props: DetailModalProps) => {
   return (
     <Portal>
-      <PopUp onClickOutside={() => {}}>
-        <div className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white animate-popup rounded max-w-md w-full">
-          {props.children}
+      <div className="fixed inset-y-10 inset-x-3">
+        <div className="mx-auto my-auto bg-white animate-popup rounded max-w-lg w-full max-h-full overflow-y-auto">
+          <PopUp
+            onClickOutside={
+              props.onClickOutside !== undefined
+                ? () => props.onClickOutside!()
+                : () => {}
+            }
+          >
+            {props.children}
+          </PopUp>
         </div>
-      </PopUp>
+      </div>
     </Portal>
   )
 }
