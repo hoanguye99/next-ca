@@ -1,4 +1,4 @@
-import { CreateTicketRequestBody, CreateTicketResponse, CreateWorkLogRequestBody, CreateWorkLogResponseBody, GetAllProjectsResponse, GetAllTicketStatusByStaffResponse, GetComponentResponse, GetConfigTicketResponse, GetConfigWorkLogResponse, GetTicketDetailResponse, GetTimeSpentResponse, GetUserResponse, TransferTicketRequestBody, TransferTicketResponse } from "@/models/api";
+import { CreateTicketRequestBody, CreateTicketResponse, CreateWorkLogRequestBody, CreateWorkLogResponseBody, GetAllProjectsResponse, GetAllTicketStatusByStaffResponse, GetChangeStatusResponse, GetComponentResponse, GetConfigTicketResponse, GetConfigWorkLogResponse, GetTicketDetailResponse, GetTimeSpentResponse, GetUserResponse, TransferTicketRequestBody, TransferTicketResponse, TransitionStatusRequestBody, TransitionStatusResponse } from "@/models/api";
 import { UserDetail } from "@/models/features";
 import axiosClient from "./axios-client";
 
@@ -112,6 +112,26 @@ const staffApi = {
     }
     const url = `/staff/updateTransferTicket/${issue_id}`;
     return axiosClient.put(url, transferTicketBody, config);
+  },
+
+  getChangeStatus(userDetail: UserDetail, issue_id: string) : Promise<GetChangeStatusResponse> {
+    const config = {
+      headers: {
+        token: userDetail.accessToken,
+      },
+    }
+    const url = `/staff/getIssueId/${issue_id}`;
+    return axiosClient.get(url, config);
+  },
+
+  transitionStatus(userDetail: UserDetail, issue_id: string, transitionStatusBody: TransitionStatusRequestBody): Promise<TransitionStatusResponse> {
+    const config = {
+      headers: {
+        token: userDetail.accessToken,
+      },
+    }
+    const url = `/staff/ticket/${issue_id}/transition/`;
+    return axiosClient.put(url, transitionStatusBody, config);
   },
 };
 

@@ -260,3 +260,19 @@ export interface TransferTicketResponse {
   date_activity: string
   created_by_account: string
 }
+
+export interface GetChangeStatusResponse {
+  statusTransition: {
+    id: string
+    name: string
+  }[]
+}
+
+export interface TransitionStatusRequestBody {
+  status: string
+  ticket_id: number
+}
+
+export interface TransitionStatusResponse {
+  
+}

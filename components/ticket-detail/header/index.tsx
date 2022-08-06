@@ -1,11 +1,18 @@
 import { DetailModal, ErrorModal } from '@/components/common/modals'
 import LinkNavigation from '@/components/layout/common/link-navigation'
-import { Button, Input, InputSearchButton, Label, PrimaryText } from '@/components/styled'
+import {
+  Button,
+  Input,
+  InputSearchButton,
+  Label,
+  PrimaryText,
+} from '@/components/styled'
+import { useGetChangeStatus } from '@/hooks/query/useGetChangeStatus'
 import { GetTicketDetailResponse } from '@/models/api'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { BiLoaderAlt } from 'react-icons/bi'
-import { TransferTicket, useTransferTicket } from './hooks'
+import { TransferTicket, useChangeStatus, useTransferTicket } from './hooks'
 
 interface HeaderProps {
   getTicketDetailData: GetTicketDetailResponse
@@ -16,9 +23,27 @@ const Header = (props: HeaderProps) => {
   const { ticketType, ticketSlugId } = router.query
 
   const [showTransferModal, setShowTransferModal] = useState(false)
+  const {
+    status: status1,
+    data: getChangeStatusData,
+    error: error1,
+  } = useGetChangeStatus(props.getTicketDetailData.issue_id)
+  if (status1 === 'error') console.log(error1)
 
+  const {
+    mutation,
+    showErrorModal,
+    closeErrorModal,
+    createError: changeStatusError,
+  } = useChangeStatus(props.getTicketDetailData)
   return (
     <>
+      {showErrorModal && (
+        <ErrorModal
+          failureDescription={changeStatusError?.message}
+          closeErrorModal={closeErrorModal}
+        ></ErrorModal>
+      )}
       {showTransferModal && (
         <DetailModal onClickOutside={() => setShowTransferModal(false)}>
           <TransferTicketModal
@@ -49,10 +74,18 @@ const Header = (props: HeaderProps) => {
             {props.getTicketDetailData.issue_key}
           </PrimaryText>
           <div className="sm:flex-1 flex justify-between">
-            <Button onClick={() => setShowTransferModal(true)}>
-              Transfer
-            </Button>
-            <Button>Open</Button>
+            <Button onClick={() => setShowTransferModal(true)}>Transfer</Button>
+            <div className="flex gap-3">
+              {getChangeStatusData?.statusTransition.map((obj) => (
+                <Button
+                  onClick={() =>
+                    mutation.mutate({ status: obj.id, ticket_id: props.getTicketDetailData.id })
+                  }
+                >
+                  {obj.name}
+                </Button>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -120,7 +153,11 @@ const TransferTicketModal = (props: TransferTicketModalProps) => {
               getUserData={getUserData}
               setValue={setValue}
             />
-            {errors.new_assignee && <p className="text-xs text-red-500 mt-2">Enter valid account mail and hit Search</p>}
+            {errors.new_assignee && (
+              <p className="text-xs text-red-500 mt-2">
+                Enter valid account mail and hit Search
+              </p>
+            )}
           </div>
 
           <div>

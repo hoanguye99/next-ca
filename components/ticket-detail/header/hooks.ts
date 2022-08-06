@@ -5,7 +5,9 @@ import { useGetUserWithState } from '@/hooks/query'
 import {
   GetTicketDetailResponse,
   TransferTicketRequestBody,
-  TransferTicketResponse
+  TransferTicketResponse,
+  TransitionStatusRequestBody,
+  TransitionStatusResponse
 } from '@/models/api'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
@@ -103,6 +105,48 @@ export const useTransferTicket = (
     setUser,
 
     // Post Create variables
+    mutation,
+    showErrorModal,
+    closeErrorModal,
+    createError: mutation.error,
+  }
+}
+
+export const useChangeStatus = (getTicketDetailData: GetTicketDetailResponse) => {
+  const userDetail = useAppSelector(selectUserDetail)
+  const queryClient = useQueryClient()
+  const [showErrorModal, setShowErrorModal] = useState(false)
+
+  const mutation = useMutation<TransitionStatusResponse,AxiosError,TransitionStatusRequestBody,TransitionStatusResponse>(
+    (transitionStatusBody) =>
+      staffApi.transitionStatus(
+        userDetail,
+        getTicketDetailData.issue_id,
+        transitionStatusBody
+      ),
+    {
+      onError: (error, variables, context) => {
+        setShowErrorModal(true)
+      },
+      onSuccess: (data, variables, context) => {
+        queryClient.invalidateQueries([
+          'getTicketDetail',
+          getTicketDetailData.id.toString(),
+        ])
+        queryClient.invalidateQueries([
+          'getChangeStatus',
+          getTicketDetailData.issue_id,
+        ])
+      },
+    }
+  )
+
+  function closeErrorModal() {
+    mutation.reset()
+    setShowErrorModal(false)
+  }
+
+  return {
     mutation,
     showErrorModal,
     closeErrorModal,
