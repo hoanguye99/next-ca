@@ -68,7 +68,7 @@ export const useTransferTicket = (
       onSuccess: (data, variables, context) => {
         queryClient.invalidateQueries([
           'getTicketDetail',
-          getTicketDetailData.id.toString(),
+          getTicketDetailData.issue_key,
         ])
       },
     }
@@ -131,7 +131,7 @@ export const useChangeStatus = (getTicketDetailData: GetTicketDetailResponse) =>
       onSuccess: (data, variables, context) => {
         queryClient.invalidateQueries([
           'getTicketDetail',
-          getTicketDetailData.id.toString(),
+          getTicketDetailData.issue_key,
         ])
         queryClient.invalidateQueries([
           'getChangeStatus',

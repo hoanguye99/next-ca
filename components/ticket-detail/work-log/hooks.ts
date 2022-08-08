@@ -52,7 +52,7 @@ export const useWorkLogCreate = (getTicketDetailData: GetTicketDetailResponse) =
       setShowErrorModal(true)
     },
     onSuccess: (data, variables, context) => {
-      queryClient.invalidateQueries(['getTicketDetail', getTicketDetailData.id.toString()])
+      queryClient.invalidateQueries(['getTicketDetail', getTicketDetailData.issue_key])
     },
   })
 

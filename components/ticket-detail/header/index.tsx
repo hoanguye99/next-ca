@@ -55,11 +55,11 @@ const Header = (props: HeaderProps) => {
         </DetailModal>
       )}
       <div className="py-6 border-b">
-        {typeof ticketSlugId === 'string' && typeof ticketType === 'string' && (
+        {typeof ticketType === 'string' && (
           <LinkNavigation
             nav={[
               {
-                disp: ticketType.split('-').join(' ').toUpperCase(),
+                disp: props.getTicketDetailData.status_name.split('_').join(' ').toUpperCase(),
                 link: router.asPath.split('/').slice(0, -1).join('/'),
               },
               {

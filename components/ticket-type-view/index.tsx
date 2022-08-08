@@ -60,7 +60,7 @@ interface TicketsOveriewProps extends RequestDetail {
 const TicketOverview = (props: TicketsOveriewProps) => {
   return (
     <div className="xl:col-span-2 md:col-span-3 col-span-6 bg-white rounded-lg border shadow-md hover:shadow-lg border-gray-100 h-[200px]">
-      <Link href={`${props.asPath}/${props.issue_key}.${props.id}`}>
+      <Link href={`${props.asPath}/${props.issue_key}`}>
         <a>
           <div className="p-5 h-full flex flex-col justify-between">
             <div>
