@@ -11,11 +11,12 @@ import {
 import { Bar } from 'react-chartjs-2'
 import { GetAllTicketStatusByStaffResponse } from '@/models/api'
 import { memo } from 'react'
+import { UseQueryResult } from '@tanstack/react-query'
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 interface BarChartProps {
-  data: GetAllTicketStatusByStaffResponse
+  getAllTicketStatus: UseQueryResult<GetAllTicketStatusByStaffResponse, unknown>
 }
 
 export const options = {
@@ -82,13 +83,7 @@ export const options = {
 }
 
 const BarChart = (props: BarChartProps) => {
-  const labels = [
-    'Open',
-    'In Progress',
-    'Cancelled',
-    'Complete',
-    'Reopen'
-  ]
+  const labels = ['Open', 'In Progress', 'Cancelled', 'Complete', 'Reopen']
   const originalLabels = [
     'OPEN_REQUEST',
     'IN_PROGRESS_REQUEST',
@@ -96,20 +91,36 @@ const BarChart = (props: BarChartProps) => {
     'COMPLETE',
     'REOPEN_REQUEST',
   ]
-  const values = originalLabels.map(
-    (item) => props.data.status.find((x) => x.statusName === item)?.quantity
-  )
-  const data = {
-    labels,
-    datasets: [
-      {
-        label: 'Requests',
-        data: values,
-        backgroundColor: '#2c7be5',
-      },
-    ],
+
+  function data() {
+    const values = originalLabels.map(
+      (item) =>
+        props.getAllTicketStatus.data!.status.find((x) => x.statusName === item)
+          ?.quantity
+    )
+    const data = {
+      labels,
+      datasets: [
+        {
+          label: 'Requests',
+          data: values,
+          backgroundColor: '#2c7be5',
+        },
+      ],
+    }
+    return data
   }
-  return <Bar className="h-[300px]" options={options} data={data} />
+
+  return (
+    <>
+      {props.getAllTicketStatus.status === 'loading' && (
+        <div className="animate-pulse rounded bg-slate-100 h-full w-full"></div>
+      )}
+      {props.getAllTicketStatus.status === 'success' && (
+        <Bar className="h-[300px]" options={options} data={data()} />
+      )}
+    </>
+  )
 }
 
 export default memo(BarChart)

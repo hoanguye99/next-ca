@@ -9,3 +9,15 @@ export function useGetAllTicketStatus() {
     staffApi.getAllTicketStatusByStaff(userDetail)
   )
 }
+
+export function useGetProjectSummary() {
+  const userDetail = useAppSelector(selectUserDetail)
+  return useQuery(['get-project-summary'], () =>
+    staffApi.getAllProjects(userDetail)
+  )
+}
+
+export function useGetTimeSpent() {
+  const userDetail = useAppSelector(selectUserDetail)
+  return useQuery(['get-time-spent'], () => staffApi.getTimeSpent(userDetail))
+}

@@ -1,7 +1,7 @@
 import staffApi from '@/api/staff-api'
 import { useAppSelector } from '@/app/hooks'
 import { selectUserDetail } from '@/features/auth/user-slice'
-import { useGetConfigWorkLog } from '@/hooks/query/useGetConfigWorkLog'
+import { useGetConfigWorkLog } from '@/hooks/query/ticket-detail'
 import { CreateWorkLogRequestBody, CreateWorkLogResponseBody, GetTicketDetailResponse } from '@/models/api'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
@@ -33,15 +33,6 @@ export const useWorkLogCreate = (getTicketDetailData: GetTicketDetailResponse) =
     error: error1,
   } = useGetConfigWorkLog()
   if (status1 === 'error') console.log(error1)
-
-  // const {
-  //   status: status2,
-  //   fetchStatus: fetchUserStatus,
-  //   data: getUserData,
-  //   error: error2,
-  //   setUser,
-  // } = useGetUserWithState()
-  // if (status2 === 'error') console.log(error2)
 
   const userDetail = useAppSelector(selectUserDetail)
   const queryClient = useQueryClient()

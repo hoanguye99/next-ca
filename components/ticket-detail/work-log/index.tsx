@@ -9,10 +9,48 @@ import {
   Toggle,
 } from '@/components/styled'
 import { GetTicketDetailResponse } from '@/models/api'
+import { UseQueryResult } from '@tanstack/react-query'
 import React, { useEffect, useState } from 'react'
 import { BiLoaderAlt } from 'react-icons/bi'
 import { useWorkLogCreate, WorkLogCreate } from './hooks'
 import WorkLogTable from './table'
+
+interface WorkLogWrapperProps {
+  getTicketDetail: UseQueryResult<GetTicketDetailResponse, unknown>
+}
+
+const WorkLogWrapper = (props: WorkLogWrapperProps) => {
+  if (props.getTicketDetail.status === 'loading') {
+    return (
+      <>
+        <Loading></Loading>
+      </>
+    )
+  } else if (props.getTicketDetail.status === 'error') {
+    return <></>
+  } else {
+    return <WorkLog getTicketDetailData={props.getTicketDetail.data}></WorkLog>
+  }
+}
+
+const Loading = () => {
+  return (
+    <div className="bg-white rounded-lg border border-gray-100">
+      <div className="p-4 flex justify-between">
+        <PrimaryText className="">Work Log</PrimaryText>
+        <button className="text-[12px] w-fit text-blue-primary transition-all duration-75 hover:text-blue-hover active:text-blue-focus">
+          Add New
+        </button>
+      </div>
+      <div className="flex flex-col gap-4 pb-8 p-4">
+        <div className="animate-pulse bg-slate-100 h-7"></div>
+        <div className="animate-pulse bg-slate-100 h-7"></div>
+        <div className="animate-pulse bg-slate-100 h-7"></div>
+        <div className="animate-pulse bg-slate-100 h-7"></div>
+      </div>
+    </div>
+  )
+}
 
 interface WorkLogProps {
   getTicketDetailData: GetTicketDetailResponse
@@ -211,4 +249,4 @@ const DetailModalContent = (props: DetailModalContentProps) => {
   )
 }
 
-export default WorkLog
+export default WorkLogWrapper

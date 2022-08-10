@@ -1,4 +1,4 @@
-import { useGetAllTicketStatus } from '@/hooks/query/useGetAllTicketStatus'
+import { useGetAllTicketStatus } from '@/hooks/query/dashboard'
 import { RequestDetail } from '@/models/api'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
@@ -14,11 +14,11 @@ interface TicketsTypeViewProps {
 }
 
 const TicketsTypeView = (props: TicketsTypeViewProps) => {
-  const { status, data, error } = useGetAllTicketStatus()
-  if (status === 'error') console.log(error)
+  const getAllTicketStatus = useGetAllTicketStatus()
+  if (getAllTicketStatus.status === 'error') console.log(getAllTicketStatus.error)
   const dispData =
-    data !== undefined
-      ? data.tickets.find((obj) => obj.type === props.ticketType)
+  getAllTicketStatus.data !== undefined
+      ? getAllTicketStatus.data.tickets.find((obj) => obj.type === props.ticketType)
       : undefined
   return (
     <div className="py-6">

@@ -9,7 +9,7 @@ const nextConfig = {
   },
   experimental: { images: { allowFutureImage: true } },
   images: {
-    domains: ['images.pexels.com', 'via.placeholder.com'],
+    domains: ['images.pexels.com'],
   },
   async redirects() {
     return [

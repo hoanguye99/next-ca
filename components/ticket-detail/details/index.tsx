@@ -1,6 +1,25 @@
 import InitialImage from '@/components/common/get-initial'
 import { GetTicketDetailResponse } from '@/models/api'
+import { UseQueryResult } from '@tanstack/react-query'
 import React from 'react'
+
+interface DetailsWrapperProps {
+  getTicketDetail: UseQueryResult<GetTicketDetailResponse, unknown>
+}
+
+const DetailsWrapper = (props: DetailsWrapperProps) => {
+  if (props.getTicketDetail.status === 'loading') {
+    return (
+      <>
+        <Loading></Loading>
+      </>
+    )
+  } else if (props.getTicketDetail.status === 'error') {
+    return <></>
+  } else {
+    return <Details getTicketDetailData={props.getTicketDetail.data}></Details>
+  }
+}
 
 interface DetailsProps {
   getTicketDetailData: GetTicketDetailResponse
@@ -72,4 +91,15 @@ const Details = (props: DetailsProps) => {
   )
 }
 
-export default Details
+const Loading = () => {
+  return (
+    <div className="flex flex-col gap-4 pb-8">
+      <div className="animate-pulse bg-slate-100 h-7"></div>
+      <div className="animate-pulse bg-slate-100 h-7"></div>
+      <div className="animate-pulse bg-slate-100 h-7"></div>
+      <div className="animate-pulse bg-slate-100 h-7"></div>
+    </div>
+  )
+}
+
+export default DetailsWrapper

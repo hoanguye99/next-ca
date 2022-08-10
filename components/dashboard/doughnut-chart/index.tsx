@@ -3,6 +3,7 @@ import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement } from 'chart.js'
 import { Bar, Chart, Doughnut } from 'react-chartjs-2'
 import { GetAllTicketStatusByStaffResponse } from '@/models/api'
 import { memo } from 'react'
+import { UseQueryResult } from '@tanstack/react-query'
 
 ChartJS.register(Title, Tooltip, Legend, ArcElement)
 
@@ -44,26 +45,42 @@ export const options = {
 }
 
 interface DoughnutChartProps {
-  data: GetAllTicketStatusByStaffResponse
+  getAllTicketStatus: UseQueryResult<GetAllTicketStatusByStaffResponse, unknown>
 }
 
 const DoughnutChart = (props: DoughnutChartProps) => {
   const labels = ['Support', 'Upgrade', 'Change']
   const originalLabels = ['SUPPORT_REQUEST', 'UPGRADE', 'CHANGE_REQUEST']
-  const values = originalLabels.map(
-    (item) => props.data.requests.find((x) => x.requestName === item)?.quantity
-  )
-  const data = {
-    labels,
-    datasets: [
-      {
-        label: 'Requests',
-        data: values,
-        backgroundColor: ['#2C7BE5', '#A6C5F7', '#D2DDEC'],
-      },
-    ],
+
+  function data() {
+    const values = originalLabels.map(
+      (item) =>
+        props.getAllTicketStatus.data!.requests.find(
+          (x) => x.requestName === item
+        )?.quantity
+    )
+    const data = {
+      labels,
+      datasets: [
+        {
+          label: 'Requests',
+          data: values,
+          backgroundColor: ['#2C7BE5', '#A6C5F7', '#D2DDEC'],
+        },
+      ],
+    }
+    return data
   }
-  return <Doughnut className="h-[300px]" options={options} data={data} />
+  return (
+    <>
+      {props.getAllTicketStatus.status === 'loading' && (
+        <div className="animate-pulse rounded-full bg-slate-100 h-[300px] w-[300px] mx-auto"></div>
+      )}
+      {props.getAllTicketStatus.status === 'success' && (
+        <Doughnut className="h-[300px]" options={options} data={data()} />
+      )}
+    </>
+  )
 }
 
 export default memo(DoughnutChart)

@@ -1,20 +1,20 @@
-import staffApi from '@/api/staff-api'
-import { useAppSelector } from '@/app/hooks'
-import { selectUserDetail } from '@/features/auth/user-slice'
-import React from 'react'
-import { Button, PrimaryText, SecondaryText } from '../styled'
+import {
+  useGetAllTicketStatus,
+  useGetProjectSummary,
+  useGetTimeSpent
+} from '@/hooks/query/dashboard'
+import { PrimaryText } from '../styled'
 import BarChart from './bar-chart'
-import DashBoardData from './dashboard-data'
+import DoughnutChart from './doughnut-chart'
 import LineChart from './line-chart'
 import OpenRequestTable from './open-request-table'
 import ProjectSummary from './project-summary'
-import DoughnutChart from './doughnut-chart'
 import StatusInfo, { statusInfoData } from './status-info'
 
-type Props = {}
-
-const Dashboard = (props: Props) => {
-  const userDetail = useAppSelector(selectUserDetail)
+const Dashboard = () => {
+  const getAllTicketStatus = useGetAllTicketStatus()
+  const getProjectSummary = useGetProjectSummary()
+  const getTimeSpent = useGetTimeSpent()
   return (
     <div className="container">
       <div className="flex justify-between items-center py-6 border-b">
@@ -30,11 +30,7 @@ const Dashboard = (props: Props) => {
             key={item.type}
             className="xl:col-span-2 lg:col-span-4 col-span-8 bg-white rounded-lg border border-gray-100 min-h-[65px]"
           >
-            <DashBoardData
-              type="all-ticket-status"
-              fetcher={() => staffApi.getAllTicketStatusByStaff(userDetail)}
-              render={(data) => <StatusInfo data={data} {...item} />}
-            />
+            <StatusInfo getAllTicketStatus={getAllTicketStatus} {...item} />
           </div>
         ))}
 
@@ -43,11 +39,7 @@ const Dashboard = (props: Props) => {
             <PrimaryText className="">Status</PrimaryText>
           </div>
           <div className="p-5 h-[340px]">
-            <DashBoardData
-              type="all-ticket-status"
-              fetcher={() => staffApi.getAllTicketStatusByStaff(userDetail)}
-              render={(data) => <BarChart data={data} />}
-            />
+            <BarChart getAllTicketStatus={getAllTicketStatus} />
           </div>
         </div>
         <div className="lg:col-span-3 col-span-8 bg-white rounded-lg border border-gray-100">
@@ -55,11 +47,7 @@ const Dashboard = (props: Props) => {
             <PrimaryText className="">Requests</PrimaryText>
           </div>
           <div className="p-5 h-[340px]">
-            <DashBoardData
-              type="all-ticket-status"
-              fetcher={() => staffApi.getAllTicketStatusByStaff(userDetail)}
-              render={(data) => <DoughnutChart data={data} />}
-            />
+            <DoughnutChart getAllTicketStatus={getAllTicketStatus} />
           </div>
         </div>
         <div className="lg:col-span-3 col-span-8 bg-white rounded-lg border border-gray-100">
@@ -71,11 +59,7 @@ const Dashboard = (props: Props) => {
           </div>
           <div className="p-5 h-[340px]">
             <div className="w-full h-full flex flex-col divide-y overflow-hidden">
-              <DashBoardData
-                type="project-summary"
-                fetcher={() => staffApi.getAllProjects(userDetail)}
-                render={(data) => <ProjectSummary data={data} />}
-              />
+              <ProjectSummary getProjectSummary={getProjectSummary} />
             </div>
           </div>
         </div>
@@ -84,11 +68,7 @@ const Dashboard = (props: Props) => {
             <PrimaryText className="">Performance</PrimaryText>
           </div>
           <div className="p-5 pt-0 h-[340px]">
-            <DashBoardData
-              type="get-time-spent"
-              fetcher={() => staffApi.getTimeSpent(userDetail)}
-              render={(data) => <LineChart data={data} />}
-            />
+            <LineChart getTimeSpent={getTimeSpent} />
           </div>
         </div>
         <div className="col-span-8 bg-white rounded-lg border border-gray-100">
@@ -96,11 +76,9 @@ const Dashboard = (props: Props) => {
             <PrimaryText className="">Open Requests</PrimaryText>
           </div>
           <div className="">
-            <DashBoardData
-              type="all-ticket-status"
-              fetcher={() => staffApi.getAllTicketStatusByStaff(userDetail)}
-              render={(data) => <OpenRequestTable data={data} />}
-            />
+            {getAllTicketStatus.status === 'success' && (
+              <OpenRequestTable data={getAllTicketStatus.data} />
+            )}
           </div>
         </div>
       </div>

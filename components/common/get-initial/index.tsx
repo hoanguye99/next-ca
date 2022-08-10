@@ -1,4 +1,3 @@
-
 import Image from 'next/future/image'
 import React from 'react'
 
@@ -7,31 +6,32 @@ interface InitialImageProps {
 }
 
 const InitialImage = (props: InitialImageProps) => {
+  const backgroundColor = stringToRGB(props.name)
+  const text = props.name.toString().substring(0, 1).toUpperCase()
   return (
-    <Image src={stringToLinkImg(props.name)} width="32" height="32" className="rounded-full" alt="" />
+    <div
+      style={{ backgroundColor: `#${backgroundColor}` }}
+      className="relative w-8 h-8 rounded-full"
+    >
+      <span className="absolute inset-0 text-white font-[Muli-Regular] text-sm flex justify-center items-center">
+        {text}
+      </span>
+    </div>
   )
 }
 
 export default InitialImage
 
 const stringToRGB = (str: string) => {
-  var hash = 0;
+  var hash = 0
   for (var i = 0; i < str.length; i++) {
-      hash = str.toUpperCase().charCodeAt(i) + ((hash << 5) - hash);
-
+    hash = str.toUpperCase().charCodeAt(i) + ((hash << 5) - hash)
   }
-  var color = '';
+  var color = ''
   for (var i = 0; i < 3; i++) {
-      var value = (hash >> (i * 8)) & 0xFF;
-      color += ('8' + value.toString(16)).substring(-2);
+    var value = (hash >> (i * 8)) & 0xff
+    color += ('8' + value.toString(16)).substring(-2)
   }
-  
-  return color;
-}
 
-const stringToLinkImg = (str: string) => {
-  var backgroundColor = stringToRGB(str);
-  var text = str.toString().substring(0, 1).toUpperCase()
-  var url = `https://via.placeholder.com/300/${backgroundColor}/fff.jpg?text=${text}`;
-  return url;
+  return color.substring(0, 6)
 }

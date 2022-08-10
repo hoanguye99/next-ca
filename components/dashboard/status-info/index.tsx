@@ -1,24 +1,31 @@
 import { PrimaryText, SecondaryText } from '@/components/styled'
 import { GetAllTicketStatusByStaffResponse } from '@/models/api'
+import { UseQueryResult } from '@tanstack/react-query'
 import Link from 'next/link'
 import React from 'react'
 
 interface StatusInfoProps {
-  data: GetAllTicketStatusByStaffResponse
+  getAllTicketStatus: UseQueryResult<GetAllTicketStatusByStaffResponse, unknown>
   type: string
   logo: React.ReactNode
 }
 
 const StatusInfo = (props: StatusInfoProps) => {
-  let disp
-  const ret = props.data.status.find((item) => item.statusName === props.type)
-  if (ret === undefined) {
-    disp = 'No data'
-  } else {
-    disp = ret.quantity.toString()
+  function disp() {
+    const ret = props.getAllTicketStatus.data!.status.find(
+      (item) => item.statusName === props.type
+    )
+    if (ret === undefined) {
+      return 'No data'
+    } else {
+      return ret.quantity.toString()
+    }
   }
+
   return (
-    <Link href={`/tickets/view/${props.type.split('_').join('-').toLowerCase()}`}>
+    <Link
+      href={`/tickets/view/${props.type.split('_').join('-').toLowerCase()}`}
+    >
       <a>
         <div className="flex justify-between items-center p-5">
           <div className="flex flex-col">
@@ -26,7 +33,12 @@ const StatusInfo = (props: StatusInfoProps) => {
               {props.type.split('_').join(' ')}
             </SecondaryText>
             <div className="flex flex-row items-end gap-1">
-              <PrimaryText className="text-lg">{disp}</PrimaryText>
+              {props.getAllTicketStatus.status === 'loading' && (
+                <div className="animate-pulse rounded-full bg-slate-50 h-7 w-7"></div>
+              )}
+              {props.getAllTicketStatus.status === 'success' && (
+                <PrimaryText className="text-lg">{disp()}</PrimaryText>
+              )}
             </div>
           </div>
           <div className="">{props.logo}</div>

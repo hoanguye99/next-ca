@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from "app/hooks"
 import { clearTimer } from "features/auth/session-timeout-timer-slice"
 import { logout, selectUserDetail } from "features/auth/user-slice"
 import { useRouter } from 'next/router'
+import { useQueryClient } from "@tanstack/react-query"
 
 
 export const useLogoutNavigate = () => {
@@ -10,8 +11,10 @@ export const useLogoutNavigate = () => {
   const { adminLogoutNavigate } = useAdminLogout()
   const { staffLogoutNavigate } = useStaffLogout()
   const userDetail = useAppSelector(selectUserDetail)
+  const queryClient = useQueryClient()
   const router = useRouter()
   const logoutNavigate = useCallback( () => {
+    queryClient.clear()
     if (userDetail.role === 'USER') {
       userLogoutNavigate()
     } else if (userDetail.role === 'STAFF') {

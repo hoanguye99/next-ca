@@ -12,6 +12,7 @@ import {
   QueryClientProvider,
   useQuery,
 } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 export interface LayoutProps {
   children: ReactNode
@@ -37,6 +38,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         <Layout>
           <Component {...pageProps} />
         </Layout>
+        <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </Provider>
   )

@@ -7,12 +7,32 @@ import {
   Label,
   PrimaryText,
 } from '@/components/styled'
-import { useGetChangeStatus } from '@/hooks/query/useGetChangeStatus'
+import { useGetChangeStatus } from '@/hooks/query/ticket-detail'
 import { GetTicketDetailResponse } from '@/models/api'
+import { UseQueryResult } from '@tanstack/react-query'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { BiLoaderAlt } from 'react-icons/bi'
 import { TransferTicket, useChangeStatus, useTransferTicket } from './hooks'
+
+interface HeaderWrapperProps {
+  // getTicketDetailData: GetTicketDetailResponse
+  getTicketDetail: UseQueryResult<GetTicketDetailResponse, unknown>
+}
+
+const HeaderWrapper = (props: HeaderWrapperProps) => {
+  if (props.getTicketDetail.status === 'loading') {
+    return (
+      <>
+        <Loading></Loading>
+      </>
+    )
+  } else if (props.getTicketDetail.status === 'error') {
+    return <></>
+  } else {
+    return <Header getTicketDetailData={props.getTicketDetail.data}></Header>
+  }
+}
 
 interface HeaderProps {
   getTicketDetailData: GetTicketDetailResponse
@@ -23,27 +43,14 @@ const Header = (props: HeaderProps) => {
   const { ticketType, ticketSlugId } = router.query
 
   const [showTransferModal, setShowTransferModal] = useState(false)
-  const {
-    status: status1,
-    data: getChangeStatusData,
-    error: error1,
-  } = useGetChangeStatus(props.getTicketDetailData.issue_id)
-  if (status1 === 'error') console.log(error1)
+  const changeStatusData = useGetChangeStatus(props.getTicketDetailData.issue_id)
 
-  const {
-    mutation,
-    showErrorModal,
-    closeErrorModal,
-    createError: changeStatusError,
-  } = useChangeStatus(props.getTicketDetailData)
+  if (changeStatusData.status === 'error') console.log(changeStatusData.error)
+
+  const { mutation } = useChangeStatus(props.getTicketDetailData)
+
   return (
     <>
-      {showErrorModal && (
-        <ErrorModal
-          failureDescription={changeStatusError?.message}
-          closeErrorModal={closeErrorModal}
-        ></ErrorModal>
-      )}
       {showTransferModal && (
         <DetailModal onClickOutside={() => setShowTransferModal(false)}>
           <TransferTicketModal
@@ -59,7 +66,10 @@ const Header = (props: HeaderProps) => {
           <LinkNavigation
             nav={[
               {
-                disp: props.getTicketDetailData.status_name.split('_').join(' ').toUpperCase(),
+                disp: props.getTicketDetailData.status_name
+                  .split('_')
+                  .join(' ')
+                  .toUpperCase(),
                 link: router.asPath.split('/').slice(0, -1).join('/'),
               },
               {
@@ -76,10 +86,13 @@ const Header = (props: HeaderProps) => {
           <div className="sm:flex-1 flex justify-between">
             <Button onClick={() => setShowTransferModal(true)}>Transfer</Button>
             <div className="flex gap-3">
-              {getChangeStatusData?.statusTransition.map((obj) => (
+              {changeStatusData.data?.statusTransition.map((obj) => (
                 <Button
                   onClick={() =>
-                    mutation.mutate({ status: obj.id, ticket_id: props.getTicketDetailData.id })
+                    mutation.mutate({
+                      status: obj.id,
+                      ticket_id: props.getTicketDetailData.id,
+                    })
                   }
                 >
                   {obj.name}
@@ -90,6 +103,15 @@ const Header = (props: HeaderProps) => {
         </div>
       </div>
     </>
+  )
+}
+
+const Loading = () => {
+  return (
+    <div className="py-6 border-b">
+      <div className="animate-pulse bg-slate-100 max-w-xl w-full mb-4 h-6"></div>
+      <div className="animate-pulse bg-slate-100 h-10"></div>
+    </div>
   )
 }
 
@@ -215,4 +237,4 @@ const TransferTicketModal = (props: TransferTicketModalProps) => {
   )
 }
 
-export default Header
+export default HeaderWrapper

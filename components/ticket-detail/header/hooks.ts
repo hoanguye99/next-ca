@@ -1,13 +1,13 @@
 import staffApi from '@/api/staff-api'
 import { useAppSelector } from '@/app/hooks'
 import { selectUserDetail } from '@/features/auth/user-slice'
-import { useGetUserWithState } from '@/hooks/query'
+import { useGetUserWithState } from '@/hooks/query/shared'
 import {
   GetTicketDetailResponse,
   TransferTicketRequestBody,
   TransferTicketResponse,
   TransitionStatusRequestBody,
-  TransitionStatusResponse
+  TransitionStatusResponse,
 } from '@/models/api'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
@@ -30,7 +30,11 @@ export const useTransferTicket = (
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<TransferTicket>({defaultValues: {time_spent: Number(getTicketDetailData.time_spent.replace(/h/g, ''))}})
+  } = useForm<TransferTicket>({
+    defaultValues: {
+      time_spent: Number(getTicketDetailData.time_spent.replace(/h/g, '')),
+    },
+  })
 
   const {
     status: status3,
@@ -41,20 +45,16 @@ export const useTransferTicket = (
   } = useGetUserWithState()
   if (status3 === 'error') console.log(error3)
 
-  // const {
-  //   status: status2,
-  //   fetchStatus: fetchUserStatus,
-  //   data: getUserData,
-  //   error: error2,
-  //   setUser,
-  // } = useGetUserWithState()
-  // if (status2 === 'error') console.log(error2)
-
   const userDetail = useAppSelector(selectUserDetail)
   const queryClient = useQueryClient()
   const [showErrorModal, setShowErrorModal] = useState(false)
 
-  const mutation = useMutation<TransferTicketResponse,AxiosError,TransferTicketRequestBody,TransferTicketResponse>(
+  const mutation = useMutation<
+    TransferTicketResponse,
+    AxiosError,
+    TransferTicketRequestBody,
+    TransferTicketResponse
+  >(
     (transferTicketBody) =>
       staffApi.transferTicket(
         userDetail,
@@ -112,44 +112,37 @@ export const useTransferTicket = (
   }
 }
 
-export const useChangeStatus = (getTicketDetailData: GetTicketDetailResponse) => {
+export const useChangeStatus = (
+  getTicketDetailData: GetTicketDetailResponse
+) => {
   const userDetail = useAppSelector(selectUserDetail)
   const queryClient = useQueryClient()
-  const [showErrorModal, setShowErrorModal] = useState(false)
-
   const mutation = useMutation<TransitionStatusResponse,AxiosError,TransitionStatusRequestBody,TransitionStatusResponse>(
-    (transitionStatusBody) =>
-      staffApi.transitionStatus(
-        userDetail,
-        getTicketDetailData.issue_id,
-        transitionStatusBody
-      ),
-    {
-      onError: (error, variables, context) => {
-        setShowErrorModal(true)
-      },
-      onSuccess: (data, variables, context) => {
-        queryClient.invalidateQueries([
-          'getTicketDetail',
-          getTicketDetailData.issue_key,
-        ])
-        queryClient.invalidateQueries([
-          'getChangeStatus',
-          getTicketDetailData.issue_id,
-        ])
-      },
-    }
-  )
+          (transitionStatusBody) =>
+            staffApi.transitionStatus(
+              userDetail,
+              getTicketDetailData.issue_id,
+              transitionStatusBody
+            ),
+          {
+            onError: (error, variables, context) => {
+              // setShowErrorModal(true)
+            },
+            onSuccess: (data, variables, context) => {
+              queryClient.invalidateQueries([
+                'getTicketDetail',
+                getTicketDetailData.issue_key,
+              ])
+              queryClient.invalidateQueries([
+                'getChangeStatus',
+                getTicketDetailData.issue_id,
+              ])
+            },
+          }
+        )
 
-  function closeErrorModal() {
-    mutation.reset()
-    setShowErrorModal(false)
-  }
 
   return {
-    mutation,
-    showErrorModal,
-    closeErrorModal,
-    createError: mutation.error,
+    mutation
   }
 }

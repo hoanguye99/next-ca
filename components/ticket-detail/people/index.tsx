@@ -1,7 +1,36 @@
 import InitialImage from '@/components/common/get-initial'
-import { useGetUser } from '@/hooks/query'
+import { useGetUser } from '@/hooks/query/ticket-detail'
 import { GetTicketDetailResponse } from '@/models/api'
+import { UseQueryResult } from '@tanstack/react-query'
 import React from 'react'
+
+interface PeopleWrapperProps {
+  getTicketDetail: UseQueryResult<GetTicketDetailResponse, unknown>
+}
+
+const PeopleWrapper = (props: PeopleWrapperProps) => {
+  if (props.getTicketDetail.status === 'loading') {
+    return (
+      <>
+        <Loading></Loading>
+      </>
+    )
+  } else if (props.getTicketDetail.status === 'error') {
+    return <></>
+  } else {
+    return <People getTicketDetailData={props.getTicketDetail.data}></People>
+  }
+}
+
+const Loading = () => {
+  return (
+    <div className="flex flex-col gap-4 pb-2">
+      <div className="animate-pulse bg-slate-100 h-7"></div>
+      <div className="animate-pulse bg-slate-100 h-7"></div>
+    </div>
+  )
+}
+
 
 interface PeopleProps {
   getTicketDetailData: GetTicketDetailResponse
@@ -38,4 +67,4 @@ const People = (props: PeopleProps) => {
   )
 }
 
-export default People
+export default PeopleWrapper
