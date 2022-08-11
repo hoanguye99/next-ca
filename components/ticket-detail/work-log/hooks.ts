@@ -1,7 +1,7 @@
 import staffApi from '@/api/staff-api'
 import { useAppSelector } from '@/app/hooks'
 import { selectUserDetail } from '@/features/auth/user-slice'
-import { useGetConfigWorkLog } from '@/hooks/query/ticket-detail'
+import { ticketDetailKeys, useGetConfigWorkLog } from '@/hooks/query/ticket-detail'
 import { CreateWorkLogRequestBody, CreateWorkLogResponseBody, GetTicketDetailResponse } from '@/models/api'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
@@ -43,7 +43,7 @@ export const useWorkLogCreate = (getTicketDetailData: GetTicketDetailResponse) =
       setShowErrorModal(true)
     },
     onSuccess: (data, variables, context) => {
-      queryClient.invalidateQueries(['getTicketDetail', getTicketDetailData.issue_key])
+      queryClient.invalidateQueries(ticketDetailKeys.getTicketDetail(getTicketDetailData.issue_key))
     },
   })
 

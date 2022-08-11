@@ -2,6 +2,7 @@ import staffApi from '@/api/staff-api'
 import { useAppSelector } from '@/app/hooks'
 import { selectUserDetail } from '@/features/auth/user-slice'
 import { useGetUserWithState } from '@/hooks/query/shared'
+import { ticketDetailKeys } from '@/hooks/query/ticket-detail'
 import {
   GetTicketDetailResponse,
   TransferTicketRequestBody,
@@ -66,10 +67,9 @@ export const useTransferTicket = (
         setShowErrorModal(true)
       },
       onSuccess: (data, variables, context) => {
-        queryClient.invalidateQueries([
-          'getTicketDetail',
-          getTicketDetailData.issue_key,
-        ])
+        queryClient.invalidateQueries(
+          ticketDetailKeys.getTicketDetail(getTicketDetailData.issue_key)
+        )
       },
     }
   )
@@ -117,32 +117,34 @@ export const useChangeStatus = (
 ) => {
   const userDetail = useAppSelector(selectUserDetail)
   const queryClient = useQueryClient()
-  const mutation = useMutation<TransitionStatusResponse,AxiosError,TransitionStatusRequestBody,TransitionStatusResponse>(
-          (transitionStatusBody) =>
-            staffApi.transitionStatus(
-              userDetail,
-              getTicketDetailData.issue_id,
-              transitionStatusBody
-            ),
-          {
-            onError: (error, variables, context) => {
-              // setShowErrorModal(true)
-            },
-            onSuccess: (data, variables, context) => {
-              queryClient.invalidateQueries([
-                'getTicketDetail',
-                getTicketDetailData.issue_key,
-              ])
-              queryClient.invalidateQueries([
-                'getChangeStatus',
-                getTicketDetailData.issue_id,
-              ])
-            },
-          }
+  const mutation = useMutation<
+    TransitionStatusResponse,
+    AxiosError,
+    TransitionStatusRequestBody,
+    TransitionStatusResponse
+  >(
+    (transitionStatusBody) =>
+      staffApi.transitionStatus(
+        userDetail,
+        getTicketDetailData.issue_id,
+        transitionStatusBody
+      ),
+    {
+      onError: (error, variables, context) => {
+        // setShowErrorModal(true)
+      },
+      onSuccess: (data, variables, context) => {
+        queryClient.invalidateQueries(
+          ticketDetailKeys.getTicketDetail(getTicketDetailData.issue_key)
         )
-
+        queryClient.invalidateQueries(
+          ticketDetailKeys.getChangeStatus(getTicketDetailData.issue_id)
+        )
+      },
+    }
+  )
 
   return {
-    mutation
+    mutation,
   }
 }
