@@ -8,11 +8,12 @@ import {
   TextArea,
   Toggle,
 } from '@/components/styled'
-import { GetTicketDetailResponse } from '@/models/api'
-import { UseQueryResult } from '@tanstack/react-query'
+import { CreateWorkLogRequestBody, CreateWorkLogResponseBody, GetTicketDetailResponse } from '@/models/api'
+import { UseMutationResult, UseQueryResult } from '@tanstack/react-query'
+import { AxiosError } from 'axios'
 import React, { useEffect, useState } from 'react'
 import { BiLoaderAlt } from 'react-icons/bi'
-import { useWorkLogCreate, WorkLogCreate } from './hooks'
+import { useWorkLogCreate, useWorkLogCreateMutation, WorkLogCreate } from './hooks'
 import WorkLogTable from './table'
 
 interface WorkLogWrapperProps {
@@ -58,6 +59,7 @@ interface WorkLogProps {
 
 const WorkLog = (props: WorkLogProps) => {
   const [showAddLogModal, setShowAddLogModal] = useState(false)
+  const mutation = useWorkLogCreateMutation(props.getTicketDetailData)
   return (
     <>
       {showAddLogModal && (
@@ -67,6 +69,7 @@ const WorkLog = (props: WorkLogProps) => {
               setShowAddLogModal(false)
             }}
             getTicketDetailData={props.getTicketDetailData}
+            mutation={mutation}
           ></DetailModalContent>
         </DetailModal>
       )}
@@ -93,6 +96,7 @@ const WorkLog = (props: WorkLogProps) => {
 interface DetailModalContentProps {
   closeDetailModal: () => void
   getTicketDetailData: GetTicketDetailResponse
+  mutation: UseMutationResult<CreateWorkLogResponseBody, AxiosError<unknown, any>, CreateWorkLogRequestBody, CreateWorkLogResponseBody>
 }
 
 const DetailModalContent = (props: DetailModalContentProps) => {
@@ -107,27 +111,10 @@ const DetailModalContent = (props: DetailModalContentProps) => {
     reset,
 
     getConfigWorkLogData,
+  } = useWorkLogCreate(props.closeDetailModal, props.getTicketDetailData, props.mutation)
 
-    // Post Create variables
-    mutation,
-    showErrorModal,
-    closeErrorModal,
-    createError,
-  } = useWorkLogCreate(props.getTicketDetailData)
-
-  useEffect(() => {
-    if (mutation.isSuccess) {
-      props.closeDetailModal()
-    }
-  }, [mutation.isSuccess])
   return (
     <>
-      {showErrorModal && (
-        <ErrorModal
-          failureDescription={createError?.message}
-          closeErrorModal={closeErrorModal}
-        ></ErrorModal>
-      )}
       <PrimaryText className="text-2xl text-center my-8">
         New Work Log
       </PrimaryText>
@@ -229,19 +216,10 @@ const DetailModalContent = (props: DetailModalContentProps) => {
             Cancel
           </button>
           <button
-            disabled={mutation.isLoading}
             type="submit"
-            className={`${
-              mutation.isLoading ? 'cursor-not-allowed' : 'cursor-pointer'
-            } hover:bg-stone-50 transition-color ease-in-out duration-75 text-center border`}
+            className={`hover:bg-stone-50 transition-color ease-in-out duration-75 text-center border`}
           >
-            {mutation.isLoading ? (
-              <div className="w-6 h-6 animate-spin m-auto">
-                <BiLoaderAlt size={24} />
-              </div>
-            ) : (
-              <>Submit</>
-            )}
+            Submit
           </button>
         </div>
       </form>

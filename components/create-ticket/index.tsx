@@ -30,36 +30,10 @@ const CreateTicket = (props: CreateTicketProps) => {
     getUserData,
     setUser,
 
-    // Post API variables
-    showDetailModal,
-    closeDetailModal,
-    createData,
-    createPosting,
-    showErrorModal,
-    closeErrorModal,
-    createError,
+    mutation,
   } = useTicketCreate()
   return (
     <>
-      {showDetailModal && (
-        <DetailModal>
-          <DetailModalContent
-            closeDetailModal={() => {
-              closeDetailModal()
-              reset()
-            }}
-            disp={createData?.idMaster.toString() || 'No Data return yet'}
-          ></DetailModalContent>
-        </DetailModal>
-      )}
-
-      {showErrorModal && (
-        <ErrorModal
-          failureDescription={createError?.message}
-          closeErrorModal={closeErrorModal}
-        ></ErrorModal>
-      )}
-
       <div className="container">
         <div className="flex justify-between items-center py-6 border-b">
           <div className="">
@@ -102,7 +76,7 @@ const CreateTicket = (props: CreateTicketProps) => {
 
             <Section>
               <div className="flex justify-end pt-10">
-                <Button posting={createPosting} className="w-fit">
+                <Button posting={mutation.isLoading} className="w-fit">
                   Create Ticket
                 </Button>
               </div>

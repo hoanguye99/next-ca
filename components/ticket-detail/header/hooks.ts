@@ -8,12 +8,16 @@ import {
   TransferTicketRequestBody,
   TransferTicketResponse,
   TransitionStatusRequestBody,
-  TransitionStatusResponse,
+  TransitionStatusResponse
 } from '@/models/api'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import {
+  UseBaseMutationResult,
+  useMutation,
+  useQueryClient
+} from '@tanstack/react-query'
 import { AxiosError } from 'axios'
-import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
+import toast from 'react-hot-toast'
 
 export interface TransferTicket {
   note: string
@@ -22,7 +26,14 @@ export interface TransferTicket {
 }
 
 export const useTransferTicket = (
-  getTicketDetailData: GetTicketDetailResponse
+  closeDetailModal: () => void,
+  getTicketDetailData: GetTicketDetailResponse,
+  mutation: UseBaseMutationResult<
+    TransferTicketResponse,
+    AxiosError<unknown, any>,
+    TransferTicketRequestBody,
+    TransferTicketResponse
+  >
 ) => {
   const {
     register,
@@ -38,48 +49,13 @@ export const useTransferTicket = (
   })
 
   const {
-    status: status3,
     fetchStatus: fetchUserStatus,
     data: getUserData,
-    error: error3,
     setUser,
   } = useGetUserWithState()
-  if (status3 === 'error') console.log(error3)
-
-  const userDetail = useAppSelector(selectUserDetail)
-  const queryClient = useQueryClient()
-  const [showErrorModal, setShowErrorModal] = useState(false)
-
-  const mutation = useMutation<
-    TransferTicketResponse,
-    AxiosError,
-    TransferTicketRequestBody,
-    TransferTicketResponse
-  >(
-    (transferTicketBody) =>
-      staffApi.transferTicket(
-        userDetail,
-        getTicketDetailData.issue_id,
-        transferTicketBody
-      ),
-    {
-      onError: (error, variables, context) => {
-        setShowErrorModal(true)
-      },
-      onSuccess: (data, variables, context) => {
-        queryClient.invalidateQueries(
-          ticketDetailKeys.getTicketDetail(getTicketDetailData.issue_key)
-        )
-      },
-    }
-  )
-
-  function closeErrorModal() {
-    mutation.reset()
-    setShowErrorModal(false)
-  }
 
   const handleFormSubmit: SubmitHandler<TransferTicket> = async (data) => {
+    closeDetailModal()
     const transferTicketBody = {
       ticket_id: Number(getTicketDetailData.id),
       note: data.note,
@@ -103,13 +79,54 @@ export const useTransferTicket = (
     fetchUserStatus,
     getUserData,
     setUser,
-
-    // Post Create variables
-    mutation,
-    showErrorModal,
-    closeErrorModal,
-    createError: mutation.error,
   }
+}
+
+export const useTransferTicketMutation = (
+  getTicketDetailData: GetTicketDetailResponse
+) => {
+  const userDetail = useAppSelector(selectUserDetail)
+  const queryClient = useQueryClient()
+
+  return useMutation<
+    TransferTicketResponse,
+    AxiosError,
+    TransferTicketRequestBody,
+    TransferTicketResponse
+  >(
+    (transferTicketBody) =>
+      // staffApi.transferTicket(
+      //   userDetail,
+      //   getTicketDetailData.issue_id,
+      //   transferTicketBody
+      // ),
+      toast.promise(
+        staffApi.transferTicket(
+          userDetail,
+          getTicketDetailData.issue_id,
+          transferTicketBody
+        ),
+        {
+          loading: 'Transfering',
+          success: 'Transfer Success',
+          error: (err) => (err as AxiosError).message,
+        },
+        {
+          style: {
+            minWidth: '200px',
+          },
+        }
+      ),
+
+    {
+      onError: (error, variables, context) => {},
+      onSuccess: (data, variables, context) => {
+        queryClient.invalidateQueries(
+          ticketDetailKeys.getTicketDetail(getTicketDetailData.issue_key)
+        )
+      },
+    }
+  )
 }
 
 export const useChangeStatus = (
@@ -117,7 +134,7 @@ export const useChangeStatus = (
 ) => {
   const userDetail = useAppSelector(selectUserDetail)
   const queryClient = useQueryClient()
-  const mutation = useMutation<
+  return useMutation<
     TransitionStatusResponse,
     AxiosError,
     TransitionStatusRequestBody,
@@ -131,7 +148,7 @@ export const useChangeStatus = (
       ),
     {
       onError: (error, variables, context) => {
-        // setShowErrorModal(true)
+        toast.error(error.message, { position: 'top-center' })
       },
       onSuccess: (data, variables, context) => {
         queryClient.invalidateQueries(
@@ -140,11 +157,8 @@ export const useChangeStatus = (
         queryClient.invalidateQueries(
           ticketDetailKeys.getChangeStatus(getTicketDetailData.issue_id)
         )
+        // toast.success("Status Updated Successfully", {position: 'top-center'})
       },
     }
   )
-
-  return {
-    mutation,
-  }
 }

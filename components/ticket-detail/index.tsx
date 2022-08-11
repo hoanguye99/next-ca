@@ -1,6 +1,6 @@
 import { useGetTicketDetail } from '@/hooks/query/ticket-detail'
 import { useRouter } from 'next/router'
-import { Button, PrimaryText } from '../styled'
+import { PrimaryText } from '../styled'
 import Comments from './comments'
 import Dates from './dates'
 import DetailsWrapper from './details'
@@ -71,8 +71,6 @@ const TicketDetail = () => {
           </div> 
         </div>
       </div>
-
-      {/* {(undefined as Object).toString()} */}
     </div>
   )
 }

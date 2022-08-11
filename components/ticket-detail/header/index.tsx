@@ -1,19 +1,19 @@
-import { DetailModal, ErrorModal } from '@/components/common/modals'
+import { DetailModal } from '@/components/common/modals'
 import LinkNavigation from '@/components/layout/common/link-navigation'
 import {
   Button,
   Input,
   InputSearchButton,
   Label,
-  PrimaryText,
+  PrimaryText
 } from '@/components/styled'
 import { useGetChangeStatus } from '@/hooks/query/ticket-detail'
-import { GetTicketDetailResponse } from '@/models/api'
-import { UseQueryResult } from '@tanstack/react-query'
+import { GetTicketDetailResponse, TransferTicketRequestBody, TransferTicketResponse } from '@/models/api'
+import { UseMutationResult, UseQueryResult } from '@tanstack/react-query'
+import { AxiosError } from 'axios'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
-import { BiLoaderAlt } from 'react-icons/bi'
-import { TransferTicket, useChangeStatus, useTransferTicket } from './hooks'
+import { useState } from 'react'
+import { TransferTicket, useChangeStatus, useTransferTicket, useTransferTicketMutation } from './hooks'
 
 interface HeaderWrapperProps {
   // getTicketDetailData: GetTicketDetailResponse
@@ -43,12 +43,12 @@ const Header = (props: HeaderProps) => {
   const { ticketType, ticketSlugId } = router.query
 
   const [showTransferModal, setShowTransferModal] = useState(false)
-  const changeStatusData = useGetChangeStatus(props.getTicketDetailData.issue_id)
+  const changeStatusData = useGetChangeStatus(
+    props.getTicketDetailData.issue_id
+  )
 
-  if (changeStatusData.status === 'error') console.log(changeStatusData.error)
-
-  const { mutation } = useChangeStatus(props.getTicketDetailData)
-
+  const changeStatusMutation = useChangeStatus(props.getTicketDetailData)
+  const transferTicketMutation = useTransferTicketMutation(props.getTicketDetailData)
   return (
     <>
       {showTransferModal && (
@@ -58,6 +58,7 @@ const Header = (props: HeaderProps) => {
               setShowTransferModal(false)
             }}
             getTicketDetailData={props.getTicketDetailData}
+            transferTicketMutation={transferTicketMutation}
           ></TransferTicketModal>
         </DetailModal>
       )}
@@ -89,7 +90,7 @@ const Header = (props: HeaderProps) => {
               {changeStatusData.data?.statusTransition.map((obj) => (
                 <Button
                   onClick={() =>
-                    mutation.mutate({
+                    changeStatusMutation.mutate({
                       status: obj.id,
                       ticket_id: props.getTicketDetailData.id,
                     })
@@ -118,6 +119,7 @@ const Loading = () => {
 interface TransferTicketModalProps {
   closeDetailModal: () => void
   getTicketDetailData: GetTicketDetailResponse
+  transferTicketMutation: UseMutationResult<TransferTicketResponse, AxiosError<unknown, any>, TransferTicketRequestBody, TransferTicketResponse>
 }
 
 const TransferTicketModal = (props: TransferTicketModalProps) => {
@@ -135,29 +137,12 @@ const TransferTicketModal = (props: TransferTicketModalProps) => {
     fetchUserStatus,
     getUserData,
     setUser,
+  } = useTransferTicket(props.closeDetailModal, props.getTicketDetailData, props.transferTicketMutation)
 
-    // Post Create variables
-    mutation,
-    showErrorModal,
-    closeErrorModal,
-    createError,
-  } = useTransferTicket(props.getTicketDetailData)
-
-  useEffect(() => {
-    if (mutation.isSuccess) {
-      props.closeDetailModal()
-    }
-  }, [mutation.isSuccess])
   return (
     <>
-      {showErrorModal && (
-        <ErrorModal
-          failureDescription={createError?.message}
-          closeErrorModal={closeErrorModal}
-        ></ErrorModal>
-      )}
       <PrimaryText className="text-2xl text-center my-8">
-        New Work Log
+        Transfer Ticket
       </PrimaryText>
       <form onSubmit={handleSubmit(handleFormSubmit)}>
         <div className="flex flex-col gap-3 px-6">
@@ -217,19 +202,10 @@ const TransferTicketModal = (props: TransferTicketModalProps) => {
             Cancel
           </button>
           <button
-            disabled={mutation.isLoading}
             type="submit"
-            className={`${
-              mutation.isLoading ? 'cursor-not-allowed' : 'cursor-pointer'
-            } hover:bg-stone-50 transition-color ease-in-out duration-75 text-center border`}
+            className={`hover:bg-stone-50 transition-color ease-in-out duration-75 text-center border`}
           >
-            {mutation.isLoading ? (
-              <div className="w-6 h-6 animate-spin m-auto">
-                <BiLoaderAlt size={24} />
-              </div>
-            ) : (
-              <>Submit</>
-            )}
+            Submit
           </button>
         </div>
       </form>
