@@ -68,7 +68,7 @@ const Tab = (props: TabProps) => {
       key={props.type}
       className={`${props.selected ? 'border-b-2 border-b-blue-primary' : ''}`}
     >
-      <Link scroll={true} href={props.type.split('_').join('-').toLowerCase()}>
+      <Link href={props.type.split('_').join('-').toLowerCase()}>
         <a>
           <PrimaryText
             className={`sm:text-sm text-[10px] pb-2.5 ${

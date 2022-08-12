@@ -131,6 +131,23 @@ export interface CreateTicketRequestBody {
 
 export interface CreateTicketResponse {
   idMaster: number
+  account_name: string
+  customer_name: string
+  project_id: number
+  summary: string
+  group_id: number
+  priority_id: number
+  scope: number
+  nameScope: string
+  description_by_staff: string
+  request_type_id: number
+  sizing_id: number
+  resolved_date: string
+  id: string
+  component_name: string
+  time_spent: string
+  activity_date: string
+  key: string
 }
 
 export interface GetUserResponse {
@@ -273,6 +290,4 @@ export interface TransitionStatusRequestBody {
   ticket_id: number
 }
 
-export interface TransitionStatusResponse {
-  
-}
+export interface TransitionStatusResponse {}

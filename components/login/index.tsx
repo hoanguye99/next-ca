@@ -5,10 +5,12 @@ import { useRouter } from 'next/router'
 import LoginForm from './login-form'
 import logo from '@/public/images/FPT_logo_2010.svg.png'
 import Image from 'next/future/image'
+import toast from 'react-hot-toast'
 
 const Login = () => {
   const userDetail = useAppSelector(selectUserDetail)
   const router = useRouter()
+  toast.remove();
 
   useEffect(() => {
     switch (userDetail.role) {

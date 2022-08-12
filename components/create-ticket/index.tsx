@@ -1,6 +1,8 @@
 import Link from 'next/link'
-import { DetailModal, ErrorModal } from '../common/modals'
-import { Button, LinkButton, PrimaryText, SecondaryText } from '../styled'
+import {
+  Button,
+  LinkButton, PrimaryText
+} from '../styled'
 import { Section, Separator } from './common'
 import FirstTab from './first-tab'
 import { useTicketCreate } from './hooks'

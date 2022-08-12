@@ -1,5 +1,3 @@
-import { CreateTicketResponse } from '@/models/api'
-import toast, { Toast } from 'react-hot-toast'
 
 interface SectionProps {
   children: React.ReactNode
