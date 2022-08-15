@@ -119,14 +119,14 @@ export function InputSearchButton<T>(props: InputSearchButtonProps<T>) {
   )
 }
 
-interface InputSearchProps<T> {
+interface InputSearchProps {
   name?: string
   id?: string
   placeholder?: string
   className?: string
 }
 
-export function InputSearch<T>(props: InputSearchProps<T>) {
+export function InputSearch(props: InputSearchProps) {
   const { name, id, placeholder } = props
   return (
     <>
@@ -153,6 +153,49 @@ export function InputSearch<T>(props: InputSearchProps<T>) {
           type="text"
           {...{ name, id, placeholder }}
           className={`block w-full py-2 pl-10 pr-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md transition-all ease-in-out duration-150 focus:border-blue-primary outline-none ${props.className}`}
+        />
+      </div>
+    </>
+  )
+}
+
+interface InputCommentProps<T> {
+  name?: string
+  id?: string
+  placeholder?: string
+  className?: string
+  register: UseFormRegister<T>
+  label: Path<T>
+  required: boolean
+}
+
+export function InputComment<T>(props: InputCommentProps<T>) {
+  const { name, id, placeholder } = props
+  return (
+    <>
+      <div className="relative">
+        <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-5 h-5 text-gray-500 dark:text-gray-400"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"
+            />
+          </svg>
+        </div>
+
+        <input
+          type="text"
+          {...{ name, id, placeholder }}
+          {...props.register(props.label, { required: props.required })}
+          className={`block w-full py-2 pl-12 text-gray-700 placeholder-gray-400 bg-white outline-none ${props.className}`}
         />
       </div>
     </>

@@ -63,7 +63,7 @@ const InputWithDropdown = ({
         }
       >
         {button}
-        <button type="button" className="absolute inset-y-[2px] right-[2px] w-16 bg-gray-table flex justify-center items-center border-l opacity-100 active:opacity-70">
+        <button type="button" className="absolute inset-y-[2px] right-[2px] w-16 bg-gray-50 flex justify-center items-center border-l active:bg-gray-100">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6 text-gray-500"

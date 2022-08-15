@@ -6,8 +6,8 @@ import { useQuery } from '@tanstack/react-query'
 // Query Key factory
 export const ticketDetailKeys = {
   all: ['ticket-detail'] as const,
-  getTicketDetail: (ticketSlugId: string) =>
-    [...ticketDetailKeys.all, 'getTicketDetail', ticketSlugId] as const,
+  getTicketDetail: (issue_key: string) =>
+    [...ticketDetailKeys.all, 'getTicketDetail', issue_key] as const,
   getUser: (user: string) =>
     [...ticketDetailKeys.all, 'getUser', user] as const,
   getChangeStatus: (issue_id: string) =>

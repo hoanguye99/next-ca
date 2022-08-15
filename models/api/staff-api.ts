@@ -291,3 +291,16 @@ export interface TransitionStatusRequestBody {
 }
 
 export interface TransitionStatusResponse {}
+
+export interface CreateLogCommentBody {
+  ticket_id: number
+  content: string
+}
+
+export interface CreateLogCommentResponse {
+  id: number
+  ticket_id: number
+  content: string
+  created_by_account: string
+  issue_key: string
+}

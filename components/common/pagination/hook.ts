@@ -7,13 +7,18 @@ export function usePaginationArray<T>(initialArray: T[], pageSize: number) {
   const pageCount = Math.ceil(originalArray.length / pageSize)
 
   useEffect(() => {
+    setOriginalArray([...initialArray])
+    setPageIndex(0)
+  }, [initialArray])
+
+  useEffect(() => {
     const minRange = pageIndex * pageSize
     const maxRange = Math.min(
       (pageIndex + 1) * pageSize - 1,
       originalArray.length - 1
     )
     setDispArray(originalArray.slice(minRange, maxRange + 1))
-  }, [pageIndex])
+  }, [pageIndex, originalArray])
 
   return {
     dispArray,

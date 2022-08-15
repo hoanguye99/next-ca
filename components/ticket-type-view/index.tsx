@@ -15,7 +15,6 @@ interface TicketsTypeViewProps {
 
 const TicketsTypeView = (props: TicketsTypeViewProps) => {
   const getAllTicketStatus = useGetAllTicketStatus()
-  if (getAllTicketStatus.status === 'error') console.log(getAllTicketStatus.error)
   const dispData =
   getAllTicketStatus.data !== undefined
       ? getAllTicketStatus.data.tickets.find((obj) => obj.type === props.ticketType)

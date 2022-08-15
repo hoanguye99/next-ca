@@ -1,4 +1,4 @@
-import { CreateTicketRequestBody, CreateTicketResponse, CreateWorkLogRequestBody, CreateWorkLogResponseBody, GetAllProjectsResponse, GetAllTicketStatusByStaffResponse, GetChangeStatusResponse, GetComponentResponse, GetConfigTicketResponse, GetConfigWorkLogResponse, GetTicketDetailResponse, GetTimeSpentResponse, GetUserResponse, TransferTicketRequestBody, TransferTicketResponse, TransitionStatusRequestBody, TransitionStatusResponse } from "@/models/api";
+import { CreateLogCommentBody, CreateLogCommentResponse, CreateTicketRequestBody, CreateTicketResponse, CreateWorkLogRequestBody, CreateWorkLogResponseBody, GetAllProjectsResponse, GetAllTicketStatusByStaffResponse, GetChangeStatusResponse, GetComponentResponse, GetConfigTicketResponse, GetConfigWorkLogResponse, GetTicketDetailResponse, GetTimeSpentResponse, GetUserResponse, TransferTicketRequestBody, TransferTicketResponse, TransitionStatusRequestBody, TransitionStatusResponse } from "@/models/api";
 import { UserDetail } from "@/models/features";
 import axiosClient from "./axios-client";
 
@@ -133,6 +133,17 @@ const staffApi = {
     const url = `/staff/ticket/${issue_id}/transition/`;
     return axiosClient.put(url, transitionStatusBody, config);
   },
+
+  createLogComment(userDetail: UserDetail, issue_key: string, createLogCommentBody: CreateLogCommentBody): Promise<CreateLogCommentResponse> {
+    const config = {
+      headers: {
+        token: userDetail.accessToken,
+      },
+    }
+    const url = `/staff/addComment/${issue_key}`;
+    return axiosClient.post(url, createLogCommentBody, config);
+  },
+
 };
 
 export default staffApi;
