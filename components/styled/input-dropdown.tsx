@@ -61,7 +61,7 @@ function Dropdown<T>(props: DropdownProps<T>) {
   }
 
   return (
-    <div className="bg-white rounded shadow-lg border flex flex-col">
+    <div className="flex flex-col">
       {props.dropDownData.map((val) => (
         <button
           key={val as string}

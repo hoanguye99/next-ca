@@ -6,6 +6,7 @@ import Sidebar from './common/side-bar'
 import { useRouter } from 'next/router'
 import { useRefreshToken } from '@/hooks'
 import useAuthenAllUser from '@/hooks/useAuthenAllUser'
+import { Scrollbars } from 'react-custom-scrollbars-2'
 
 export function MainLayout({ children }: LayoutProps) {
   const router = useRouter()
@@ -101,13 +102,20 @@ export function MainLayout({ children }: LayoutProps) {
       <Sidebar currentPath={router.asPath} data={data} />
       <div
         id="body-overflow"
-        className="flex-1 lg:h-full lg:mt-0 h-body mt-[70px] overflow-y-auto"
+        className="flex-1 lg:h-full lg:mt-0 h-body mt-[70px]"
       >
-        <div className="lg:min-h-screen min-h-body">
-          <Header data={data} />
-          {children}
-        </div>
-        <Footer />
+        <Scrollbars
+          universal
+          autoHide
+          autoHideTimeout={2000}
+          autoHideDuration={150}
+        >
+          <div className="lg:min-h-screen min-h-body">
+            <Header data={data} />
+            {children}
+          </div>
+          <Footer />
+        </Scrollbars>
       </div>
     </div>
   )

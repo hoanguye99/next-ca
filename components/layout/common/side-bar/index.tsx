@@ -1,4 +1,5 @@
 import dynamic from 'next/dynamic'
+import Scrollbars from 'react-custom-scrollbars-2'
 import UserButton from '../user-button'
 import LinkTab from './link-tab'
 const DynamicTempName = dynamic(() => import('./temp-name'), {
@@ -23,17 +24,21 @@ const Sidebar = (props: Props) => {
         </div>
 
         <nav className="h-full overflow-y-auto mt-6">
-          <ul className=" flex flex-col">
-            {props.data.map((item, index) => (
-              <LinkTab
-                key={index}
-                link={item.link}
-                icon={item.icon}
-                text={item.text}
-                selected={props.currentPath.startsWith(item.link)}
-              />
-            ))}
-          </ul>
+          <Scrollbars
+            universal
+          >
+            <ul className=" flex flex-col">
+              {props.data.map((item, index) => (
+                <LinkTab
+                  key={index}
+                  link={item.link}
+                  icon={item.icon}
+                  text={item.text}
+                  selected={props.currentPath.startsWith(item.link)}
+                />
+              ))}
+            </ul>
+          </Scrollbars>
         </nav>
         <DynamicTempName></DynamicTempName>
         <div className="fixed bottom-0 w-[230px] h-[100px] flex justify-around items-center text-gray-500 border-t">

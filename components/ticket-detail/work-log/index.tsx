@@ -8,12 +8,21 @@ import {
   TextArea,
   Toggle,
 } from '@/components/styled'
-import { CreateWorkLogRequestBody, CreateWorkLogResponseBody, GetTicketDetailResponse } from '@/models/api'
+import {
+  CreateWorkLogRequestBody,
+  CreateWorkLogResponseBody,
+  GetTicketDetailResponse,
+} from '@/models/api'
 import { UseMutationResult, UseQueryResult } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 import React, { useEffect, useState } from 'react'
+import Scrollbars from 'react-custom-scrollbars-2'
 import { BiLoaderAlt } from 'react-icons/bi'
-import { useWorkLogCreate, useWorkLogCreateMutation, WorkLogCreate } from './hooks'
+import {
+  useWorkLogCreate,
+  useWorkLogCreateMutation,
+  WorkLogCreate,
+} from './hooks'
 import WorkLogTable from './table'
 
 interface WorkLogWrapperProps {
@@ -96,7 +105,12 @@ const WorkLog = (props: WorkLogProps) => {
 interface DetailModalContentProps {
   closeDetailModal: () => void
   getTicketDetailData: GetTicketDetailResponse
-  mutation: UseMutationResult<CreateWorkLogResponseBody, AxiosError<unknown, any>, CreateWorkLogRequestBody, CreateWorkLogResponseBody>
+  mutation: UseMutationResult<
+    CreateWorkLogResponseBody,
+    AxiosError<unknown, any>,
+    CreateWorkLogRequestBody,
+    CreateWorkLogResponseBody
+  >
 }
 
 const DetailModalContent = (props: DetailModalContentProps) => {
@@ -111,7 +125,11 @@ const DetailModalContent = (props: DetailModalContentProps) => {
     reset,
 
     getConfigWorkLogData,
-  } = useWorkLogCreate(props.closeDetailModal, props.getTicketDetailData, props.mutation)
+  } = useWorkLogCreate(
+    props.closeDetailModal,
+    props.getTicketDetailData,
+    props.mutation
+  )
 
   return (
     <>

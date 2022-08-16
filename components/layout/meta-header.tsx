@@ -5,10 +5,7 @@ const MetaHeader = () => {
   return (
     <Head>
       <link rel="icon" href="/images/favicon.png" />
-      <meta
-        name="description"
-        content="FPT Information System CA Website"
-      />
+      <meta name="description" content="FPT Information System CA Website" />
       <meta
         property="og:image"
         content={`https://og-image.vercel.app/${encodeURI(
@@ -17,10 +14,11 @@ const MetaHeader = () => {
       />
       <meta name="og:title" content={siteTitle} />
       <meta name="twitter:card" content="summary_large_image" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <title>{siteTitle}</title>
     </Head>
   )
 }
 
-export const siteTitle = 'FPT CA Website';
+export const siteTitle = 'FPT CA Website'
 export default MetaHeader

@@ -1,5 +1,6 @@
 import { ShowDropdown } from '@/models/components/common'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
+import Scrollbars from 'react-custom-scrollbars-2'
 import PopUp from '../pop-up'
 
 interface InputWithDropdownProps {
@@ -53,7 +54,22 @@ const InputWithDropdown = ({
           onClickOutside={handlePopUpClickOutside}
           optionalRef={moreInfoRef}
         >
-          <div className={`absolute max-h-56 h-max overflow-auto block z-20 inset-x-0 ${showDropdown.position === 'top' ? 'top-12' : 'bottom-12'}`}>{dropdown}</div>
+          <div
+            className={`absolute block z-20 inset-x-0 ${
+              showDropdown.position === 'top' ? 'top-12' : 'bottom-12'
+            }`}
+          >
+            <div className="bg-white rounded shadow-lg border">
+              <Scrollbars
+                universal
+                autoHeight
+                autoHeightMin={0}
+                autoHeightMax={200}
+              >
+                {dropdown}
+              </Scrollbars>
+            </div>
+          </div>
         </PopUp>
       )}
       <div
@@ -63,7 +79,10 @@ const InputWithDropdown = ({
         }
       >
         {button}
-        <button type="button" className="absolute inset-y-[2px] right-[2px] w-16 bg-gray-50 flex justify-center items-center border-l active:bg-gray-100">
+        <button
+          type="button"
+          className="absolute inset-y-[2px] right-[2px] w-16 bg-gray-50 flex justify-center items-center border-l active:bg-gray-100"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6 text-gray-500"
