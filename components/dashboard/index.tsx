@@ -1,13 +1,12 @@
 import {
   useGetAllTicketStatus,
   useGetProjectSummary,
-  useGetTimeSpent
+  useGetTimeSpent,
 } from '@/hooks/query/dashboard'
 import { PrimaryText } from '../styled'
 import BarChart from './bar-chart'
 import DoughnutChart from './doughnut-chart'
 import LineChart from './line-chart'
-import OpenRequestTable from './open-request-table'
 import ProjectSummary from './project-summary'
 import StatusInfo, { statusInfoData } from './status-info'
 
@@ -69,16 +68,6 @@ const Dashboard = () => {
           </div>
           <div className="p-5 pt-0 h-[340px]">
             <LineChart getTimeSpent={getTimeSpent} />
-          </div>
-        </div>
-        <div className="col-span-8 bg-white rounded-lg border border-gray-100">
-          <div className="p-4">
-            <PrimaryText className="">Open Requests</PrimaryText>
-          </div>
-          <div className="">
-            {getAllTicketStatus.status === 'success' && (
-              <OpenRequestTable data={getAllTicketStatus.data} />
-            )}
           </div>
         </div>
       </div>

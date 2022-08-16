@@ -32,7 +32,7 @@ export function MainLayout({ children }: LayoutProps) {
           />
         </svg>
       ),
-      text: 'Home',
+      text: 'Dashboard',
     },
     {
       link: '/tickets/create',

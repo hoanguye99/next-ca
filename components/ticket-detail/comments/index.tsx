@@ -59,9 +59,14 @@ const Comments = (props: CommentsProps) => {
           <p className="text-2xl text-gray-400">No Comments Found</p>
         </EmptyView>
       ) : (
-        <div className="flex flex-col">
-          {dispArray !== null &&
-            dispArray.map((obj) => <Comment key={obj.id} {...obj}></Comment>)}
+        <>
+          {dispArray !== null && (
+            <div className={`flex flex-col ${pageCount > 1 ? 'min-h-[310px]' : ''} `}>
+              {dispArray.map((obj) => (
+                <Comment key={obj.id} {...obj}></Comment>
+              ))}
+            </div>
+          )}
           {pageCount > 1 && (
             <Pagination
               gotoPage={gotoPage}
@@ -74,7 +79,7 @@ const Comments = (props: CommentsProps) => {
               pageCount={pageCount}
             ></Pagination>
           )}
-        </div>
+        </>
       )}
     </div>
   )
