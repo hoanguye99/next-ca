@@ -12,7 +12,7 @@
   }
 }
 .scrolling-text:hover p {
-  @include breakpoint-up('lg') {
+  @include breakpoint-up('xl') {
     /* Starting position */
     // -moz-transform: translateX(50%);
     // -webkit-transform: translateX(50%);

@@ -25,7 +25,7 @@ const ProjectSummary = (props: ProjectSummaryProps) => {
     if (props.getProjectSummary.data.details.length === 0)
       return (
         <EmptyView className="text-gray-500">
-          You do not have any project yet.
+          You do not have any project yet
         </EmptyView>
       )
     else

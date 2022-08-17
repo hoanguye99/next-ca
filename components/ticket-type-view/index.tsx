@@ -44,7 +44,7 @@ const TicketsTypeView = (props: TicketsTypeViewProps) => {
       ) : (
         <div className="mt-6">
           <EmptyView>
-            <p className="text-2xl text-gray-400">No Request to show</p>
+            <p className="text-2xl text-gray-400">No Ticket to show</p>
           </EmptyView>
         </div>
       )}

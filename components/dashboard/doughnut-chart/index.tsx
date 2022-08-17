@@ -17,7 +17,7 @@ export const options = {
   plugins: {
     legend: {
       display: true,
-      position: 'bottom' as 'bottom',
+      position: 'right' as 'right',
       labels: {
         usePointStyle: true,
         pointStyle: 'circle',
