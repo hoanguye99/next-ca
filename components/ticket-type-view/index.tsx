@@ -1,4 +1,3 @@
-import { useGetAllTicketStatus } from '@/hooks/query/dashboard'
 import { RequestDetail } from '@/models/api'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
@@ -7,6 +6,7 @@ import Link from 'next/link'
 import EmptyView from '../common/empty-view'
 import InitialImage from '../common/get-initial'
 import { InputSearch, LinkButton, PrimaryText } from '../styled'
+import { useDispData } from './hook'
 
 interface TicketsTypeViewProps {
   ticketType: string
@@ -14,16 +14,18 @@ interface TicketsTypeViewProps {
 }
 
 const TicketsTypeView = (props: TicketsTypeViewProps) => {
-  const getAllTicketStatus = useGetAllTicketStatus()
-  const dispData =
-  getAllTicketStatus.data !== undefined
-      ? getAllTicketStatus.data.tickets.find((obj) => obj.type === props.ticketType)
-      : undefined
+  const { dispData, filter, setFilter } = useDispData(props.ticketType)
+
   return (
     <div className="py-6">
       <div className="flex flex-row items-center gap-3">
         <div className="flex-1">
-          <InputSearch className="" placeholder="Search Tickets"></InputSearch>
+          <InputSearch
+            value={filter}
+            setFilter={setFilter}
+            className=""
+            placeholder="Search Tickets"
+          ></InputSearch>
         </div>
         <Link href="/tickets/create" passHref>
           <LinkButton className="!transition-all ease-in-out hover:-translate-y-1 hover:shadow-lg text-sm">

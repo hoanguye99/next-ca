@@ -42,6 +42,7 @@ const TicketsViewType: NextPageWithLayout = () => {
         <div className="border-b flex gap-6">
           {statusInfoData.map((item) => (
             <Tab
+              key={item.type}
               type={item.type}
               selected={
                 typeof ticketType === 'string'

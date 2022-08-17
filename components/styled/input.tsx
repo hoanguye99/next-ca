@@ -4,7 +4,7 @@ import {
   UseFormRegister,
   UseFormSetValue,
 } from 'react-hook-form'
-import React, { useEffect } from 'react'
+import React, { Dispatch, SetStateAction, useEffect } from 'react'
 import { GetUserResponse } from '@/models/api'
 import { BiLoaderAlt } from 'react-icons/bi'
 
@@ -124,6 +124,8 @@ interface InputSearchProps {
   id?: string
   placeholder?: string
   className?: string
+  value: string
+  setFilter: Dispatch<SetStateAction<string>>
 }
 
 export function InputSearch(props: InputSearchProps) {
@@ -152,6 +154,8 @@ export function InputSearch(props: InputSearchProps) {
         <input
           type="text"
           {...{ name, id, placeholder }}
+          value={props.value}
+          onChange={(e) => props.setFilter(e.target.value)}
           className={`block w-full py-2 pl-10 pr-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md transition-all ease-in-out duration-150 focus:border-blue-primary outline-none ${props.className}`}
         />
       </div>

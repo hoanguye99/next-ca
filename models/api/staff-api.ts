@@ -16,7 +16,7 @@ export interface GetAllTicketStatusByStaffResponse {
   requests: RequestQuantity[]
 }
 
-interface RequestType {
+export interface RequestType {
   type: string
   details: RequestDetail[]
 }
