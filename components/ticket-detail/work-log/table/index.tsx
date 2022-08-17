@@ -13,9 +13,11 @@ import {
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table'
+import { Button } from '@/components/styled'
 
 interface WorkLogTableProps {
   getTicketDetailData: GetTicketDetailResponse
+  addNew: () => void
 }
 
 const columnHelper = createColumnHelper<TicketDetailsLog>()
@@ -108,7 +110,8 @@ const WorkLogTable = (props: WorkLogTableProps) => {
 
       {data.length === 0 && (
         <EmptyView className="bg-gray-table !h-[300px]">
-          <p className="text-2xl text-gray-400">No Work Log Found</p>
+          <p className="text-2xl text-gray-400 mb-5">No Work Log Found</p>
+          <Button className="text-sm" onClick={props.addNew}>Create Work Log</Button>
         </EmptyView>
       )}
     </>

@@ -1,3 +1,4 @@
+import { useAppSelector } from '@/app/hooks'
 import EmptyView from '@/components/common/empty-view'
 import InitialImage from '@/components/common/get-initial'
 import { Pagination } from '@/components/common/pagination'
@@ -8,6 +9,7 @@ import {
   PrimaryText,
   SecondaryText,
 } from '@/components/styled'
+import { selectUserDetail } from '@/features/auth/user-slice'
 import { GetTicketDetailResponse, TicketDetailComment } from '@/models/api'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
@@ -42,63 +44,68 @@ const Comments = (props: CommentsProps) => {
     mutation,
   } = useLogCommentCreate(props.getTicketDetailData)
 
+  const userDetail = useAppSelector(selectUserDetail)
   return (
     <div className="flex flex-col">
-      <form className="m-2" onSubmit={handleSubmit(handleFormSubmit)}>
-        <InputComment
-          register={register}
-          label="content"
-          required
-          name="comment"
-          id="comment"
-          placeholder="Add New Comment"
-        ></InputComment>
-      </form>
-      {props.getTicketDetailData.detailComment.length === 0 ? (
-        <EmptyView className="bg-gray-table !h-[300px]">
-          <p className="text-2xl text-gray-400">No Comments Found</p>
-        </EmptyView>
-      ) : (
-        <>
-          {dispArray !== null && (
-            <div className={`flex flex-col ${pageCount > 1 ? 'min-h-[310px]' : ''} `}>
-              {dispArray.map((obj) => (
-                <Comment key={obj.id} {...obj}></Comment>
-              ))}
-            </div>
-          )}
-          {pageCount > 1 && (
-            <Pagination
-              gotoPage={gotoPage}
-              canPreviousPage={canPreviousPage}
-              previousPage={previousPage}
-              pageIndex={pageIndex}
-              // pageOptions={pageOptions}
-              nextPage={nextPage}
-              canNextPage={canNextPage}
-              pageCount={pageCount}
-            ></Pagination>
-          )}
-        </>
+      {dispArray !== null && dispArray.length !== 0 && (
+        <div
+          className={`flex flex-col gap-4 border-t mt-5 pt-5 ${
+            pageCount > 1 ? 'min-h-[360px]' : ''
+          } `}
+        >
+          {dispArray.map((obj) => (
+            <Comment key={obj.id} {...obj}></Comment>
+          ))}
+        </div>
       )}
+      {pageCount > 1 && (
+        <Pagination
+          gotoPage={gotoPage}
+          canPreviousPage={canPreviousPage}
+          previousPage={previousPage}
+          pageIndex={pageIndex}
+          // pageOptions={pageOptions}
+          nextPage={nextPage}
+          canNextPage={canNextPage}
+          pageCount={pageCount}
+        ></Pagination>
+      )}
+      <form className="" onSubmit={handleSubmit(handleFormSubmit)}>
+        <div className="border-t mt-5 pt-5 flex items-center gap-3">
+          <InitialImage
+            className="w-10 h-10 shrink-0"
+            name={userDetail.key}
+          ></InitialImage>
+          <input
+            type="text"
+            id="comment"
+            placeholder="Leave a comment ..."
+            {...register('content', { required: true })}
+            className="block w-full bg-gray-100 rounded-xl py-2 px-4 text-gray-700 placeholder-gray-400 placeholder:text-sm outline-none"
+          />
+        </div>
+      </form>
     </div>
   )
 }
 
 const Comment = (props: TicketDetailComment) => {
   return (
-    <div className="p-4 border-t grid grid-cols-10 gap-4">
-      <div className="col-span-10 md:col-span-3 flex items-start gap-3">
-        <InitialImage name={props.created_by_account}></InitialImage>
-        <SecondaryText className="!text-black">
-          {props.created_by_account}
-        </SecondaryText>
-      </div>
-      <div className="col-span-10 md:col-span-7 text-sm">
-        <p className="mb-2">{props.content}</p>
-        <p className="text-gray-400 text-xs">
-          {dayjs(props.date_created).fromNow()}
-        </p>
+    <div className="gap-4 flex">
+      <InitialImage
+        className="w-10 h-10 shrink-0 mt-1"
+        name={props.created_by_account}
+      ></InitialImage>
+      <div className="bg-gray-100 rounded-lg p-3 text-sm flex flex-col gap-2">
+        <div className="flex justify-between items-center gap-10">
+          <SecondaryText className="!text-black">
+            {props.created_by_account}
+          </SecondaryText>
+          <p className="text-gray-400 text-xs">
+            {dayjs(props.date_created).fromNow()}
+          </p>
+        </div>
+        <p className="">{props.content}</p>
       </div>
     </div>
   )

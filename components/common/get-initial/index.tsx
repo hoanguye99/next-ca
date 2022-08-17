@@ -3,6 +3,7 @@ import React from 'react'
 
 interface InitialImageProps {
   name: string
+  className?: string
 }
 
 const InitialImage = (props: InitialImageProps) => {
@@ -11,7 +12,7 @@ const InitialImage = (props: InitialImageProps) => {
   return (
     <div
       style={{ backgroundColor: `#${backgroundColor}` }}
-      className="relative w-8 h-8 rounded-full"
+      className={`relative w-8 h-8 rounded-full ${props.className}`}
     >
       <span className="absolute inset-0 text-white font-[Muli-Regular] text-sm flex justify-center items-center">
         {text}

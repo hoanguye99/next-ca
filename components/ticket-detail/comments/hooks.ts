@@ -68,6 +68,7 @@ export const useLogCommentCreateMutation = (
       ),
     {
       onMutate: async (createLogCommentBody) => {
+        reset()
         // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
         await queryClient.cancelQueries(
           ticketDetailKeys.getTicketDetail(getTicketDetailData.issue_key)
@@ -107,8 +108,6 @@ export const useLogCommentCreateMutation = (
         )
       },
       onSuccess: (data, variables, context) => {
-        console.log('Success', getTicketDetailData.issue_key)
-        reset()
         queryClient.invalidateQueries(
           ticketDetailKeys.getTicketDetail(getTicketDetailData.issue_key)
         )

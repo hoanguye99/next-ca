@@ -20,7 +20,7 @@ const TicketDetail = () => {
       <HeaderWrapper getTicketDetail={getTicketDetail} />
       <div className="py-6 grid grid-cols-12 gap-6">
         <div className="sm:col-span-8	col-span-12 flex flex-col gap-6">
-          <div className="bg-white rounded-lg border border-gray-100">
+          <div className="bg-white rounded-lg shadow-sm border border-gray-100">
             <div className="border-b p-4">
               <PrimaryText className="">Details</PrimaryText>
             </div>
@@ -28,22 +28,15 @@ const TicketDetail = () => {
               <DetailsWrapper
                 getTicketDetail={getTicketDetail}
               ></DetailsWrapper>
-            </div>
-          </div>
-          <WorkLogWrapper getTicketDetail={getTicketDetail}></WorkLogWrapper>
-          <div className="bg-white rounded-lg border border-gray-100">
-            <div className="border-b p-4">
-              <PrimaryText className="">Comments</PrimaryText>
-            </div>
-            <div className="">
               {getTicketDetail.status === 'success' && (
                 <Comments getTicketDetailData={getTicketDetail.data}></Comments>
               )}
             </div>
           </div>
+          <WorkLogWrapper getTicketDetail={getTicketDetail}></WorkLogWrapper>
         </div>
         <div className="sm:col-span-4 col-span-12 flex flex-col gap-6">
-          <div className="bg-white rounded-lg border border-gray-100">
+          <div className="bg-white rounded-lg shadow-sm border border-gray-100">
             <div className="border-b p-4">
               <PrimaryText className="">People</PrimaryText>
             </div>
@@ -52,7 +45,7 @@ const TicketDetail = () => {
             </div>
           </div>
 
-          <div className="bg-white rounded-lg border border-gray-100">
+          <div className="bg-white rounded-lg shadow-sm border border-gray-100">
             <div className="border-b p-4">
               <PrimaryText className="">Time Tracking</PrimaryText>
             </div>
@@ -61,14 +54,14 @@ const TicketDetail = () => {
             </div>
           </div>
 
-          <div className="bg-white rounded-lg border border-gray-100">
+          <div className="bg-white rounded-lg shadow-sm border border-gray-100">
             <div className="border-b p-4">
               <PrimaryText className="">Dates</PrimaryText>
             </div>
             <div className="p-4">
               <Dates getTicketDetail={getTicketDetail}></Dates>
             </div>
-          </div> 
+          </div>
         </div>
       </div>
     </div>

@@ -27,13 +27,13 @@ const Dashboard = () => {
         {statusInfoData.map((item) => (
           <div
             key={item.type}
-            className="xl:col-span-2 lg:col-span-3 col-span-6 bg-white rounded-lg border border-gray-100 min-h-[65px]"
+            className="xl:col-span-2 lg:col-span-3 col-span-6 bg-white rounded-lg shadow-sm border border-gray-100 min-h-[65px]"
           >
             <StatusInfo getAllTicketStatus={getAllTicketStatus} {...item} />
           </div>
         ))}
 
-        <div className="xl:col-span-3 col-span-6 bg-white rounded-lg border border-gray-100 ">
+        <div className="xl:col-span-3 col-span-6 bg-white rounded-lg shadow-sm border border-gray-100 ">
           <div className="border-b p-4">
             <PrimaryText className="">Status</PrimaryText>
           </div>
@@ -41,7 +41,7 @@ const Dashboard = () => {
             <RadarChart getAllTicketStatus={getAllTicketStatus} />
           </div>
         </div>
-        <div className="xl:col-span-3 col-span-6 bg-white rounded-lg border border-gray-100">
+        <div className="xl:col-span-3 col-span-6 bg-white rounded-lg shadow-sm border border-gray-100">
           <div className="border-b p-4">
             <PrimaryText className="">Requests</PrimaryText>
           </div>
@@ -49,7 +49,7 @@ const Dashboard = () => {
             <DoughnutChart getAllTicketStatus={getAllTicketStatus} />
           </div>
         </div>
-        <div className="xl:col-span-2 col-span-6 bg-white rounded-lg border border-gray-100">
+        <div className="xl:col-span-2 col-span-6 bg-white rounded-lg shadow-sm border border-gray-100">
           <div className="border-b p-4 flex justify-between items-center">
             <PrimaryText className="">Projects</PrimaryText>
             <button className="text-[12px] w-fit text-blue-primary transition-all duration-75 hover:text-blue-hover active:text-blue-focus">
@@ -62,7 +62,7 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-        <div className="xl:col-span-4 col-span-6 bg-white rounded-lg border border-gray-100">
+        <div className="xl:col-span-4 col-span-6 bg-white rounded-lg shadow-sm border border-gray-100">
           <div className="border-b p-4">
             <PrimaryText className="">Performance</PrimaryText>
           </div>

@@ -187,7 +187,7 @@ export function useTicketCreateMutation(reset: UseFormReset<TicketInputs>) {
             </div>
           ),
           {
-            duration: 10000,
+            duration: 3000,
           }
         )
       },

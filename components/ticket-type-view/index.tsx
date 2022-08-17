@@ -46,7 +46,12 @@ const TicketsTypeView = (props: TicketsTypeViewProps) => {
       ) : (
         <div className="mt-6">
           <EmptyView>
-            <p className="text-2xl text-gray-400">No Ticket to show</p>
+            <p className="text-2xl text-gray-400 mb-5">No Tickets yet.</p>
+            <Link href="/tickets/create" passHref>
+              <LinkButton className="!transition-all ease-in-out hover:-translate-y-1 hover:shadow-lg text-sm">
+                Create Ticket
+              </LinkButton>
+            </Link>
           </EmptyView>
         </div>
       )}

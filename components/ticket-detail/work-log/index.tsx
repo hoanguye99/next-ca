@@ -1,27 +1,24 @@
-import { DetailModal, ErrorModal } from '@/components/common/modals'
+import { DetailModal } from '@/components/common/modals'
 import {
-  Button,
   Input,
   InputDropDown,
   Label,
   PrimaryText,
   TextArea,
-  Toggle,
+  Toggle
 } from '@/components/styled'
 import {
   CreateWorkLogRequestBody,
   CreateWorkLogResponseBody,
-  GetTicketDetailResponse,
+  GetTicketDetailResponse
 } from '@/models/api'
 import { UseMutationResult, UseQueryResult } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
-import React, { useEffect, useState } from 'react'
-import Scrollbars from 'react-custom-scrollbars-2'
-import { BiLoaderAlt } from 'react-icons/bi'
+import { useState } from 'react'
 import {
   useWorkLogCreate,
   useWorkLogCreateMutation,
-  WorkLogCreate,
+  WorkLogCreate
 } from './hooks'
 import WorkLogTable from './table'
 
@@ -45,7 +42,7 @@ const WorkLogWrapper = (props: WorkLogWrapperProps) => {
 
 const Loading = () => {
   return (
-    <div className="bg-white rounded-lg border border-gray-100">
+    <div className="bg-white rounded-lg shadow-sm border border-gray-100">
       <div className="p-4 flex justify-between">
         <PrimaryText className="">Work Log</PrimaryText>
         <button className="text-[12px] w-fit text-blue-primary transition-all duration-75 hover:text-blue-hover active:text-blue-focus">
@@ -82,7 +79,7 @@ const WorkLog = (props: WorkLogProps) => {
           ></DetailModalContent>
         </DetailModal>
       )}
-      <div className="bg-white rounded-lg border border-gray-100">
+      <div className="bg-white rounded-lg shadow-sm border border-gray-100">
         <div className="p-4 flex justify-between">
           <PrimaryText className="">Work Log</PrimaryText>
           <button
@@ -94,6 +91,7 @@ const WorkLog = (props: WorkLogProps) => {
         </div>
         <div className="overflow-auto">
           <WorkLogTable
+            addNew={() => setShowAddLogModal(true)}
             getTicketDetailData={props.getTicketDetailData}
           ></WorkLogTable>
         </div>
