@@ -1,28 +1,23 @@
+import { AllUserAuth } from '@/components/auth'
 import { MainLayout } from '@/components/layout/main'
+import TicketDetail from '@/components/ticket-detail'
+import { NextPageWithAuthLayout } from '@/pages/_app'
 import Head from 'next/head'
-import React from 'react'
-// import Dashboard from '@/components/dashboard'
-import dynamic from 'next/dynamic'
-import { NextPageWithLayout } from '@/pages/_app'
 
-const DynamicTicketDetail = dynamic(
-  () => import('@/components/ticket-detail'),
-  {
-    ssr: false,
-  }
-)
 
-const TicketDetailPage: NextPageWithLayout = () => {
+const TicketDetailPage: NextPageWithAuthLayout = () => {
   return (
     <>
       <Head>
         <title>View Tickets</title>
       </Head>
-      <DynamicTicketDetail />
+      <TicketDetail />
     </>
   )
 }
 
 TicketDetailPage.Layout = MainLayout
+TicketDetailPage.Auth = AllUserAuth
+
 
 export default TicketDetailPage

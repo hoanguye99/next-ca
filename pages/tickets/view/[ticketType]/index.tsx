@@ -1,20 +1,17 @@
 import { MainLayout } from '@/components/layout/main'
 import Head from 'next/head'
-import React from 'react'
 // import Dashboard from '@/components/dashboard'
-import dynamic from 'next/dynamic'
-import { PrimaryText, SecondaryText } from '@/components/styled'
-import { statusInfoData } from '@/components/dashboard/status-info'
-import { useRouter } from 'next/router'
-import Link from 'next/link'
+import { AllUserAuth } from '@/components/auth'
 import NotFoundPage from '@/components/common/not-found'
-import { NextPageWithLayout } from '@/pages/_app'
+import { statusInfoData } from '@/components/dashboard/status-info'
+import { PrimaryText } from '@/components/styled'
+import TicketsTypeView from '@/components/ticket-type-view'
+import { NextPageWithAuthLayout } from '@/pages/_app'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 
-const DynamicTicketViews = dynamic(() => import('@/components/ticket-type-view'), {
-  ssr: false,
-})
 
-const TicketsViewType: NextPageWithLayout = () => {
+const TicketsViewType: NextPageWithAuthLayout = () => {
   const router = useRouter()
   const { ticketType } = router.query
   if (
@@ -52,7 +49,12 @@ const TicketsViewType: NextPageWithLayout = () => {
             ></Tab>
           ))}
         </div>
-        {typeof ticketType === 'string' && <DynamicTicketViews ticketType={ticketType.split('-').join('_').toUpperCase()} asPath={router.asPath} />}
+        {typeof ticketType === 'string' && (
+          <TicketsTypeView
+            ticketType={ticketType.split('-').join('_').toUpperCase()}
+            asPath={router.asPath}
+          />
+        )}
       </div>
     </>
   )
@@ -73,9 +75,7 @@ const Tab = (props: TabProps) => {
         <a>
           <PrimaryText
             className={`sm:text-sm text-[10px] pb-2.5 ${
-              props.selected
-                ? 'text-black'
-                : 'text-gray-400 hover:text-black'
+              props.selected ? 'text-black' : 'text-gray-400 hover:text-black'
             }`}
           >
             {props.type.split('_').join(' ')}
@@ -87,5 +87,7 @@ const Tab = (props: TabProps) => {
 }
 
 TicketsViewType.Layout = MainLayout
+TicketsViewType.Auth = AllUserAuth
+
 
 export default TicketsViewType

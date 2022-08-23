@@ -1,12 +1,11 @@
-import { useAppDispatch, useAppSelector } from '@/app/hooks'
-import { MainLayout } from '@/components/layout';
-import { increment, selectCount } from '@/features/counter/counterSlice';
-import Head from 'next/head';
-import { useEffect } from 'react'
-import { NextPageWithLayout } from './_app';
+import { AllUserAuth } from '@/components/auth'
+import { MainLayout } from '@/components/layout'
+import Head from 'next/head'
+import { NextPageWithAuthLayout } from './_app'
 
-const About: NextPageWithLayout = () => {
- return (
+
+const About: NextPageWithAuthLayout = () => {
+  return (
     <>
       <Head>
         <title>About Page</title>
@@ -17,5 +16,7 @@ const About: NextPageWithLayout = () => {
 }
 
 About.Layout = MainLayout
+About.Auth = AllUserAuth
+
 
 export default About

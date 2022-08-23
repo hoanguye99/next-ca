@@ -7,12 +7,13 @@ import { useRouter } from 'next/router'
 import { useRefreshToken } from '@/hooks'
 import useAuthenAllUser from '@/hooks/useAuthenAllUser'
 import { Scrollbars } from 'react-custom-scrollbars-2'
+import { useAppSelector } from '@/app/hooks'
+import { selectUserDetail } from '@/features/auth/user-slice'
+import { PrimaryText, Spinner } from '../styled'
+import { useEffect } from 'react'
 
 export function MainLayout({ children }: LayoutProps) {
   const router = useRouter()
-  useRefreshToken()
-  useAuthenAllUser()
-
   const data = [
     {
       link: '/homepage',
@@ -55,7 +56,7 @@ export function MainLayout({ children }: LayoutProps) {
       text: 'Create Ticket',
     },
     {
-      link: '/tickets/view',
+      link: '/tickets/view/open-request',
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"

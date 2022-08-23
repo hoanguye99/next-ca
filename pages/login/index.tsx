@@ -1,9 +1,9 @@
 import { EmptyLayout } from '@/components/layout'
 import Login from '@/components/login'
-import { NextPageWithLayout } from '@/pages/_app'
+import { NextPageWithAuthLayout } from '@/pages/_app'
 import Head from 'next/head'
 
-const LoginPage: NextPageWithLayout = () => {
+const LoginPage: NextPageWithAuthLayout = () => {
   return (
     <>
       <Head>

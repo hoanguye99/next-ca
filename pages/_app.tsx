@@ -16,18 +16,25 @@ import {
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import toast, { Toaster } from 'react-hot-toast'
 import { AxiosError } from 'axios'
+import { PublicAuth } from '@/components/auth'
 
 export interface LayoutProps {
   children: ReactNode
   className?: string
 }
 
-export type NextPageWithLayout = NextPage & {
-  Layout?: (props: LayoutProps) => ReactElement
+export interface AuthProps {
+  children: ReactNode
+  className?: string
 }
 
-type AppPropsWithLayout = AppProps & {
-  Component: NextPageWithLayout
+export type NextPageWithAuthLayout = NextPage & {
+  Layout?: (props: LayoutProps) => ReactElement
+  Auth?: React.ComponentType<AuthProps>
+}
+
+type AppPropsWithAuthLayout = AppProps & {
+  Component: NextPageWithAuthLayout
 }
 
 const queryClient = new QueryClient({
@@ -36,15 +43,15 @@ const queryClient = new QueryClient({
       // 🎉 only show error toasts if we already have data in the cache
       // which indicates a failed background update
       // if (query.state.data !== undefined) {
-        toast.error((error as AxiosError<unknown, any>).message)
+      toast.error((error as AxiosError<unknown, any>).message)
       // }
     },
   }),
 })
 
-function MyApp({ Component, pageProps }: AppPropsWithLayout) {
+function MyApp({ Component, pageProps }: AppPropsWithAuthLayout) {
   const Layout = Component.Layout ?? EmptyLayout
-
+  const Auth = Component.Auth ?? PublicAuth
   return (
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
@@ -53,9 +60,11 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
           containerClassName="mt-[60px] lg:mt-0"
           toastOptions={{ className: '' }}
         ></Toaster>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <Auth>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </Auth>
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </Provider>

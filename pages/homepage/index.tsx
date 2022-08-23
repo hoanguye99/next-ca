@@ -1,25 +1,22 @@
 import { MainLayout } from '@/components/layout/main'
 import Head from 'next/head'
-import React, { useEffect } from 'react'
-import { NextPageWithLayout } from '../_app'
-// import Dashboard from '@/components/dashboard'
-import dynamic from 'next/dynamic'
+import React from 'react'
+import { NextPageWithAuthLayout } from '../_app'
+import { AllUserAuth } from '@/components/auth'
+import Dashboard from '@/components/dashboard'
 
-const DynamicDashboard = dynamic(() => import('@/components/dashboard'), {
-  ssr: false,
-})
-
-const HomePage: NextPageWithLayout = () => {
+const HomePage: NextPageWithAuthLayout = () => {
   return (
     <>
       <Head>
         <title>Home Page</title>
       </Head>
-      <DynamicDashboard />
+      <Dashboard />
     </>
   )
 }
 
 HomePage.Layout = MainLayout
+HomePage.Auth = AllUserAuth
 
 export default HomePage

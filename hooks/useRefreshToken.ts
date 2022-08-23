@@ -1,8 +1,4 @@
 import loginApi from '@/api/login-api'
-import {
-  clearTimer,
-  setTimer
-} from '@/features/auth/session-timeout-timer-slice'
 import { AccessTokenDecoded } from '@/models/features'
 import { useAppDispatch, useAppSelector } from '@/app/hooks'
 import { refreshToken, selectUserDetail } from '@/features/auth/user-slice'
@@ -31,9 +27,9 @@ export const useRefreshToken = () => {
         const remainingTime = decoded.exp * 1000 - Date.now() - 3000
         // const remainingTime = 5000
         console.log(remainingTime)
-        dispatch(clearTimer())
-        const sessionTimeoutTimer = setTimeout(onSessionTimeout, remainingTime) // eslint-disable-line
-        dispatch(setTimer(sessionTimeoutTimer))
+        if (remainingTime < 0) {
+          void onSessionTimeout()
+        }
       } catch (error) {
         void onSessionTimeout()
       }

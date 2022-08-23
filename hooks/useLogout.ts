@@ -1,10 +1,8 @@
-import { useCallback } from "react"
-import { useAppDispatch, useAppSelector } from "app/hooks"
-import { clearTimer } from "features/auth/session-timeout-timer-slice"
-import { logout, selectUserDetail } from "features/auth/user-slice"
+import { useCallback } from 'react'
+import { useAppDispatch, useAppSelector } from 'app/hooks'
+import { logout, selectUserDetail } from 'features/auth/user-slice'
 import { useRouter } from 'next/router'
-import { useQueryClient } from "@tanstack/react-query"
-
+import { useQueryClient } from '@tanstack/react-query'
 
 export const useLogoutNavigate = () => {
   const { userLogoutNavigate } = useUserLogout()
@@ -13,7 +11,7 @@ export const useLogoutNavigate = () => {
   const userDetail = useAppSelector(selectUserDetail)
   const queryClient = useQueryClient()
   const router = useRouter()
-  const logoutNavigate = useCallback( () => {
+  const logoutNavigate = useCallback(() => {
     queryClient.clear()
     if (userDetail.role === 'USER') {
       userLogoutNavigate()
@@ -24,80 +22,71 @@ export const useLogoutNavigate = () => {
     } else {
       void router.push('/login')
     }
-  }, [userLogoutNavigate, adminLogoutNavigate, staffLogoutNavigate, userDetail, router])
+  }, [userLogoutNavigate, adminLogoutNavigate, staffLogoutNavigate, userDetail])
 
   return logoutNavigate
 }
 
-
 export const useStaffLogout = () => {
-  const {staffLogout} = useStaffLogoutNoNavigate()
+  const { staffLogout } = useStaffLogoutNoNavigate()
   const router = useRouter()
 
-  const staffLogoutNavigate = useCallback( () => {
+  const staffLogoutNavigate = useCallback(() => {
     staffLogout()
     void router.push('/login')
-  }, [staffLogout, router])
+  }, [staffLogout])
 
-  return {staffLogoutNavigate}
+  return { staffLogoutNavigate }
 }
-
 
 export const useStaffLogoutNoNavigate = () => {
   const dispatch = useAppDispatch()
   const staffLogout = useCallback(() => {
     dispatch(logout())
-    dispatch(clearTimer())
   }, [dispatch])
 
-
   return {
-    staffLogout
+    staffLogout,
   }
 }
 
 export const useUserLogout = () => {
-  const {userLogout} = useUserLogoutNoNavigate()
+  const { userLogout } = useUserLogoutNoNavigate()
   const router = useRouter()
 
-  const userLogoutNavigate = useCallback( () => {
+  const userLogoutNavigate = useCallback(() => {
     userLogout()
     void router.push('/login')
-  }, [userLogout, router])
+  }, [userLogout])
 
-  return {userLogoutNavigate}
+  return { userLogoutNavigate }
 }
-
 
 export const useUserLogoutNoNavigate = () => {
   const dispatch = useAppDispatch()
   const userLogout = useCallback(() => {
     dispatch(logout())
-    dispatch(clearTimer())
   }, [dispatch])
 
-
   return {
-    userLogout
+    userLogout,
   }
 }
 
 export const useAdminLogout = () => {
-  const {adminLogout} = useAdminLogoutNoNavigate()
+  const { adminLogout } = useAdminLogoutNoNavigate()
   const router = useRouter()
-  function adminLogoutNavigate() {
+  const adminLogoutNavigate = useCallback(() => {
     adminLogout()
     void router.push('/login')
-  }
-  return {adminLogoutNavigate}
+  }, [adminLogout])
+  return { adminLogoutNavigate }
 }
-
 
 export const useAdminLogoutNoNavigate = () => {
   const dispatch = useAppDispatch()
-  function adminLogout() {
+  const adminLogout = useCallback(() => {
     dispatch(logout())
-    dispatch(clearTimer())
-  }
-  return {adminLogout}
+  }, [dispatch])
+  return { adminLogout }
 }

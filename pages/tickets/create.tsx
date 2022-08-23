@@ -1,25 +1,24 @@
+import { AllUserAuth } from '@/components/auth'
+import CreateTicket from '@/components/create-ticket'
 import { MainLayout } from '@/components/layout/main'
 import Head from 'next/head'
-import React, { useEffect } from 'react'
-import { NextPageWithLayout } from '../_app'
-// import Dashboard from '@/components/dashboard'
-import dynamic from 'next/dynamic'
+import { NextPageWithAuthLayout } from '../_app'
 
-const DynamicCreateTicket = dynamic(() => import('@/components/create-ticket'), {
-  ssr: false,
-})
 
-const CreateTicketPage: NextPageWithLayout = () => {
+
+const CreateTicketPage: NextPageWithAuthLayout = () => {
   return (
     <>
       <Head>
         <title>Create Ticket</title>
       </Head>
-      <DynamicCreateTicket />
+      <CreateTicket />
     </>
   )
 }
 
 CreateTicketPage.Layout = MainLayout
+CreateTicketPage.Auth = AllUserAuth
+
 
 export default CreateTicketPage
