@@ -1,6 +1,5 @@
 import staffApi from '@/api/staff-api'
-import { useAppSelector } from '@/app/hooks'
-import { selectUserDetail } from '@/features/auth/user-slice'
+import { useGetAccessToken } from '@/hooks/query/auth'
 import { useGetUserWithState } from '@/hooks/query/shared'
 import { ticketDetailKeys } from '@/hooks/query/ticket-detail'
 import {
@@ -85,7 +84,7 @@ export const useTransferTicket = (
 export const useTransferTicketMutation = (
   getTicketDetailData: GetTicketDetailResponse
 ) => {
-  const userDetail = useAppSelector(selectUserDetail)
+  const getAccessToken = useGetAccessToken()
   const queryClient = useQueryClient()
 
   return useMutation<
@@ -102,7 +101,7 @@ export const useTransferTicketMutation = (
       // ),
       toast.promise(
         staffApi.transferTicket(
-          userDetail,
+          getAccessToken.data.accessToken,
           getTicketDetailData.issue_id,
           transferTicketBody
         ),
@@ -132,7 +131,7 @@ export const useTransferTicketMutation = (
 export const useChangeStatus = (
   getTicketDetailData: GetTicketDetailResponse
 ) => {
-  const userDetail = useAppSelector(selectUserDetail)
+  const getAccessToken = useGetAccessToken()
   const queryClient = useQueryClient()
   return useMutation<
     TransitionStatusResponse,
@@ -142,7 +141,7 @@ export const useChangeStatus = (
   >(
     (transitionStatusBody) =>
       staffApi.transitionStatus(
-        userDetail,
+        getAccessToken.data.accessToken,
         getTicketDetailData.issue_id,
         transitionStatusBody
       ),

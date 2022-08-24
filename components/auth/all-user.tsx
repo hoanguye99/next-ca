@@ -1,21 +1,21 @@
-import { useAppSelector } from '@/app/hooks'
-import { selectUserDetail } from '@/features/auth/user-slice'
-import { useRefreshToken } from '@/hooks'
 import useAuthenAllUser from '@/hooks/useAuthenAllUser'
 import { AuthProps } from '@/pages/_app'
 import NonSSRWrapper from '@/components/common/no-ssr-wrapper'
+import { authKeys, useGetAccessToken, useGetUserDetail } from '@/hooks/query/auth'
+import { useQueryClient } from '@tanstack/react-query'
+import { useEffect } from 'react'
 
 export function AllUserAuth({ children }: AuthProps) {
-  const userDetail = useAppSelector(selectUserDetail)
-  useRefreshToken()
+  const getUserDetail = useGetUserDetail()
+  const queryClient = useQueryClient()
   useAuthenAllUser()
+  const getAccessToken = useGetAccessToken()
 
-  if (userDetail.role === 'ANONYMOUS')
-    return <></>
-
-  return (
-    <NonSSRWrapper>
-      {children}
-    </NonSSRWrapper>
+  useEffect(
+    () => void queryClient.refetchQueries(authKeys.getAccessToken()),
+    []
   )
+  if (getUserDetail.data.role === 'ANONYMOUS') return <></>
+
+  return <NonSSRWrapper>{children}</NonSSRWrapper>
 }

@@ -1,5 +1,4 @@
 import { LoginRequest, LoginResponse, RefreshTokenResponse } from '@/models/api';
-import { UserDetail } from '@/models/features';
 import axiosClient from './axios-client';
 
 const loginApi = {
@@ -9,13 +8,13 @@ const loginApi = {
     return axiosClient.post(url, data);
   },
 
-  refreshToken(userDetail: UserDetail): Promise<RefreshTokenResponse> {
+  refreshToken(refreshToken: string): Promise<RefreshTokenResponse> {
     const config = {
       headers: {
-        refreshToken: userDetail.refreshToken,
+        refreshToken: refreshToken,
       },
     }
-    const url = '/refresh-token';
+    const url = '/staff/refresh-token';
     return axiosClient.post(url, {}, config);
   }
 };

@@ -1,13 +1,12 @@
-import { useAppSelector } from '@/app/hooks'
 import { NormalText, SecondaryText } from '@/components/styled'
-import { selectUserDetail } from '@/features/auth/user-slice'
+import { useGetUserDetail } from '@/hooks/query/auth'
 import React from 'react'
 
 const TempName = () => {
-  const userDetail = useAppSelector(selectUserDetail)
+  const getUserDetail = useGetUserDetail()
   return (
     <NormalText className="!text-black text-center my-3">
-      {userDetail.displayName}
+      {getUserDetail.data.displayName}
     </NormalText>
   )
 }

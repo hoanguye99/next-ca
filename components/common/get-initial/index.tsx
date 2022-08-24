@@ -1,4 +1,3 @@
-import Image from 'next/future/image'
 import React from 'react'
 
 interface InitialImageProps {

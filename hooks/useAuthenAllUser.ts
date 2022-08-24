@@ -1,17 +1,16 @@
-import { useAppSelector } from '@/app/hooks'
-import { selectUserDetail } from '@/features/auth/user-slice'
-import { useLayoutEffect } from 'react'
+import { useEffect, useLayoutEffect } from 'react'
+import { useGetUserDetail } from './query/auth'
 import { useLogoutNavigate } from './useLogout'
 
 const useAuthenAllUser = () => {
-  const userDetail = useAppSelector(selectUserDetail)
+  const getUserDetail = useGetUserDetail()
   const logoutNavigate = useLogoutNavigate()
 
-  useLayoutEffect(() => {
-    if(userDetail.accessToken === '' || userDetail.role === 'ANONYMOUS') {
+  useEffect(() => {
+    if (getUserDetail.data.role === 'ANONYMOUS') {
       logoutNavigate()
     }
-  }, [userDetail, logoutNavigate])
+  }, [getUserDetail, logoutNavigate])
 }
 
 export default useAuthenAllUser

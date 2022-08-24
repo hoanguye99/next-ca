@@ -1,7 +1,6 @@
 import staffApi from '@/api/staff-api'
-import { useAppSelector } from '@/app/hooks'
-import { selectUserDetail } from '@/features/auth/user-slice'
 import { useQuery } from '@tanstack/react-query'
+import { useGetAccessToken } from '../auth'
 
 // Query Key factory
 export const ticketDetailKeys = {
@@ -19,35 +18,52 @@ export const ticketDetailKeys = {
 export function useGetTicketDetail(
   ticketSlugId: string | string[] | undefined
 ) {
-  const userDetail = useAppSelector(selectUserDetail)
+  const getAccessToken = useGetAccessToken()
   return useQuery(
     ticketDetailKeys.getTicketDetail(ticketSlugId as string),
-    () => staffApi.getTicketDetail(userDetail, ticketSlugId as string),
+    () =>
+      staffApi.getTicketDetail(
+        getAccessToken.data!.accessToken,
+        ticketSlugId as string
+      ),
     {
       // ⬇️ disabled as long as the filter is empty
-      enabled: !!ticketSlugId,
+      enabled:
+        !!ticketSlugId  && !getAccessToken.isFetching,
     }
   )
 }
 
 export function useGetUser(user: string) {
-  const userDetail = useAppSelector(selectUserDetail)
+  const getAccessToken = useGetAccessToken()
 
-  return useQuery(ticketDetailKeys.getUser(user), () =>
-    staffApi.getUser(userDetail, user)
+  return useQuery(
+    ticketDetailKeys.getUser(user),
+    () => staffApi.getUser(getAccessToken.data!.accessToken, user),
+    {
+      enabled: !getAccessToken.isFetching,
+    }
   )
 }
 
 export function useGetChangeStatus(issue_id: string) {
-  const userDetail = useAppSelector(selectUserDetail)
-  return useQuery(ticketDetailKeys.getChangeStatus(issue_id), () =>
-    staffApi.getChangeStatus(userDetail, issue_id)
+  const getAccessToken = useGetAccessToken()
+  return useQuery(
+    ticketDetailKeys.getChangeStatus(issue_id),
+    () => staffApi.getChangeStatus(getAccessToken.data!.accessToken, issue_id),
+    {
+      enabled: !getAccessToken.isFetching,
+    }
   )
 }
 
 export const useGetConfigWorkLog = () => {
-  const userDetail = useAppSelector(selectUserDetail)
-  return useQuery(ticketDetailKeys.getConfigWorkLog(), () =>
-    staffApi.getConfigWorkLog(userDetail)
+  const getAccessToken = useGetAccessToken()
+  return useQuery(
+    ticketDetailKeys.getConfigWorkLog(),
+    () => staffApi.getConfigWorkLog(getAccessToken.data!.accessToken),
+    {
+      enabled: !getAccessToken.isFetching,
+    }
   )
 }

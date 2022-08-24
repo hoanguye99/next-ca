@@ -1,36 +1,12 @@
-import { useAppSelector } from 'app/hooks'
-import { selectUserDetail } from '@/features/auth/user-slice'
-import { useEffect, useLayoutEffect } from 'react'
-import { useRouter } from 'next/router'
-import LoginForm from './login-form'
 import logo from '@/public/images/FPT_logo_2010.svg.png'
 import Image from 'next/future/image'
-import toast from 'react-hot-toast'
+import LoginForm from './login-form'
 
 const Login = () => {
-  const userDetail = useAppSelector(selectUserDetail)
-  const router = useRouter()
 
-  useLayoutEffect(() => {
-    toast.remove()
-  }, [])
-
-  useEffect(() => {
-    switch (userDetail.role) {
-      case 'USER':
-        void router.push('/homepage')
-        break
-      case 'STAFF':
-        void router.push('/homepage')
-        break
-      case 'ADMIN':
-        void router.push('/manage')
-        break
-      case 'ANONYMOUS':
-        void router.push('/login')
-        break
-    }
-  }, [userDetail, router])
+  // useLayoutEffect(() => {
+  //   toast.remove()
+  // }, [])
 
   return (
     <div className="bg-white">

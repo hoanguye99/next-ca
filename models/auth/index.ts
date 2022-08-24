@@ -12,11 +12,6 @@ export interface UserDetail extends Omit<LoginResponse, 'role'> {
 
 // export type UserRole = 'USER' | 'ADMIN' | 'ANONYMOUS'
 
-export interface LoginType {
-  username: string
-  password: string
-}
-
 export interface AccessTokenDecoded {
   username: string
   type: string

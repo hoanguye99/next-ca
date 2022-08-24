@@ -1,21 +1,13 @@
-import { useAppSelector } from '@/app/hooks'
-import EmptyView from '@/components/common/empty-view'
 import InitialImage from '@/components/common/get-initial'
 import { Pagination } from '@/components/common/pagination'
 import { usePaginationArray } from '@/components/common/pagination/hook'
-import {
-  InputComment,
-  NormalText,
-  PrimaryText,
-  SecondaryText,
-} from '@/components/styled'
-import { selectUserDetail } from '@/features/auth/user-slice'
+import { SecondaryText } from '@/components/styled'
+import { useGetUserDetail } from '@/hooks/query/auth'
 import { GetTicketDetailResponse, TicketDetailComment } from '@/models/api'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
-dayjs.extend(relativeTime)
-import React from 'react'
 import { useLogCommentCreate } from './hooks'
+dayjs.extend(relativeTime)
 
 interface CommentsProps {
   getTicketDetailData: GetTicketDetailResponse
@@ -44,7 +36,7 @@ const Comments = (props: CommentsProps) => {
     mutation,
   } = useLogCommentCreate(props.getTicketDetailData)
 
-  const userDetail = useAppSelector(selectUserDetail)
+  const getUserDetail = useGetUserDetail()
   return (
     <div className="flex flex-col">
       {dispArray !== null && dispArray.length !== 0 && (
@@ -74,7 +66,7 @@ const Comments = (props: CommentsProps) => {
         <div className="border-t mt-5 pt-5 flex items-center gap-3">
           <InitialImage
             className="w-10 h-10 shrink-0"
-            name={userDetail.key}
+            name={getUserDetail.data.key}
           ></InitialImage>
           <input
             type="text"

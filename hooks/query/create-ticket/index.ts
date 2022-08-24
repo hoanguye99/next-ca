@@ -1,10 +1,6 @@
 import staffApi from '@/api/staff-api'
-import { useAppSelector } from '@/app/hooks'
-import { selectUserDetail } from '@/features/auth/user-slice'
 import { useQuery } from '@tanstack/react-query'
-import { useMutation } from '@tanstack/react-query'
-import { AxiosError } from 'axios'
-import { useState } from 'react'
+import { useGetAccessToken } from '../auth'
 
 // Query Key factory
 export const createTicketKeys = {
@@ -15,21 +11,23 @@ export const createTicketKeys = {
 }
 
 export function useGetConfigTicket() {
-  const userDetail = useAppSelector(selectUserDetail)
-  return useQuery(createTicketKeys.getConfigTicket(), () =>
-    staffApi.getConfigTicket(userDetail)
+  const getAccessToken = useGetAccessToken()
+  return useQuery(
+    createTicketKeys.getConfigTicket(),
+    () => staffApi.getConfigTicket(getAccessToken.data!.accessToken),
+    { enabled: !getAccessToken.isFetching }
   )
 }
 
 export function useGetComponent(watchProject: string, project_id: number) {
-  // console.log("watchProject", watchProject)
-  const userDetail = useAppSelector(selectUserDetail)
+  const getAccessToken = useGetAccessToken()
   return useQuery(
     createTicketKeys.getComponent(project_id),
-    () => staffApi.getComponent(userDetail, project_id),
+    () => staffApi.getComponent(getAccessToken.data!.accessToken, project_id),
     {
       // The query will not execute until enabled
-      enabled: !!watchProject,
+      enabled:
+        !!watchProject && !getAccessToken.isFetching,
     }
   )
 }

@@ -1,5 +1,5 @@
 import { ShowDropdown } from '@/models/components/common'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useRef } from 'react'
 import Scrollbars from 'react-custom-scrollbars-2'
 import PopUp from '../pop-up'
 

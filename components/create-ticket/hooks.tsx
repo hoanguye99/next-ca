@@ -1,5 +1,3 @@
-import { useAppSelector } from '@/app/hooks'
-import { selectUserDetail } from '@/features/auth/user-slice'
 import {
   useGetComponent,
   useGetConfigTicket,
@@ -14,6 +12,7 @@ import { AxiosError } from 'axios'
 import toast from 'react-hot-toast'
 import { NormalText } from '../styled'
 import Link from 'next/link'
+import { useGetAccessToken } from '@/hooks/query/auth'
 
 export interface TicketInputs {
   customer_name: string
@@ -124,7 +123,7 @@ export const useTicketCreate = () => {
 }
 
 export function useTicketCreateMutation(reset: UseFormReset<TicketInputs>) {
-  const userDetail = useAppSelector(selectUserDetail)
+  const getAccessToken = useGetAccessToken()
   return useMutation<
     CreateTicketResponse,
     AxiosError,
@@ -133,7 +132,7 @@ export function useTicketCreateMutation(reset: UseFormReset<TicketInputs>) {
   >(
     (createTicketBody) =>
       toast.promise(
-        staffApi.createTicket(userDetail, createTicketBody),
+        staffApi.createTicket(getAccessToken.data.accessToken, createTicketBody),
         {
           loading: 'Creating Ticket ...',
           success: null,

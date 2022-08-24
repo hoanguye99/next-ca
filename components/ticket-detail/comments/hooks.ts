@@ -1,6 +1,5 @@
 import staffApi from '@/api/staff-api'
-import { useAppSelector } from '@/app/hooks'
-import { selectUserDetail } from '@/features/auth/user-slice'
+import { useGetAccessToken, useGetUserDetail } from '@/hooks/query/auth'
 import { ticketDetailKeys } from '@/hooks/query/ticket-detail'
 import {
   CreateLogCommentBody,
@@ -52,7 +51,8 @@ export const useLogCommentCreateMutation = (
   getTicketDetailData: GetTicketDetailResponse,
   reset: UseFormReset<LogCommentCreate>
 ) => {
-  const userDetail = useAppSelector(selectUserDetail)
+  const getAccessToken = useGetAccessToken()
+  const getUserDetail = useGetUserDetail()
   const queryClient = useQueryClient()
   return useMutation<
     CreateLogCommentResponse,
@@ -62,7 +62,7 @@ export const useLogCommentCreateMutation = (
   >(
     (createLogCommentBody) =>
       staffApi.createLogComment(
-        userDetail,
+        getAccessToken.data.accessToken,
         getTicketDetailData.issue_key,
         createLogCommentBody
       ),
@@ -89,7 +89,7 @@ export const useLogCommentCreateMutation = (
                 id: getTicketDetailData.detailComment[0]?.id + 1 || 1,
                 content: createLogCommentBody.content,
                 date_created: dayjs(),
-                created_by_account: userDetail.key,
+                created_by_account: getUserDetail.data.key,
                 ticket_id: createLogCommentBody.ticket_id,
               },
               ...getTicketDetailData.detailComment,

@@ -1,6 +1,5 @@
 import staffApi from '@/api/staff-api'
-import { useAppSelector } from '@/app/hooks'
-import { selectUserDetail } from '@/features/auth/user-slice'
+import { useGetAccessToken } from '@/hooks/query/auth'
 import {
   ticketDetailKeys,
   useGetConfigWorkLog
@@ -73,7 +72,7 @@ export const useWorkLogCreate = (
 export const useWorkLogCreateMutation = (
   getTicketDetailData: GetTicketDetailResponse
 ) => {
-  const userDetail = useAppSelector(selectUserDetail)
+  const getAccessToken = useGetAccessToken()
   const queryClient = useQueryClient()
   return useMutation<
     CreateWorkLogResponseBody,
@@ -89,7 +88,7 @@ export const useWorkLogCreateMutation = (
       // ),
       toast.promise(
         staffApi.createWorkLog(
-          userDetail,
+          getAccessToken.data.accessToken,
           getTicketDetailData.issue_key,
           createWorkLogBody
         ),

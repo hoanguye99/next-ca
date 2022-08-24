@@ -1,16 +1,10 @@
-import { LayoutProps } from '@/pages/_app'
-import MetaHeader from './meta-header'
 import { Footer } from '@/components/common/footer'
+import { LayoutProps } from '@/pages/_app'
+import { useRouter } from 'next/router'
+import { Scrollbars } from 'react-custom-scrollbars-2'
 import Header from './common/header'
 import Sidebar from './common/side-bar'
-import { useRouter } from 'next/router'
-import { useRefreshToken } from '@/hooks'
-import useAuthenAllUser from '@/hooks/useAuthenAllUser'
-import { Scrollbars } from 'react-custom-scrollbars-2'
-import { useAppSelector } from '@/app/hooks'
-import { selectUserDetail } from '@/features/auth/user-slice'
-import { PrimaryText, Spinner } from '../styled'
-import { useEffect } from 'react'
+import MetaHeader from './meta-header'
 
 export function MainLayout({ children }: LayoutProps) {
   const router = useRouter()
