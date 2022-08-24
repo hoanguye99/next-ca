@@ -6,10 +6,6 @@ import { LoginError } from '@/models/api'
 import { LoginState, LoginType, UserDetail } from '@/models/features'
 
 const initialState: LoginState = {
-  loggedIn:
-    typeof window !== 'undefined' && localStorage.getItem('nextca-userInfo')
-      ? true
-      : false,
   userDetail:
     typeof window !== 'undefined' && localStorage.getItem('nextca-userInfo')
       ? (JSON.parse(localStorage.getItem('nextca-userInfo')!) as UserDetail) // eslint-disable-line
@@ -74,7 +70,6 @@ const userSlice = createSlice({
       })
       .addCase(loginAsync.fulfilled, (state: LoginState, action) => {
         return {
-          loggedIn: true,
           userDetail: {
             ...action.payload,
           },
@@ -84,7 +79,6 @@ const userSlice = createSlice({
       })
       .addCase(loginAsync.rejected, (state: LoginState, action) => {
         return {
-          loggedIn: false,
           status: 'failed',
           userDetail: {
             accessToken: '',
@@ -104,7 +98,6 @@ const userSlice = createSlice({
 
 function handleLogoutAction(state: LoginState) {
   typeof window !== 'undefined' && localStorage.removeItem('nextca-userInfo')
-  state.loggedIn = false
   state.userDetail = {
     accessToken: '',
     refreshToken: '',
@@ -121,7 +114,6 @@ function handleLogoutAction(state: LoginState) {
 
 export const { logout, refreshToken } = userSlice.actions
 
-export const selectLoggedIn = (state: RootState) => state.user.loggedIn
 export const selectUserDetail = (state: RootState) => state.user.userDetail
 export const selectStatus = (state: RootState) => state.user.status
 export const selectFailureDescription = (state: RootState) =>

@@ -56,7 +56,7 @@ export function MainLayout({ children }: LayoutProps) {
       text: 'Create Ticket',
     },
     {
-      link: '/tickets/view/open-request',
+      link: '/tickets/view',
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
