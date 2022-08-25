@@ -5,15 +5,24 @@ import {
   Input,
   InputSearchButton,
   Label,
-  PrimaryText
+  PrimaryText,
 } from '@/components/styled'
 import { useGetChangeStatus } from '@/hooks/query/ticket-detail'
-import { GetTicketDetailResponse, TransferTicketRequestBody, TransferTicketResponse } from '@/models/api'
+import {
+  GetTicketDetailResponse,
+  TransferTicketRequestBody,
+  TransferTicketResponse,
+} from '@/models/api'
 import { UseMutationResult, UseQueryResult } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
-import { TransferTicket, useChangeStatus, useTransferTicket, useTransferTicketMutation } from './hooks'
+import {
+  TransferTicket,
+  useChangeStatus,
+  useTransferTicket,
+  useTransferTicketMutation,
+} from './hooks'
 
 interface HeaderWrapperProps {
   // getTicketDetailData: GetTicketDetailResponse
@@ -48,7 +57,9 @@ const Header = (props: HeaderProps) => {
   )
 
   const changeStatusMutation = useChangeStatus(props.getTicketDetailData)
-  const transferTicketMutation = useTransferTicketMutation(props.getTicketDetailData)
+  const transferTicketMutation = useTransferTicketMutation(
+    props.getTicketDetailData
+  )
   return (
     <>
       {showTransferModal && (
@@ -85,10 +96,16 @@ const Header = (props: HeaderProps) => {
             {props.getTicketDetailData.issue_key}
           </PrimaryText>
           <div className="sm:flex-1 flex justify-between">
-            <Button onClick={() => setShowTransferModal(true)}>Transfer</Button>
+            <Button
+              className="text-sm"
+              onClick={() => setShowTransferModal(true)}
+            >
+              Transfer
+            </Button>
             <div className="flex gap-3">
               {changeStatusData.data?.statusTransition.map((obj) => (
                 <Button
+                  className="text-sm"
                   onClick={() =>
                     changeStatusMutation.mutate({
                       status: obj.id,
@@ -119,7 +136,12 @@ const Loading = () => {
 interface TransferTicketModalProps {
   closeDetailModal: () => void
   getTicketDetailData: GetTicketDetailResponse
-  transferTicketMutation: UseMutationResult<TransferTicketResponse, AxiosError<unknown, any>, TransferTicketRequestBody, TransferTicketResponse>
+  transferTicketMutation: UseMutationResult<
+    TransferTicketResponse,
+    AxiosError<unknown, any>,
+    TransferTicketRequestBody,
+    TransferTicketResponse
+  >
 }
 
 const TransferTicketModal = (props: TransferTicketModalProps) => {
@@ -137,7 +159,11 @@ const TransferTicketModal = (props: TransferTicketModalProps) => {
     fetchUserStatus,
     getUserData,
     setUser,
-  } = useTransferTicket(props.closeDetailModal, props.getTicketDetailData, props.transferTicketMutation)
+  } = useTransferTicket(
+    props.closeDetailModal,
+    props.getTicketDetailData,
+    props.transferTicketMutation
+  )
 
   return (
     <>

@@ -29,7 +29,7 @@ const StatusInfo = (props: StatusInfoProps) => {
       <a>
         <div className="flex justify-between items-center p-5">
           <div className="flex flex-col">
-            <SecondaryText className="text-[10px]">
+            <SecondaryText className="text-[12px]">
               {props.type.split('_').join(' ')}
             </SecondaryText>
             <div className="flex flex-row items-end gap-1">
