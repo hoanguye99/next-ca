@@ -13,7 +13,7 @@ const InitialImage = (props: InitialImageProps) => {
       style={{ backgroundColor: `#${backgroundColor}` }}
       className={`relative w-8 h-8 rounded-full ${props.className}`}
     >
-      <span className="absolute inset-0 text-white font-[Muli-Regular] text-sm flex justify-center items-center">
+      <span className="absolute inset-0 text-white text-sm flex justify-center items-center">
         {text}
       </span>
     </div>

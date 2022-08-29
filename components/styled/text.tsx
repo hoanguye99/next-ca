@@ -7,7 +7,7 @@ interface PrimaryTextProps {
 
 export const PrimaryText = (props: PrimaryTextProps) => {
   return (
-    <p className={`${props.className} font-['Muli-Bold'] font-thin`}>
+    <p className={`${props.className} font-[WorkSans-SemiBold] font-thin`}>
       {props.children}
     </p>
   )
@@ -21,7 +21,7 @@ interface SecondaryTextProps {
 export const SecondaryText = (props: SecondaryTextProps) => {
   return (
     <p
-      className={`${props.className} text-gray-primary font-['Muli-SemiBold'] font-extrabold`}
+      className={`${props.className} text-gray-primary font-[WorkSans-Medium] font-extrabold`}
     >
       {props.children}
     </p>
@@ -35,7 +35,7 @@ interface NormalTextProps {
 
 export const NormalText = (props: NormalTextProps) => {
   return (
-    <p className={`${props.className} font-['Muli-Regular'] font-extrabold`}>
+    <p className={`${props.className} font-[WorkSans-Regular] font-extrabold`}>
       {props.children}
     </p>
   )
