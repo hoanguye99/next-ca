@@ -10,7 +10,7 @@ export function MainLayout({ children }: LayoutProps) {
   const router = useRouter()
   const data = [
     {
-      link: '/homepage',
+      link: '/dashboard',
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"

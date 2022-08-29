@@ -8,7 +8,7 @@ const NotFoundPage = () => {
       <SecondaryText className="text-[11px] mb-5">404 ERROR</SecondaryText>
       <PrimaryText className="text-3xl">There’s no page here 😭</PrimaryText>
       <SecondaryText className="text-[14px] my-3 mb-6">Looks like you ended up here by accident?</SecondaryText>
-      <Link href="/homepage" passHref>
+      <Link href="/dashboard" passHref>
         <LinkButton className="">
           Return to your dashboard
         </LinkButton>

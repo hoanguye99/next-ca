@@ -2,7 +2,6 @@ import loginApi from '@/api/login-api'
 import { useLogoutNavigate } from '@/hooks/useLogout'
 import { AccessTokenDecoded, UserDetail } from '@/models/auth'
 import { useQuery } from '@tanstack/react-query'
-import jwt_decode from 'jwt-decode'
 
 export const authKeys = {
   getAccessToken: () => ['getAccessToken'] as const,

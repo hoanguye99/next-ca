@@ -31,7 +31,7 @@ export const useLoginForm = () => {
         if (typeof window !== 'undefined') {
           localStorage.setItem('nextca-userInfo', JSON.stringify(data))
         }
-        router.push('/homepage')
+        router.push('/dashboard')
       },
     }
   )

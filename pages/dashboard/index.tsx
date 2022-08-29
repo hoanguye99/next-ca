@@ -5,7 +5,7 @@ import { NextPageWithAuthLayout } from '../_app'
 import { AllUserAuth } from '@/components/auth'
 import Dashboard from '@/components/dashboard'
 
-const HomePage: NextPageWithAuthLayout = () => {
+const DashboardPage: NextPageWithAuthLayout = () => {
   return (
     <>
       <Head>
@@ -16,7 +16,7 @@ const HomePage: NextPageWithAuthLayout = () => {
   )
 }
 
-HomePage.Layout = MainLayout
-HomePage.Auth = AllUserAuth
+DashboardPage.Layout = MainLayout
+DashboardPage.Auth = AllUserAuth
 
-export default HomePage
+export default DashboardPage
